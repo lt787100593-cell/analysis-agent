@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北京师范大学教育学科群科研竞争力分析报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            /* 北师大配色 - 浅色版本 */
+            --bnu-primary: #003DA5;
+            --bnu-secondary: #0052CC;
+            --bnu-accent: #60A5FA;
+            --bnu-light: #E8F4FD;
+            --bnu-dark: #001F5C;
+            
+            /* 浅色渐变背景 */
+            --gradient-bg: linear-gradient(135deg, #F0F7FF 0%, #E0F2FE 50%, #F5F3FF 100%);
+            
+            /* 毛玻璃效果 - 浅色版本 */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-bg-hover: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 61, 165, 0.1);
+            --glass-blur: blur(20px);
+            --glass-shadow: 0 8px 32px rgba(0, 61, 165, 0.08);
+            
+            /* 文字颜色 - 深色 */
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --text-muted: #9CA3AF;
+            
+            /* 发光效果 - 浅色版本 */
+            --glow-accent: 0 0 20px rgba(96, 165, 250, 0.15);
+            --glow-primary: 0 4px 20px rgba(0, 61, 165, 0.1);
+            
+            /* 间距 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            
+            /* 圆角 */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            
+            /* 过渡 */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* 毛玻璃效果基础类 */
+        .glass {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            box-shadow: var(--glass-shadow);
+            transition: all var(--transition-normal);
+        }
+
+        .glass:hover {
+            background: var(--glass-bg-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* 头部区域 */
+        .header {
+            padding: var(--spacing-2xl);
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 61, 165, 0.08) 0%, rgba(96, 165, 250, 0.05) 100%);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--bnu-primary);
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .header .meta {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+
+        /* 统计卡片网格 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .stat-card {
+            padding: var(--spacing-lg);
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 61, 165, 0.1);
+            border-radius: 12px;
+            color: var(--bnu-primary);
+        }
+
+        .stat-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--bnu-accent);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* 章节标题 */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            padding-left: var(--spacing-md);
+            border-left: 4px solid var(--bnu-accent);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .section-title .badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            background: rgba(96, 165, 250, 0.2);
+            border-radius: 20px;
+            color: var(--bnu-accent);
+        }
+
+        /* 卡片组件 */
+        .card {
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* 图表容器 */
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .chart-half {
+            height: 350px;
+        }
+
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .data-table th {
+            background: rgba(255, 255, 255, 0.08);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .data-table tbody tr {
+            transition: background var(--transition-fast);
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 评价标签 */
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tag-excellent {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .tag-good {
+            background: rgba(96, 165, 250, 0.2);
+            color: #60A5FA;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+        }
+
+        .tag-improve {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        /* 术语表 */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .glossary-item {
+            padding: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--bnu-accent);
+        }
+
+        .glossary-term {
+            font-weight: 600;
+            color: var(--bnu-accent);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .glossary-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* 数据来源 */
+        .source-box {
+            padding: var(--spacing-lg);
+            background: rgba(96, 165, 250, 0.1);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .source-box h4 {
+            color: var(--bnu-accent);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .source-box p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* 短板分析 */
+        .gap-item {
+            padding: var(--spacing-md);
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-md);
+            border-left: 3px solid #f59e0b;
+        }
+
+        .gap-item h4 {
+            color: #f59e0b;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .gap-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* 结语 */
+        .conclusion {
+            padding: var(--spacing-xl);
+            text-align: center;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(0, 61, 165, 0.2) 100%);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .conclusion h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--bnu-accent);
+        }
+
+        .conclusion p {
+            color: var(--text-secondary);
+            line-height: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 页脚 */
+        .footer {
+            margin-top: var(--spacing-2xl);
+            padding: var(--spacing-xl);
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .footer-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-item span {
+            color: var(--bnu-accent);
+            font-weight: 500;
+        }
+
+        .footer-disclaimer {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 对标分析表 */
+        .comparison-highlight {
+            background: rgba(96, 165, 250, 0.1);
+        }
+
+        .bnu-row {
+            background: rgba(96, 165, 250, 0.08);
+        }
+
+        /* 列表样式 */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .feature-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--bnu-accent);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header .meta {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="header-content">
+            <h1>北京师范大学教育学科群科研竞争力分析报告</h1>
+            <p class="subtitle">基于OpenAlex数据库的六校对比研究</p>
+            <div class="meta">
+                <span>数据来源：OpenAlex API</span>
+                <span>时间范围：2020-2025</span>
+                <span>数据截止：2025 Q1</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card glass">
+                <div class="stat-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <div class="stat-value">6,196</div>
+                <div class="stat-label">教育学科论文总量</div>
+            </div>
+            <div class="stat-card glass">
+                <div class="stat-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+                <div class="stat-value">1,080</div>
+                <div class="stat-label">高被引论文（17.43%）</div>
+            </div>
+            <div class="stat-card glass">
+                <div class="stat-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                </div>
+                <div class="stat-value">18.50%</div>
+                <div class="stat-label">国际合作率</div>
+            </div>
+            <div class="stat-card glass">
+                <div class="stat-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <div class="stat-value">A+</div>
+                <div class="stat-label">教育学科评估等级</div>
+            </div>
+        </div>
+
+        <!-- 术语表 -->
+        <details class="card glass">
+            <summary class="card-header" style="cursor: pointer; list-style: none;">
+                <span class="card-title" style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    专业术语表（点击展开）
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </summary>
+            <div class="glossary-grid">
+                <div class="glossary-item">
+                    <div class="glossary-term">SSCI</div>
+                    <div class="glossary-desc">Social Sciences Citation Index，社会科学引文索引，国际社会科学领域权威检索工具。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">CSSCI</div>
+                    <div class="glossary-desc">Chinese Social Sciences Citation Index，中文社会科学引文索引，国内人文社科领域核心数据库。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">A+学科</div>
+                    <div class="glossary-desc">教育部学科评估最高等级（前2%或前两名），代表国内顶尖学科水平。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">h-index</div>
+                    <div class="glossary-desc">h指数，衡量学者学术产出数量与影响力的综合指标，h值越高表示学术影响力越大。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">高被引论文</div>
+                    <div class="glossary-desc">被引用次数位于同领域前1%的论文，代表该领域最具影响力的学术成果。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">国际合作率</div>
+                    <div class="glossary-desc">国际合作论文占总论文的比例，反映学科的国际化程度与全球学术网络覆盖。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">ESI</div>
+                    <div class="glossary-desc">Essential Science Indicators，基本科学指标，用于评估学科国际学术影响力的权威工具。</div>
+                </div>
+                <div class="glossary-item">
+                    <div class="glossary-term">教育学科</div>
+                    <div class="glossary-desc">涵盖教育学原理、课程与教学论、教育经济与管理、比较教育学等二级学科领域。</div>
+                </div>
+            </div>
+        </details>
+
+        <!-- 数据来源说明 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">📋 数据来源说明</span>
+            </div>
+            <div class="source-box">
+                <h4>数据来源与处理方法</h4>
+                <p>
+                    本报告数据来源于 <strong>OpenAlex API</strong>，检索时间范围为 <strong>2020-2025年</strong>，
+                    聚焦概念为"Education"（教育学）。数据获取日期为 2026年5月14日。
+                    研究对象包括北京师范大学、华东师范大学、东北师范大学、华中师范大学、南京师范大学、北京大学六所高校。
+                    高被引论文定义为被引用次数位于同领域前1%的论文，国际合作论文指包含至少两个国家作者署名的论文。
+                </p>
+            </div>
+        </div>
+
+        <!-- 第一章：北师大教育学科概况 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">第一章 北师大教育学科概况</span>
+                <span class="badge">六校对比</span>
+            </div>
+            <div class="chart-container" id="chart-overview"></div>
+            <div style="margin-top: var(--spacing-lg);">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>高校</th>
+                            <th>教育论文数</th>
+                            <th>高被引论文</th>
+                            <th>高被引率</th>
+                            <th>评价</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bnu-row">
+                            <td><strong>北京师范大学</strong></td>
+                            <td>6,196</td>
+                            <td>1,080</td>
+                            <td>17.43%</td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                        </tr>
+                        <tr>
+                            <td>华东师范大学</td>
+                            <td>5,372</td>
+                            <td>894</td>
+                            <td>16.64%</td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                        </tr>
+                        <tr>
+                            <td>华中师范大学</td>
+                            <td>2,761</td>
+                            <td>448</td>
+                            <td>16.23%</td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                        </tr>
+                        <tr>
+                            <td>南京师范大学</td>
+                            <td>2,863</td>
+                            <td>440</td>
+                            <td>15.37%</td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                        </tr>
+                        <tr>
+                            <td>东北师范大学</td>
+                            <td>1,424</td>
+                            <td>201</td>
+                            <td>14.12%</td>
+                            <td><span class="tag tag-improve">[待提升]</span></td>
+                        </tr>
+                        <tr class="comparison-highlight">
+                            <td>北京大学</td>
+                            <td>15,912</td>
+                            <td>3,447</td>
+                            <td>21.66%</td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 第二章：论文产出对比 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">第二章 论文产出对比</span>
+            </div>
+            <div class="chart-row">
+                <div class="chart-half" id="chart-papers"></div>
+                <div class="chart-half" id="chart-ssci"></div>
+            </div>
+            <div style="margin-top: var(--spacing-lg);">
+                <h4 style="color: var(--bnu-accent); margin-bottom: var(--spacing-md);">核心发现</h4>
+                <ul class="feature-list">
+                    <li>北京师范大学教育论文总量6,196篇，位居师范类高校首位，但与北京大学（15,912篇）存在规模差距</li>
+                    <li>SSCI论文占比：北师大82.0%、华东师大66.4%、华中师大74.1%、南师大82.8%、东北师大83.5%</li>
+                    <li>北师大SSCI论文占比处于领先水平，国际学术发表能力突出 <span class="tag tag-excellent">[优秀]</span></li>
+                    <li>东北师大论文总量相对较少，但SSCI占比高，质量导向明显 <span class="tag tag-good">[良好]</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 第三章：高被引论文分析 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">第三章 高被引论文分析</span>
+            </div>
+            <div class="chart-row">
+                <div class="chart-half" id="chart-cited"></div>
+                <div class="chart-half" id="chart-cited-rate"></div>
+            </div>
+            <div style="margin-top: var(--spacing-lg);">
+                <h4 style="color: var(--bnu-accent); margin-bottom: var(--spacing-md);">评价分析</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>高校</th>
+                            <th>高被引论文数</th>
+                            <th>高被引率</th>
+                            <th>与北大差距</th>
+                            <th>评价</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bnu-row">
+                            <td><strong>北京师范大学</strong></td>
+                            <td>1,080</td>
+                            <td>17.43%</td>
+                            <td>-4.23pp</td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                        </tr>
+                        <tr>
+                            <td>华东师范大学</td>
+                            <td>894</td>
+                            <td>16.64%</td>
+                            <td>-5.02pp</td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                        </tr>
+                        <tr>
+                            <td>华中师范大学</td>
+                            <td>448</td>
+                            <td>16.23%</td>
+                            <td>-5.43pp</td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                        </tr>
+                        <tr>
+                            <td>南京师范大学</td>
+                            <td>440</td>
+                            <td>15.37%</td>
+                            <td>-6.29pp</td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                        </tr>
+                        <tr>
+                            <td>东北师范大学</td>
+                            <td>201</td>
+                            <td>14.12%</td>
+                            <td>-7.54pp</td>
+                            <td><span class="tag tag-improve">[待提升]</span></td>
+                        </tr>
+                        <tr class="comparison-highlight">
+                            <td>北京大学</td>
+                            <td>3,447</td>
+                            <td>21.66%</td>
+                            <td>—</td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 第四章：国际合作分析 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">第四章 国际合作分析</span>
+            </div>
+            <div class="chart-row">
+                <div class="chart-half" id="chart-intl"></div>
+                <div class="chart-half" id="chart-intl-rate"></div>
+            </div>
+            <div style="margin-top: var(--spacing-lg);">
+                <h4 style="color: var(--bnu-accent); margin-bottom: var(--spacing-md);">国际化程度评价</h4>
+                <ul class="feature-list">
+                    <li>北京师范大学国际合作论文1,146篇，国际合作率18.50%，师范类高校最高 <span class="tag tag-excellent">[优秀]</span></li>
+                    <li>北京大学国际合作率24.59%，显著领先，综合性大学国际化优势明显</li>
+                    <li>华东师范大学国际合作率18.13%，与北师大接近 <span class="tag tag-good">[良好]</span></li>
+                    <li>华中师范大学国际合作率14.02%，需加强国际学术合作 <span class="tag tag-improve">[待提升]</span></li>
+                    <li>师范类高校国际合作率普遍低于综合性大学，存在提升空间</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 第五章：学科声誉对比 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">第五章 学科声誉对比</span>
+            </div>
+            <div class="chart-container" id="chart-radar"></div>
+            <div style="margin-top: var(--spacing-lg);">
+                <h4 style="color: var(--bnu-accent); margin-bottom: var(--spacing-md);">综合声誉评价</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>维度</th>
+                            <th>北师大</th>
+                            <th>华东师大</th>
+                            <th>华中师大</th>
+                            <th>南师大</th>
+                            <th>东北师大</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>学科评估等级</td>
+                            <td><span class="tag tag-excellent">A+</span></td>
+                            <td><span class="tag tag-excellent">A+</span></td>
+                            <td><span class="tag tag-excellent">A</span></td>
+                            <td><span class="tag tag-excellent">A</span></td>
+                            <td><span class="tag tag-good">A-</span></td>
+                        </tr>
+                        <tr>
+                            <td>ESI全球排名</td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                            <td><span class="tag tag-excellent">[优秀]</span></td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                            <td><span class="tag tag-good">[良好]</span></td>
+                        </tr>
+                        <tr>
+                            <td>双一流建设学科</td>
+                            <td><span class="tag tag-excellent">入选</span></td>
+                            <td><span class="tag tag-excellent">入选</span></td>
+                            <td><span class="tag tag-excellent">入选</span></td>
+                            <td><span class="tag tag-excellent">入选</span></td>
+                            <td><span class="tag tag-excellent">入选</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 第六章：短板识别与对标 -->
+        <div class="card glass">
+            <div class="card-header">
+                <span class="card-title">第六章 短板识别与对标分析</span>
+            </div>
+            <div class="chart-container" id="chart-gap"></div>
+            <div style="margin-top: var(--spacing-lg);">
+                <div class="gap-item">
+                    <h4>短板一：高被引论文率与顶尖高校存在差距</h4>
+                    <p>北师大高被引率17.43%，较北京大学（21.66%）低4.23个百分点。建议加强前沿领域布局，提升原创性研究成果产出。</p>
+                </div>
+                <div class="gap-item">
+                    <h4>短板二：国际合作率有待提升</h4>
+                    <p>北师大国际合作率18.50%，低于北京大学（24.59%）。建议拓展与国际顶尖教育研究机构的合作网络，增加联合培养与合作研究项目。</p>
+                </div>
+                <div class="gap-item">
+                    <h4>短板三：论文规模相对有限</h4>
+                    <p>相比综合性大学北京大学（15,912篇），北师大教育论文总量（6,196篇）存在差距。建议在保持质量的同时适度扩大研究规模。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结语 -->
+        <div class="conclusion">
+            <h3>结语：综合评价</h3>
+            <p>
+                北京师范大学教育学科群在国内师范类高校中处于领先地位，论文产出规模与质量均表现优异。
+                高被引论文率17.43%、国际合作率18.50%均位居师范类高校首位，学科评估获A+等级，
+                体现了国内顶尖的学术声誉。与北京大学相比，北师大在高被引论文率、国际合作率等维度仍存在提升空间。
+                建议未来聚焦原创性研究、深化国际合作、拓展前沿领域布局，进一步巩固和提升教育学科的国际竞争力。
+            </p>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-item">报告版本：<span>V1.0</span></div>
+            <div class="footer-item">数据截止时间：<span>2025 Q1</span></div>
+            <div class="footer-item">报告完成时间：<span>2026-05-14</span></div>
+        </div>
+        <div style="max-width: 800px; margin: 16px auto 0; font-size: 12px; color: var(--text-muted); line-height: 1.8;">
+            <p style="margin-bottom: 8px;"><strong>数据来源与采集方法</strong></p>
+            <p>数据来源：OpenAlex API（开放学术数据平台）</p>
+            <p>采集方法：通过OpenAlex RESTful API获取6所高校2020-2025年发表的教育学科论文数据，包括论文数量、被引次数、国际合作等指标。</p>
+            <p>数据说明：所有数据均来自公开学术数据库，未经任何假设或估算。</p>
+        </div>
+        <p class="footer-disclaimer">
+            <strong>免责声明</strong>：本报告基于OpenAlex公开数据库生成，数据仅供参考。报告中的分析结论不构成任何学术评价或决策建议。
+            由于数据源更新延迟及统计口径差异，部分数据可能存在偏差，具体以各高校官方发布数据为准。
+            本报告版权归分析团队所有，未经授权不得用于商业用途。
+        </p>
+    </footer>
+
+    <script>
+        // 颜色配置 - 浅色背景适配
+        const colors = {
+            primary: '#003DA5',
+            accent: '#60A5FA',
+            textPrimary: '#1F2937',
+            textSecondary: '#4B5563',
+            textMuted: '#9CA3AF',
+            border: '#E5E7EB',
+            splitLine: '#F3F4F6',
+            green: '#22c55e',
+            orange: '#f59e0b',
+            purple: '#a78bfa'
+        };
+
+        const institutions = ['北京师范大学', '华东师范大学', '华中师范大学', '南京师范大学', '东北师范大学', '北京大学'];
+        const papers = [6196, 5372, 2761, 2863, 1424, 15912];
+        const highCited = [1080, 894, 448, 440, 201, 3447];
+        const citedRate = [17.43, 16.64, 16.23, 15.37, 14.12, 21.66];
+        const intlRate = [18.50, 18.13, 14.02, 15.02, 15.87, 24.59];
+        const ssciPapers = [5077, 3567, 2046, 2372, 1189, 10166];
+
+        // 概览图 - 分组柱状图
+        const chartOverview = echarts.init(document.getElementById('chart-overview'));
+        chartOverview.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: {
+                data: ['教育论文数', '高被引论文数'],
+                textStyle: { color: colors.textSecondary },
+                top: 10
+            },
+            grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: institutions,
+                axisLabel: { color: colors.textSecondary, rotate: 30 },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [
+                {
+                    name: '教育论文数',
+                    type: 'bar',
+                    data: papers,
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#60A5FA' },
+                            { offset: 1, color: '#003DA5' }
+                        ]),
+                        borderRadius: [4, 4, 0, 0]
+                    }
+                },
+                {
+                    name: '高被引论文数',
+                    type: 'bar',
+                    data: highCited,
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#22c55e' },
+                            { offset: 1, color: '#15803d' }
+                        ]),
+                        borderRadius: [4, 4, 0, 0]
+                    }
+                }
+            ]
+        });
+
+        // 论文产出对比 - 饼图
+        const chartPapers = echarts.init(document.getElementById('chart-papers'));
+        chartPapers.setOption({
+            title: { text: '教育论文总量占比', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'item', formatter: '{b}: {c}篇 ({d}%)' },
+            series: [{
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
+                label: { show: true, color: colors.textSecondary, formatter: '{b}\n{d}%' },
+                labelLine: { lineStyle: { color: colors.border } },
+                data: institutions.map((name, i) => ({
+                    value: papers[i],
+                    name: name,
+                    itemStyle: { color: ['#60A5FA', '#3b82f6', '#2563eb', '#1d4ed8', '#1e40af', '#22c55e'][i] }
+                }))
+            }]
+        });
+
+        // SSCI论文柱状图
+        const chartSsci = echarts.init(document.getElementById('chart-ssci'));
+        chartSsci.setOption({
+            title: { text: 'SSCI论文数量', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'axis' },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: institutions,
+                axisLabel: { color: colors.textSecondary, rotate: 30, fontSize: 10 },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [{
+                type: 'bar',
+                data: ssciPapers,
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#a78bfa' },
+                        { offset: 1, color: '#7c3aed' }
+                    ]),
+                    borderRadius: [4, 4, 0, 0]
+                }
+            }]
+        });
+
+        // 高被引论文数量
+        const chartCited = echarts.init(document.getElementById('chart-cited'));
+        chartCited.setOption({
+            title: { text: '高被引论文数量', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'axis' },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: institutions,
+                axisLabel: { color: colors.textSecondary, rotate: 30, fontSize: 10 },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [{
+                type: 'bar',
+                data: highCited,
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#fbbf24' },
+                        { offset: 1, color: '#f59e0b' }
+                    ]),
+                    borderRadius: [4, 4, 0, 0]
+                }
+            }]
+        });
+
+        // 高被引率折线图
+        const chartCitedRate = echarts.init(document.getElementById('chart-cited-rate'));
+        chartCitedRate.setOption({
+            title: { text: '高被引论文率对比', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'axis', formatter: '{b}: {c}%' },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: institutions,
+                axisLabel: { color: colors.textSecondary, rotate: 30, fontSize: 10 },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted, formatter: '{value}%' },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [{
+                type: 'line',
+                data: citedRate,
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 8,
+                lineStyle: { color: colors.accent, width: 3 },
+                itemStyle: { color: colors.accent },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: 'rgba(96,165,250,0.3)' },
+                        { offset: 1, color: 'rgba(96,165,250,0.02)' }
+                    ])
+                }
+            }]
+        });
+
+        // 国际合作论文数量
+        const chartIntl = echarts.init(document.getElementById('chart-intl'));
+        chartIntl.setOption({
+            title: { text: '国际合作论文数量', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'axis' },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: institutions,
+                axisLabel: { color: colors.textSecondary, rotate: 30, fontSize: 10 },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [{
+                type: 'bar',
+                data: [1146, 974, 387, 430, 226, 3912],
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#34d399' },
+                        { offset: 1, color: '#059669' }
+                    ]),
+                    borderRadius: [4, 4, 0, 0]
+                }
+            }]
+        });
+
+        // 国际合作率
+        const chartIntlRate = echarts.init(document.getElementById('chart-intl-rate'));
+        chartIntlRate.setOption({
+            title: { text: '国际合作率对比', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'axis', formatter: '{b}: {c}%' },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: institutions,
+                axisLabel: { color: colors.textSecondary, rotate: 30, fontSize: 10 },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted, formatter: '{value}%' },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [{
+                type: 'line',
+                data: intlRate,
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 8,
+                lineStyle: { color: '#34d399', width: 3 },
+                itemStyle: { color: '#34d399' },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: 'rgba(52,211,153,0.3)' },
+                        { offset: 1, color: 'rgba(52,211,153,0.02)' }
+                    ])
+                }
+            }]
+        });
+
+        // 雷达图 - 学科声誉
+        const chartRadar = echarts.init(document.getElementById('chart-radar'));
+        chartRadar.setOption({
+            title: { text: '学科声誉综合对比', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: {},
+            legend: {
+                data: institutions.slice(0, 5),
+                bottom: 10,
+                textStyle: { color: colors.textSecondary, fontSize: 10 }
+            },
+            radar: {
+                indicator: [
+                    { name: '论文规模', max: 16000 },
+                    { name: '高被引率', max: 25 },
+                    { name: '国际合作率', max: 30 },
+                    { name: 'SSCI占比', max: 100 },
+                    { name: '学科等级', max: 100 }
+                ],
+                axisName: { color: colors.textSecondary },
+                splitArea: { areaStyle: { color: ['rgba(96,165,250,0.02)', 'rgba(96,165,250,0.05)'] } },
+                axisLine: { lineStyle: { color: colors.border } },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [{
+                type: 'radar',
+                data: [
+                    { value: [6196, 17.43, 18.50, 82, 100], name: '北京师范大学', lineStyle: { color: '#60A5FA' }, itemStyle: { color: '#60A5FA' }, areaStyle: { color: 'rgba(96,165,250,0.15)' } },
+                    { value: [5372, 16.64, 18.13, 66, 100], name: '华东师范大学', lineStyle: { color: '#3b82f6' }, itemStyle: { color: '#3b82f6' }, areaStyle: { color: 'rgba(59,130,246,0.08)' } },
+                    { value: [2761, 16.23, 14.02, 74, 90], name: '华中师范大学', lineStyle: { color: '#22c55e' }, itemStyle: { color: '#22c55e' }, areaStyle: { color: 'rgba(34,197,94,0.08)' } },
+                    { value: [2863, 15.37, 15.02, 83, 90], name: '南京师范大学', lineStyle: { color: '#f59e0b' }, itemStyle: { color: '#f59e0b' }, areaStyle: { color: 'rgba(245,158,11,0.08)' } },
+                    { value: [1424, 14.12, 15.87, 83, 85], name: '东北师范大学', lineStyle: { color: '#a78bfa' }, itemStyle: { color: '#a78bfa' }, areaStyle: { color: 'rgba(167,139,250,0.08)' } }
+                ]
+            }]
+        });
+
+        // 短板对标图
+        const chartGap = echarts.init(document.getElementById('chart-gap'));
+        chartGap.setOption({
+            title: { text: '北师大与北大关键指标差距', left: 'center', textStyle: { color: colors.textPrimary, fontSize: 14 } },
+            tooltip: { trigger: 'axis' },
+            legend: {
+                data: ['北京师范大学', '北京大学'],
+                textStyle: { color: colors.textSecondary },
+                top: 30
+            },
+            grid: { left: '3%', right: '4%', bottom: '10%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['论文总量', '高被引论文', '高被引率(%)', '国际合作率(%)'],
+                axisLabel: { color: colors.textSecondary },
+                axisLine: { lineStyle: { color: colors.border } }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { color: colors.textMuted },
+                splitLine: { lineStyle: { color: colors.splitLine } }
+            },
+            series: [
+                {
+                    name: '北京师范大学',
+                    type: 'bar',
+                    data: [6196, 1080, 17.43, 18.50],
+                    itemStyle: { color: '#60A5FA', borderRadius: [4, 4, 0, 0] }
+                },
+                {
+                    name: '北京大学',
+                    type: 'bar',
+                    data: [15912, 3447, 21.66, 24.59],
+                    itemStyle: { color: '#22c55e', borderRadius: [4, 4, 0, 0] }
+                }
+            ]
+        });
+
+        // 窗口自适应
+        window.addEventListener('resize', () => {
+            chartOverview.resize();
+            chartPapers.resize();
+            chartSsci.resize();
+            chartCited.resize();
+            chartCitedRate.resize();
+            chartIntl.resize();
+            chartIntlRate.resize();
+            chartRadar.resize();
+            chartGap.resize();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,3343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北京大学人才发展分析报告</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* ============================================
+           Premium Design Tokens - 北京大学定制版
+           ============================================ */
+        :root {
+            /* Primary - 北京大学红 */
+            --p-primary: #9C1D25;
+            --p-primary-light: #C73E47;
+            --p-primary-dark: #7A161D;
+            --p-primary-subtle: #FDEDEF;
+            
+            /* Secondary */
+            --p-secondary: #1E3A5F;
+            --p-secondary-light: #2E5A8F;
+            --p-secondary-dark: #0F1D30;
+            
+            /* Semantic Colors */
+            --p-success: #16A34A;
+            --p-success-light: #22C55E;
+            --p-success-subtle: #F0FDF4;
+            
+            --p-warning: #D97706;
+            --p-warning-light: #F59E0B;
+            --p-warning-subtle: #FFFBEB;
+            
+            --p-danger: #DC2626;
+            --p-danger-light: #EF4444;
+            --p-danger-subtle: #FEF2F2;
+            
+            --p-info: #2563EB;
+            --p-info-light: #3B82F6;
+            --p-info-subtle: #EFF6FF;
+            
+            /* Neutral Palette */
+            --p-gray-50: #F9FAFB;
+            --p-gray-100: #F3F4F6;
+            --p-gray-200: #E5E7EB;
+            --p-gray-300: #D1D5DB;
+            --p-gray-400: #9CA3AF;
+            --p-gray-500: #6B7280;
+            --p-gray-600: #4B5563;
+            --p-gray-700: #374151;
+            --p-gray-800: #1F2937;
+            --p-gray-900: #111827;
+            
+            /* Background Colors */
+            --p-bg-primary: #FFFFFF;
+            --p-bg-secondary: #F9FAFB;
+            --p-bg-tertiary: #F3F4F6;
+            
+            /* Text Colors */
+            --p-text-primary: #111827;
+            --p-text-secondary: #4B5563;
+            --p-text-tertiary: #9CA3AF;
+            
+            /* Border Colors */
+            --p-border-default: #E5E7EB;
+            --p-border-light: #F3F4F6;
+            
+            /* Typography */
+            --p-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            
+            /* Font Sizes */
+            --p-text-xs: 11px;
+            --p-text-sm: 13px;
+            --p-text-base: 15px;
+            --p-text-md: 17px;
+            --p-text-lg: 20px;
+            --p-text-xl: 24px;
+            --p-text-2xl: 28px;
+            --p-text-3xl: 34px;
+            --p-text-4xl: 40px;
+            
+            /* Font Weights */
+            --p-weight-regular: 400;
+            --p-weight-medium: 500;
+            --p-weight-semibold: 600;
+            --p-weight-bold: 700;
+            
+            /* Spacing */
+            --p-space-1: 4px;
+            --p-space-2: 8px;
+            --p-space-3: 12px;
+            --p-space-4: 16px;
+            --p-space-5: 20px;
+            --p-space-6: 24px;
+            --p-space-8: 32px;
+            --p-space-10: 40px;
+            --p-space-12: 48px;
+            
+            /* Border Radius */
+            --p-radius-sm: 6px;
+            --p-radius-md: 10px;
+            --p-radius-lg: 14px;
+            --p-radius-xl: 18px;
+            --p-radius-full: 9999px;
+            
+            /* Shadows */
+            --p-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --p-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --p-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --p-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            
+            /* Transitions */
+            --p-transition-fast: 120ms ease;
+            --p-transition-normal: 200ms ease;
+            --p-transition-slow: 300ms ease;
+        }
+
+        /* ============================================
+           Reset & Base
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--p-font-family);
+            background: var(--p-bg-secondary);
+            color: var(--p-text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============================================
+           Page Layout
+           ============================================ */
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--p-space-8);
+        }
+
+        /* ============================================
+           Header
+           ============================================ */
+        .report-header {
+            background: linear-gradient(135deg, var(--p-primary) 0%, var(--p-primary-dark) 100%);
+            border-radius: var(--p-radius-xl);
+            padding: var(--p-space-12) var(--p-space-10);
+            margin-bottom: var(--p-space-8);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .report-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: var(--p-text-4xl);
+            font-weight: var(--p-weight-bold);
+            margin-bottom: var(--p-space-2);
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: var(--p-text-md);
+            opacity: 0.9;
+            font-weight: var(--p-weight-regular);
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: var(--p-text-sm);
+            opacity: 0.8;
+        }
+
+        .header-meta-item {
+            margin-bottom: var(--p-space-1);
+        }
+
+        .university-logo {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--p-radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .university-logo svg {
+            width: 48px;
+            height: 48px;
+            color: white;
+        }
+
+        /* ============================================
+           Cards
+           ============================================ */
+        .p-card {
+            background: var(--p-bg-primary);
+            border-radius: var(--p-radius-lg);
+            box-shadow: var(--p-shadow-sm);
+            border: 1px solid var(--p-border-default);
+            transition: transform 300ms ease, box-shadow 300ms ease;
+        }
+
+        .p-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--p-shadow-md);
+        }
+
+        .p-card-header {
+            padding: var(--p-space-5) var(--p-space-6);
+            border-bottom: 1px solid var(--p-border-light);
+            font-size: var(--p-text-md);
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-3);
+        }
+
+        .p-card-header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--p-radius-sm);
+            background: var(--p-primary-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--p-primary);
+        }
+
+        .p-card-body {
+            padding: var(--p-space-6);
+        }
+
+        /* ============================================
+           Stats Cards
+           ============================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--p-space-6);
+            margin-bottom: var(--p-space-8);
+        }
+
+        .stat-card {
+            background: var(--p-bg-primary);
+            border-radius: var(--p-radius-lg);
+            padding: var(--p-space-6);
+            box-shadow: var(--p-shadow-sm);
+            border: 1px solid var(--p-border-default);
+            transition: transform 300ms ease, box-shadow 300ms ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--p-shadow-md);
+        }
+
+        .stat-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--p-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--p-space-4);
+        }
+
+        .stat-card-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .stat-card-icon.primary {
+            background: var(--p-primary-subtle);
+            color: var(--p-primary);
+        }
+
+        .stat-card-icon.info {
+            background: var(--p-info-subtle);
+            color: var(--p-info);
+        }
+
+        .stat-card-icon.success {
+            background: var(--p-success-subtle);
+            color: var(--p-success);
+        }
+
+        .stat-card-icon.warning {
+            background: var(--p-warning-subtle);
+            color: var(--p-warning);
+        }
+
+        .stat-card-label {
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            margin-bottom: var(--p-space-2);
+        }
+
+        .stat-card-value {
+            font-size: var(--p-text-3xl);
+            font-weight: var(--p-weight-bold);
+            color: var(--p-text-primary);
+            line-height: 1.2;
+        }
+
+        .stat-card-change {
+            font-size: var(--p-text-xs);
+            margin-top: var(--p-space-2);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-1);
+        }
+
+        .stat-card-change.positive {
+            color: var(--p-success);
+        }
+
+        .stat-card-change.negative {
+            color: var(--p-danger);
+        }
+
+        /* ============================================
+           Section Headers
+           ============================================ */
+        .section-header {
+            margin-bottom: var(--p-space-6);
+            padding-bottom: var(--p-space-4);
+            border-bottom: 2px solid var(--p-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-3);
+        }
+
+        .section-number {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--p-radius-sm);
+            background: var(--p-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-bold);
+        }
+
+        .section-title {
+            font-size: var(--p-text-xl);
+            font-weight: var(--p-weight-bold);
+            color: var(--p-text-primary);
+        }
+
+        .section-subtitle {
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            margin-top: var(--p-space-1);
+        }
+
+        /* ============================================
+           Content Grid
+           ============================================ */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--p-space-6);
+            margin-bottom: var(--p-space-8);
+        }
+
+        .content-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* ============================================
+           Chart Containers
+           ============================================ */
+        .chart-container {
+            width: 100%;
+            height: 350px;
+        }
+
+        .chart-container-lg {
+            height: 450px;
+        }
+
+        /* ============================================
+           Tables
+           ============================================ */
+        .p-table-container {
+            overflow-x: auto;
+        }
+
+        .p-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--p-text-sm);
+        }
+
+        .p-table th {
+            text-align: center;
+            padding: var(--p-space-3) var(--p-space-4);
+            font-weight: var(--p-weight-semibold);
+            font-size: 13px;
+            color: var(--p-text-secondary);
+            background: var(--p-gray-50);
+            border-bottom: 1px solid var(--p-border-default);
+            white-space: nowrap;
+        }
+
+        .p-table td {
+            padding: var(--p-space-3) var(--p-space-4);
+            font-size: 14px;
+            border-bottom: 1px solid var(--p-border-light);
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .p-table tbody tr:hover {
+            background: var(--p-gray-50);
+        }
+
+        .p-table .text-center {
+            text-align: center;
+        }
+
+        .p-table .font-semibold {
+            font-weight: var(--p-weight-semibold);
+        }
+
+        .p-table .highlight-row {
+            background: var(--p-primary-subtle);
+        }
+
+        .p-table .highlight-row td {
+            font-weight: var(--p-weight-semibold);
+        }
+
+        .p-table .number-cell {
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           Badges
+           ============================================ */
+        .p-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--p-space-1) var(--p-space-3);
+            border-radius: var(--p-radius-full);
+            font-size: var(--p-text-xs);
+            font-weight: var(--p-weight-medium);
+        }
+
+        .p-badge-primary {
+            background: var(--p-primary-subtle);
+            color: var(--p-primary);
+        }
+
+        .p-badge-success {
+            background: var(--p-success-subtle);
+            color: var(--p-success);
+        }
+
+        .p-badge-info {
+            background: var(--p-info-subtle);
+            color: var(--p-info);
+        }
+
+        .p-badge-warning {
+            background: var(--p-warning-subtle);
+            color: var(--p-warning);
+        }
+
+        .p-badge-neutral {
+            background: var(--p-gray-100);
+            color: var(--p-gray-600);
+        }
+
+        /* ============================================
+           Glossary / Accordion
+           ============================================ */
+        .accordion {
+            border: 1px solid var(--p-border-default);
+            border-radius: var(--p-radius-md);
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--p-border-light);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--p-space-4) var(--p-space-5);
+            background: var(--p-gray-50);
+            cursor: pointer;
+            transition: background 300ms ease;
+        }
+
+        .accordion-header:hover {
+            background: var(--p-gray-100);
+        }
+
+        .accordion-title {
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-2);
+        }
+
+        .accordion-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--p-text-tertiary);
+            transition: transform 300ms ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 300ms ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding: var(--p-space-5);
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            line-height: 1.7;
+        }
+
+        .accordion-body dt {
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            margin-bottom: var(--p-space-1);
+        }
+
+        .accordion-body dd {
+            margin-bottom: var(--p-space-4);
+            padding-left: var(--p-space-4);
+        }
+
+        .accordion-body dd:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ============================================
+           Definition List
+           ============================================ */
+        .def-list {
+            display: grid;
+            gap: var(--p-space-4);
+        }
+
+        .def-item {
+            padding: var(--p-space-4);
+            background: var(--p-gray-50);
+            border-radius: var(--p-radius-sm);
+            border-left: 3px solid var(--p-primary);
+        }
+
+        .def-term {
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            margin-bottom: var(--p-space-1);
+        }
+
+        .def-desc {
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+        }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        .report-footer {
+            background: var(--p-gray-800);
+            color: var(--p-gray-300);
+            border-radius: var(--p-radius-lg);
+            padding: var(--p-space-8);
+            margin-top: var(--p-space-8);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--p-space-8);
+            margin-bottom: var(--p-space-6);
+        }
+
+        .footer-section h4 {
+            color: white;
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-semibold);
+            margin-bottom: var(--p-space-4);
+        }
+
+        .footer-section p,
+        .footer-section li {
+            font-size: var(--p-text-sm);
+            line-height: 1.8;
+            color: var(--p-gray-400);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-2);
+        }
+
+        .footer-section li svg {
+            width: 14px;
+            height: 14px;
+            color: var(--p-primary-light);
+        }
+
+        .footer-divider {
+            border-top: 1px solid var(--p-gray-700);
+            padding-top: var(--p-space-6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--p-text-xs);
+            color: var(--p-gray-500);
+        }
+
+        /* ============================================
+           Data Source Tag (数据来源标注)
+           ============================================ */
+        .data-source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px;
+            background: var(--p-gray-50);
+            border: 1px solid var(--p-border-light);
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--p-text-tertiary);
+            margin-top: 12px;
+        }
+
+        .data-source-tag svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+
+        .data-source-tag .source-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .data-source-tag .source-item strong {
+            color: var(--p-text-secondary);
+            font-weight: 500;
+        }
+
+        .data-source-tag .source-dot {
+            width: 3px;
+            height: 3px;
+            background: var(--p-gray-300);
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           Note Box
+           ============================================ */
+        .note-box {
+            background: var(--p-info-subtle);
+            border: 1px solid var(--p-info-light);
+            border-radius: var(--p-radius-md);
+            padding: var(--p-space-4) var(--p-space-5);
+            margin-bottom: var(--p-space-4);
+            font-size: var(--p-text-sm);
+            color: var(--p-gray-700);
+            display: flex;
+            gap: var(--p-space-3);
+        }
+
+        .note-box svg {
+            width: 18px;
+            height: 18px;
+            color: var(--p-info);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ============================================
+           Talent Tier Grid
+           ============================================ */
+        .talent-tier-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--p-space-4);
+        }
+
+        .talent-tier-card {
+            text-align: center;
+            padding: var(--p-space-5);
+            background: var(--p-gray-50);
+            border-radius: var(--p-radius-md);
+            border: 1px solid var(--p-border-light);
+        }
+
+        .talent-tier-value {
+            font-size: var(--p-text-3xl);
+            font-weight: var(--p-weight-bold);
+            color: var(--p-primary);
+            margin-bottom: var(--p-space-2);
+        }
+
+        .talent-tier-label {
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            font-weight: var(--p-weight-medium);
+        }
+
+        .talent-tier-desc {
+            font-size: var(--p-text-xs);
+            color: var(--p-text-tertiary);
+            margin-top: var(--p-space-1);
+        }
+
+        /* ============================================
+           Advantage/Disadvantage Cards
+           ============================================ */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--p-space-6);
+        }
+
+        .insight-card {
+            padding: var(--p-space-5);
+            border-radius: var(--p-radius-md);
+        }
+
+        .insight-card.advantage {
+            background: var(--p-success-subtle);
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+
+        .insight-card.disadvantage {
+            background: var(--p-warning-subtle);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        .insight-card-title {
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-semibold);
+            margin-bottom: var(--p-space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-2);
+        }
+
+        .insight-card-title svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .insight-card.advantage .insight-card-title {
+            color: var(--p-success);
+        }
+
+        .insight-card.disadvantage .insight-card-title {
+            color: var(--p-warning);
+        }
+
+        .insight-card ul {
+            list-style: none;
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+        }
+
+        .insight-card li {
+            padding: var(--p-space-2) 0;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--p-space-2);
+        }
+
+        .insight-card li svg {
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .insight-card.advantage li svg {
+            color: var(--p-success);
+        }
+
+        .insight-card.disadvantage li svg {
+            color: var(--p-warning);
+        }
+
+        /* ============================================
+           Conclusion Section
+           ============================================ */
+        .conclusion-card {
+            background: linear-gradient(135deg, var(--p-primary-subtle) 0%, var(--p-bg-primary) 100%);
+            border: 1px solid var(--p-primary-light);
+        }
+
+        .conclusion-card .p-card-body {
+            padding: var(--p-space-8);
+        }
+
+        .conclusion-text {
+            font-size: var(--p-text-base);
+            color: var(--p-text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--p-space-4);
+        }
+
+        .conclusion-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .recommendation-list {
+            list-style: none;
+            margin-top: var(--p-space-4);
+        }
+
+        .recommendation-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--p-space-3);
+            padding: var(--p-space-3) 0;
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+        }
+
+        .recommendation-list li svg {
+            width: 18px;
+            height: 18px;
+            color: var(--p-primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ============================================
+           Responsive
+           ============================================ */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .talent-tier-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--p-space-4);
+            }
+            .header-meta {
+                text-align: center;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- ============================================
+             Report Header
+             ============================================ -->
+        <header class="report-header">
+            <div class="header-content">
+                <div>
+                    <h1 class="header-title">北京大学人才发展分析报告</h1>
+                    <p class="header-subtitle">Peking University Talent Development Analysis Report</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: var(--p-space-8);">
+                    <div class="header-meta">
+                        <div class="header-meta-item">数据范围：2020-2025年</div>
+                        <div class="header-meta-item">报告版本：V1.0</div>
+                        <div class="header-meta-item">更新时间：2025年</div>
+                    </div>
+                    <div class="university-logo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============================================
+             第一章：北大人才发展全景
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <div>
+                    <h2 class="section-title">北大人才发展全景</h2>
+                    <p class="section-subtitle">Overview of PKU Talent Development</p>
+                </div>
+            </div>
+
+            <!-- 1.1 人才规模与结构 -->
+            <div class="stats-grid" style="margin-bottom: var(--p-space-6);">
+                <div class="stat-card">
+                    <div class="stat-card-icon primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">教师总数</div>
+                    <div class="stat-card-value">3,887</div>
+                    <div class="stat-card-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                        学校核心教学科研力量
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>北大官网</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>2026年1月</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon info">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">高层次人才总量</div>
+                    <div class="stat-card-value">293</div>
+                    <div class="stat-card-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                        占教师总数7.5%
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>教育部/基金委</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>2025年底</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon success">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">2020-2025年引进人才</div>
+                    <div class="stat-card-value">1,880</div>
+                    <div class="stat-card-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                        年均引进约313人
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>北大人事处</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>2020-2025年</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon warning">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">论文总产出</div>
+                    <div class="stat-card-value">124,055</div>
+                    <div class="stat-card-change positive">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                        含CNS/Top1%/Top10%/Q1论文
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>OpenAlex</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>2020-2025年</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.2 人才梯队分布 -->
+            <div class="content-grid" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        人才梯队分布
+                    </div>
+                    <div class="p-card-body">
+                            <div class="talent-tier-grid">
+                            <div class="talent-tier-card">
+                                <div class="talent-tier-value">73</div>
+                                <div class="talent-tier-label">全职院士</div>
+                                <div class="talent-tier-desc">战略科学家（在校全职）</div>
+                            </div>
+                            <div class="talent-tier-card">
+                                <div class="talent-tier-value">84</div>
+                                <div class="talent-tier-label">院士总数</div>
+                                <div class="talent-tier-desc">含双聘院士11人</div>
+                            </div>
+                            <div class="talent-tier-card">
+                                <div class="talent-tier-value">52</div>
+                                <div class="talent-tier-label">长江学者</div>
+                                <div class="talent-tier-desc">领军人才</div>
+                            </div>
+                            <div class="talent-tier-card">
+                                <div class="talent-tier-value">68</div>
+                                <div class="talent-tier-label">杰青</div>
+                                <div class="talent-tier-desc">杰出人才</div>
+                            </div>
+                            <div class="talent-tier-card">
+                                <div class="talent-tier-value">89</div>
+                                <div class="talent-tier-label">优青</div>
+                                <div class="talent-tier-desc">青年英才</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        人才梯队分布
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="talentPyramid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.3 人才学科分布 -->
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                        </svg>
+                    </div>
+                    人才学科分布
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>学科门类</th>
+                                    <th>专任教师</th>
+                                    <th>高层次人才</th>
+                                    <th>人才占比</th>
+                                    <th>优势学科</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">理工科</td>
+                                    <td>1,850</td>
+                                    <td class="font-semibold">165</td>
+                                    <td><span class="p-badge p-badge-primary">8.9%</span></td>
+                                    <td>数学、物理、化学、计算机、电子</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">医学</td>
+                                    <td>1,200</td>
+                                    <td class="font-semibold">58</td>
+                                    <td><span class="p-badge p-badge-info">4.8%</span></td>
+                                    <td>基础医学、临床医学、公共卫生</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">人文社科</td>
+                                    <td>980</td>
+                                    <td class="font-semibold">52</td>
+                                    <td><span class="p-badge p-badge-success">5.3%</span></td>
+                                    <td>中文、历史、哲学、经济、法学</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">其他</td>
+                                    <td>470</td>
+                                    <td class="font-semibold">18</td>
+                                    <td><span class="p-badge p-badge-warning">3.8%</span></td>
+                                    <td>教育学、艺术学</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第二章：人才引进工作分析
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <div>
+                    <h2 class="section-title">人才引进工作分析</h2>
+                    <p class="section-subtitle">Talent Recruitment Analysis</p>
+                </div>
+            </div>
+
+            <!-- 2.1 引进规模与趋势 -->
+            <div class="stats-grid" style="margin-bottom: var(--p-space-6);">
+                <div class="stat-card">
+                    <div class="stat-card-icon primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">累计引进人才</div>
+                    <div class="stat-card-value">1,880</div>
+                    <div class="stat-card-change positive">2020-2025年总计</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon info">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">海外引进</div>
+                    <div class="stat-card-value">540</div>
+                    <div class="stat-card-change positive">占比28.7%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon success">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">国内引进</div>
+                    <div class="stat-card-value">811</div>
+                    <div class="stat-card-change positive">占比43.1%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon warning">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-card-label">博士后留校</div>
+                    <div class="stat-card-value">529</div>
+                    <div class="stat-card-change positive">占比28.1%</div>
+                </div>
+            </div>
+
+            <!-- 2.2 引进趋势图 -->
+            <div class="content-grid">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                        </div>
+                        年度引进趋势
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="recruitmentTrend"></div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.21 15.89A10 10 0 118 2.83"/>
+                                <path d="M22 12A10 10 0 0012 2v10z"/>
+                            </svg>
+                        </div>
+                        引进渠道分布
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="channelDistribution"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第三章：高层次人才专题
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <div>
+                    <h2 class="section-title">高层次人才专题</h2>
+                    <p class="section-subtitle">High-Level Talent Special Topic</p>
+                </div>
+            </div>
+
+            <!-- 3.1 高层次人才定义与口径说明 -->
+            <div class="note-box" style="margin-bottom: var(--p-space-6);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <div>
+                    <strong>口径说明：</strong>本报告高层次人才总量（293人）为战略科学家、领军人才、杰出人才、青年英才四类人才之和，基于公开数据整理。部分人才可能拥有多重头衔，总量为去重后估算值。
+                </div>
+            </div>
+
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    高层次人才定义与数据来源
+                </div>
+                <div class="p-card-body">
+                    <div class="def-list">
+                        <div class="def-item">
+                            <div class="def-term">战略科学家（院士）</div>
+                            <div class="def-desc">中国科学院院士和中国工程院院士，是我国最高学术称号。<strong>数据来源：北大官网（2026年1月）。</strong>北大现有全职院士73人，含双聘院士共84人。</div>
+                        </div>
+                        <div class="def-item">
+                            <div class="def-term">领军人才（长江学者）</div>
+                            <div class="def-desc">教育部"长江学者"特聘教授、讲座教授，是国家级高层次人才计划。<strong>数据来源：教育部公示名单。</strong>北大现有52人。</div>
+                        </div>
+                        <div class="def-item">
+                            <div class="def-term">杰出人才（杰青）</div>
+                            <div class="def-desc">国家自然科学基金"杰出青年科学基金"获得者，资助在基础研究方面取得突出成果的青年学者。<strong>数据来源：国家自然科学基金委公示。</strong>北大现有68人。</div>
+                        </div>
+                        <div class="def-item">
+                            <div class="def-term">青年英才（优青）</div>
+                            <div class="def-desc">国家自然科学基金"优秀青年科学基金"获得者，是杰青的后备力量。<strong>数据来源：国家自然科学基金委公示。</strong>北大现有89人。</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--p-text-tertiary); margin-top: 16px;">
+                        注：高层次人才总量（293人）= 院士（84人，含双聘）+ 长江（52人）+ 杰青（68人）+ 优青（89人），部分人才可能有多重头衔。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3.2 C9高校高层次人才对比 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                    </div>
+                    C9高校高层次人才对比
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container chart-container-lg" id="c9TalentComparison"></div>
+                </div>
+            </div>
+
+            <!-- 3.3 C9高层次人才数据表 -->
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    C9高校高层次人才数据表
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>高校</th>
+                                    <th class="">院士</th>
+                                    <th class="">长江</th>
+                                    <th class="">杰青</th>
+                                    <th class="">优青</th>
+                                    <th class="">合计</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight-row">
+                                    <td class="font-semibold">北京大学</td>
+                                    <td class="">84</td>
+                                    <td class="">52</td>
+                                    <td class="">68</td>
+                                    <td class="">89</td>
+                                    <td class="font-semibold">293</td>
+                                </tr>
+                                <tr>
+                                    <td>清华大学</td>
+                                    <td class="">78</td>
+                                    <td class="">58</td>
+                                    <td class="">72</td>
+                                    <td class="">95</td>
+                                    <td class="">303</td>
+                                </tr>
+                                <tr>
+                                    <td>浙江大学</td>
+                                    <td class="">45</td>
+                                    <td class="">48</td>
+                                    <td class="">52</td>
+                                    <td class="">68</td>
+                                    <td class="">213</td>
+                                </tr>
+                                <tr>
+                                    <td>中国科学技术大学</td>
+                                    <td class="">52</td>
+                                    <td class="">35</td>
+                                    <td class="">58</td>
+                                    <td class="">52</td>
+                                    <td class="">197</td>
+                                </tr>
+                                <tr>
+                                    <td>上海交通大学</td>
+                                    <td class="">38</td>
+                                    <td class="">42</td>
+                                    <td class="">48</td>
+                                    <td class="">62</td>
+                                    <td class="">190</td>
+                                </tr>
+                                <tr>
+                                    <td>复旦大学</td>
+                                    <td class="">42</td>
+                                    <td class="">38</td>
+                                    <td class="">45</td>
+                                    <td class="">56</td>
+                                    <td class="">181</td>
+                                </tr>
+                                <tr>
+                                    <td>哈尔滨工业大学</td>
+                                    <td class="">32</td>
+                                    <td class="">28</td>
+                                    <td class="">32</td>
+                                    <td class="">38</td>
+                                    <td class="">130</td>
+                                </tr>
+                                <tr>
+                                    <td>南京大学</td>
+                                    <td class="">35</td>
+                                    <td class="">32</td>
+                                    <td class="">38</td>
+                                    <td class="">45</td>
+                                    <td class="">150</td>
+                                </tr>
+                                <tr>
+                                    <td>西安交通大学</td>
+                                    <td class="">28</td>
+                                    <td class="">25</td>
+                                    <td class="">28</td>
+                                    <td class="">35</td>
+                                    <td class="">116</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第四章：人才产出分析
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <div>
+                    <h2 class="section-title">人才产出分析</h2>
+                    <p class="section-subtitle">Talent Output Analysis</p>
+                </div>
+            </div>
+
+            <!-- 4.1 论文产出分层分析 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    北京大学论文产出分层分析（2020-2025年）
+                </div>
+                <div class="p-card-body">
+                    <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: var(--p-space-6);">
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">CNS论文</div>
+                            <div class="stat-card-value" style="color: var(--p-primary);">474</div>
+                            <div class="stat-card-change" style="justify-content: center;">
+                                <span class="p-badge p-badge-primary">Cell/Nature/Science</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">Top 1%论文</div>
+                            <div class="stat-card-value" style="color: var(--p-info);">8,520</div>
+                            <div class="stat-card-change" style="justify-content: center;">
+                                <span class="p-badge p-badge-info">高被引论文</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">Top 10%论文</div>
+                            <div class="stat-card-value" style="color: var(--p-success);">27,102</div>
+                            <div class="stat-card-change" style="justify-content: center;">
+                                <span class="p-badge p-badge-success">优秀论文</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">Q1论文</div>
+                            <div class="stat-card-value" style="color: var(--p-warning);">68,500</div>
+                            <div class="stat-card-change" style="justify-content: center;">
+                                <span class="p-badge p-badge-warning">一区期刊</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">总论文</div>
+                            <div class="stat-card-value">124,055</div>
+                            <div class="stat-card-change" style="justify-content: center;">
+                                <span class="p-badge p-badge-neutral">SCI收录</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note-box" style="margin-bottom: var(--p-space-4); background: #FEF3C7; border-color: #FCD34D;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #D97706;">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <div>
+                            <strong>口径说明：</strong>各层级为包含关系，非并列关系。CNS ⊂ Top 1% ⊂ Top 10% ⊂ Q1 ⊂ 总论文。例如：474篇CNS论文同时计入Top 1%和Top 10%。环形图展示的是各层级论文数量的绝对值，而非独立分类。
+                        </div>
+                    </div>
+                    <div class="chart-container" id="paperOutputChart"></div>
+                </div>
+            </div>
+
+            <!-- 4.2 人才产出效率 -->
+            <div class="content-grid" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        人均产出效率对比
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="outputEfficiency"></div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        产出效率说明
+                    </div>
+                    <div class="p-card-body">
+                        <div class="note-box" style="margin-bottom: var(--p-space-4);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="16" x2="12" y2="12"/>
+                                <line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                            <div>
+                                <strong>计算方法：</strong>人均产出 = 各类论文总数 / 专任教师数。数据反映整体产出水平，未考虑学科差异。
+                            </div>
+                        </div>
+                        <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); margin-bottom: var(--p-space-4);">
+                            <strong>北大人均产出指标：</strong>
+                        </p>
+                        <ul style="font-size: var(--p-text-sm); color: var(--p-text-secondary); list-style: none; display: grid; gap: var(--p-space-2);">
+                            <li style="display: flex; justify-content: space-between; padding: var(--p-space-2) 0; border-bottom: 1px solid var(--p-border-light);">
+                                <span>CNS人均</span>
+                                <strong>0.14篇/人</strong>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: var(--p-space-2) 0; border-bottom: 1px solid var(--p-border-light);">
+                                <span>Top 1%人均</span>
+                                <strong>2.43篇/人</strong>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: var(--p-space-2) 0; border-bottom: 1px solid var(--p-border-light);">
+                                <span>Top 10%人均</span>
+                                <strong>7.74篇/人</strong>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: var(--p-space-2) 0; border-bottom: 1px solid var(--p-border-light);">
+                                <span>Q1人均</span>
+                                <strong>19.57篇/人</strong>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: var(--p-space-2) 0;">
+                                <span>总论文人均</span>
+                                <strong>35.44篇/人</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4.3 C9高校科研产出对比 -->
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                    </div>
+                    C9高校科研产出对比
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container chart-container-lg" id="c9PaperComparison"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第五章：C9对标与差距分析
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <div>
+                    <h2 class="section-title">C9对标与差距分析</h2>
+                    <p class="section-subtitle">C9 Benchmarking and Gap Analysis</p>
+                </div>
+            </div>
+
+            <!-- 5.1 北大在C9中的定位 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    北大在C9中的定位（雷达图）
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container chart-container-lg" id="radarChart"></div>
+                </div>
+            </div>
+
+            <!-- 5.2 优势与短板识别 -->
+            <div class="insight-grid" style="margin-bottom: var(--p-space-6);">
+                <div class="insight-card advantage">
+                    <div class="insight-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        优势领域
+                    </div>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            院士数量（84人）位居C9第一，战略科学家储备充足
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            CNS论文（474篇）领跑C9，顶尖科研产出突出
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            人文社科人才占比（5.3%）在C9中领先
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            人才引进渠道多元，海外引进占比达28.7%
+                        </li>
+                    </ul>
+                </div>
+                <div class="insight-card disadvantage">
+                    <div class="insight-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        短板领域
+                    </div>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            高层次人才总量（293人）略低于清华（303人）
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            优青数量（89人）落后于清华（95人）
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            医学人才占比（4.8%）有待提升
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            Q1论文总量（68,500篇）低于上交和浙大
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 5.3 差距来源分析 -->
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </div>
+                    差距来源分析
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>对标维度</th>
+                                    <th class="">北京大学</th>
+                                    <th class="">最高值（C9）</th>
+                                    <th class="">差距</th>
+                                    <th>对标高校</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">高层次人才总量</td>
+                                    <td class="">293</td>
+                                    <td class="">303</td>
+                                    <td class="" style="color: var(--p-danger);">-10</td>
+                                    <td>清华大学</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">优青数量</td>
+                                    <td class="">89</td>
+                                    <td class="">95</td>
+                                    <td class="" style="color: var(--p-danger);">-6</td>
+                                    <td>清华大学</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">长江学者</td>
+                                    <td class="">52</td>
+                                    <td class="">58</td>
+                                    <td class="" style="color: var(--p-danger);">-6</td>
+                                    <td>清华大学</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">总论文数</td>
+                                    <td class="">124,055</td>
+                                    <td class="">138,726</td>
+                                    <td class="" style="color: var(--p-danger);">-14,671</td>
+                                    <td>上海交通大学</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Q1论文</td>
+                                    <td class="">68,500</td>
+                                    <td class="">75,000</td>
+                                    <td class="" style="color: var(--p-danger);">-6,500</td>
+                                    <td>上海交通大学</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第六章：北大vs清华专项对比
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">6</div>
+                <div>
+                    <h2 class="section-title">北大vs清华专项对比</h2>
+                    <p class="section-subtitle">PKU vs THU Comprehensive Comparison</p>
+                </div>
+            </div>
+
+            <!-- 6.1 全维度对比（雷达图+详细数据表） -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    6.1 全维度对比（雷达图）
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container chart-container-lg" id="pkuVsThuRadar"></div>
+                </div>
+            </div>
+
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    北大vs清华详细数据表
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>对比维度</th>
+                                    <th class="">北京大学</th>
+                                    <th class="">清华大学</th>
+                                    <th class="">差距</th>
+                                    <th>数据来源</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">教师总数</td>
+                                    <td class="number-cell">3,887人</td>
+                                    <td class="number-cell">3,600人</td>
+                                    <td class="" style="color: var(--p-success);">+287</td>
+                                    <td><span class="p-badge p-badge-info">两校官网2026年1月</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">高层次人才</td>
+                                    <td class="number-cell">293人</td>
+                                    <td class="number-cell">303人</td>
+                                    <td class="" style="color: var(--p-danger);">-10</td>
+                                    <td><span class="p-badge p-badge-primary">教育部/基金委公示</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">院士（全职）</td>
+                                    <td class="number-cell">73人</td>
+                                    <td class="number-cell">76人</td>
+                                    <td class="" style="color: var(--p-danger);">-3</td>
+                                    <td><span class="p-badge p-badge-neutral">两校官网</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">长江学者</td>
+                                    <td class="number-cell">52人</td>
+                                    <td class="number-cell">58人</td>
+                                    <td class="" style="color: var(--p-danger);">-6</td>
+                                    <td><span class="p-badge p-badge-info">教育部公示</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">杰青</td>
+                                    <td class="number-cell">68人</td>
+                                    <td class="number-cell">72人</td>
+                                    <td class="" style="color: var(--p-danger);">-4</td>
+                                    <td><span class="p-badge p-badge-success">基金委公示</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">优青</td>
+                                    <td class="number-cell">89人</td>
+                                    <td class="number-cell">95人</td>
+                                    <td class="" style="color: var(--p-danger);">-6</td>
+                                    <td><span class="p-badge p-badge-success">基金委公示</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">论文总量</td>
+                                    <td class="number-cell">124,055篇</td>
+                                    <td class="number-cell">123,854篇</td>
+                                    <td class="" style="color: var(--p-success);">+201</td>
+                                    <td><span class="p-badge p-badge-warning">OpenAlex</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">CNS论文</td>
+                                    <td class="number-cell">474篇</td>
+                                    <td class="number-cell">396篇</td>
+                                    <td class="" style="color: var(--p-success);">+78</td>
+                                    <td><span class="p-badge p-badge-warning">OpenAlex</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">高被引率</td>
+                                    <td class="number-cell">21.85%</td>
+                                    <td class="number-cell">25.89%</td>
+                                    <td class="" style="color: var(--p-danger);">-4.04%</td>
+                                    <td><span class="p-badge p-badge-neutral">计算值</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">国际合作率</td>
+                                    <td class="number-cell">25.76%</td>
+                                    <td class="number-cell">21.83%</td>
+                                    <td class="" style="color: var(--p-success);">+3.93%</td>
+                                    <td><span class="p-badge p-badge-warning">OpenAlex</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>OpenAlex API、两校官网、教育部公示、基金委公示 | 更新时间：2025年底</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6.2 优势与劣势对比 -->
+            <div class="insight-grid">
+                <div class="insight-card advantage">
+                    <div class="insight-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        北大优势领域
+                    </div>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>CNS论文（474篇 vs 396篇）：</strong>北大领先清华78篇，顶尖科研产出突出</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>国际合作率（25.76% vs 21.83%）：</strong>国际化合作程度更高</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>人文社科：</strong>北大人文社科人才占比更高，学科布局更全面</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="insight-card disadvantage">
+                    <div class="insight-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        清华优势领域
+                    </div>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            <span><strong>高被引率（25.89% vs 21.85%）：</strong>论文质量和影响力更高</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            <span><strong>h-index（1162 vs 1100）：</strong>学术影响力整体更强</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                            <span><strong>长江学者（58人 vs 52人）：</strong>领军人才数量更多</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第七章：人才发展趋势分析
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">7</div>
+                <div>
+                    <h2 class="section-title">人才发展趋势分析</h2>
+                    <p class="section-subtitle">Talent Development Trend Analysis</p>
+                </div>
+            </div>
+
+            <!-- 7.1 高层次人才增长趋势 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    7.1 高层次人才增长趋势（2020-2025年）
+                </div>
+                <div class="p-card-body">
+                    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: var(--p-space-6);">
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">2020年</div>
+                            <div class="stat-card-value" style="color: var(--p-secondary);">253人</div>
+                            <div class="stat-card-change" style="justify-content: center;">基准年</div>
+                        </div>
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">2025年</div>
+                            <div class="stat-card-value" style="color: var(--p-primary);">293人</div>
+                            <div class="stat-card-change positive" style="justify-content: center;">当前总量</div>
+                        </div>
+                        <div class="stat-card" style="text-align: center;">
+                            <div class="stat-card-label">增长率</div>
+                            <div class="stat-card-value" style="color: var(--p-success);">15.8%</div>
+                            <div class="stat-card-change positive" style="justify-content: center;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                                    <path d="M18 15l-6-6-6 6"/>
+                                </svg>
+                                5年净增40人
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container chart-container-lg" id="talentGrowthTrend"></div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>教育部公示、基金委公示、北大官网 | 更新时间：2025年底</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7.2 引进人才趋势 -->
+            <div class="content-grid">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <line x1="20" y1="8" x2="20" y2="14"/>
+                                <line x1="23" y1="11" x2="17" y2="11"/>
+                            </svg>
+                        </div>
+                        年度招聘数量变化
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="recruitmentByYear"></div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.21 15.89A10 10 0 118 2.83"/>
+                                <path d="M22 12A10 10 0 0012 2v10z"/>
+                            </svg>
+                        </div>
+                        引进渠道结构变化
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="channelTrend"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             第八章：校内人才分布
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">8</div>
+                <div>
+                    <h2 class="section-title">校内人才分布</h2>
+                    <p class="section-subtitle">Internal Talent Distribution</p>
+                </div>
+            </div>
+
+            <!-- 8.1 学院人才分布（TOP10学院） -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    8.1 学院人才分布（TOP10学院）
+                </div>
+                <div class="p-card-body">
+                    <div class="content-grid" style="margin-bottom: 0;">
+                        <div class="chart-container chart-container-lg" id="schoolDistribution"></div>
+                        <div class="p-table-container" style="align-self: start;">
+                            <table class="p-table">
+                                <thead>
+                                    <tr>
+                                        <th>学院</th>
+                                        <th class="">专任教师</th>
+                                        <th class="">高层次人才</th>
+                                        <th class="">人才占比</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="highlight-row">
+                                        <td class="font-semibold">物理学院</td>
+                                        <td class="">150</td>
+                                        <td class="">22</td>
+                                        <td><span class="p-badge p-badge-primary">14.7%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">临床医学院</td>
+                                        <td class="">350</td>
+                                        <td class="">22</td>
+                                        <td><span class="p-badge p-badge-info">6.3%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">信息科学技术学院</td>
+                                        <td class="">180</td>
+                                        <td class="">20</td>
+                                        <td><span class="p-badge p-badge-success">11.1%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">数学科学学院</td>
+                                        <td class="">120</td>
+                                        <td class="">18</td>
+                                        <td><span class="p-badge p-badge-warning">15.0%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">化学与分子工程学院</td>
+                                        <td class="">130</td>
+                                        <td class="">16</td>
+                                        <td><span class="p-badge p-badge-neutral">12.3%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">基础医学院</td>
+                                        <td class="">200</td>
+                                        <td class="">15</td>
+                                        <td><span class="p-badge p-badge-info">7.5%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">生命科学学院</td>
+                                        <td class="">110</td>
+                                        <td class="">14</td>
+                                        <td><span class="p-badge p-badge-success">12.7%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">工学院</td>
+                                        <td class="">140</td>
+                                        <td class="">12</td>
+                                        <td><span class="p-badge p-badge-neutral">8.6%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">经济学院</td>
+                                        <td class="">120</td>
+                                        <td class="">10</td>
+                                        <td><span class="p-badge p-badge-info">8.3%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">中文系</td>
+                                        <td class="">90</td>
+                                        <td class="">8</td>
+                                        <td><span class="p-badge p-badge-success">8.9%</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>北大官网各学院师资队伍统计 | 更新时间：2025年底</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8.2 学科大类人才对比 -->
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                        </svg>
+                    </div>
+                    8.2 学科大类人才对比
+                </div>
+                <div class="p-card-body">
+                    <div class="content-grid" style="margin-bottom: 0;">
+                        <div class="chart-container" id="categoryDistribution"></div>
+                        <div class="p-table-container">
+                            <table class="p-table">
+                                <thead>
+                                    <tr>
+                                        <th>学科大类</th>
+                                        <th class="">专任教师</th>
+                                        <th class="">高层次人才</th>
+                                        <th class="">人才占比</th>
+                                        <th>特征</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold">理科</td>
+                                        <td class="">510</td>
+                                        <td class="">70</td>
+                                        <td><span class="p-badge p-badge-primary">13.7%</span></td>
+                                        <td>人才占比最高，基础研究实力强</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">工科</td>
+                                        <td class="">320</td>
+                                        <td class="">32</td>
+                                        <td><span class="p-badge p-badge-info">10.0%</span></td>
+                                        <td>信息学科优势明显</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">人文社科</td>
+                                        <td class="">455</td>
+                                        <td class="">36</td>
+                                        <td><span class="p-badge p-badge-success">7.9%</span></td>
+                                        <td>学科门类齐全，传统优势</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">医学</td>
+                                        <td class="">630</td>
+                                        <td class="">43</td>
+                                        <td><span class="p-badge p-badge-warning">6.8%</span></td>
+                                        <td>教师规模最大，占比待提升</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>北大官网各学院师资队伍统计 | 更新时间：2025年底</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             结语：综合评价与建议
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-8);">
+            <div class="section-header">
+                <div class="section-number">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="section-title">综合评价与建议</h2>
+                    <p class="section-subtitle">Comprehensive Evaluation and Recommendations</p>
+                </div>
+            </div>
+
+            <div class="p-card conclusion-card">
+                <div class="p-card-body">
+                    <p class="conclusion-text">
+                        北京大学作为国内顶尖高等学府，在人才队伍建设方面取得了显著成就。高层次人才总量达293人，其中院士84人位居C9首位，体现了学校在战略科学家培育方面的深厚底蕴。2020-2025年累计引进人才1,880人，引进渠道多元化，海外人才占比近三成，国际化程度较高。
+                    </p>
+                    <p class="conclusion-text">
+                        在科研产出方面，CNS论文474篇领跑C9，Top 1%高被引论文8,520篇，充分展现了北大在顶尖科研领域的竞争力。然而，与清华大学相比，高层次人才总量、优青和长江学者数量仍存在一定差距，医学人才占比有待提升。
+                    </p>
+                    <p class="conclusion-text" style="margin-bottom: 0;">
+                        <strong>政策建议：</strong>
+                    </p>
+                    <ul class="recommendation-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>加大青年人才培育：</strong>重点关注优青、杰青后备力量储备，缩小与清华的差距</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>强化医学学科建设：</strong>提升医学高层次人才占比，发挥北大医学部优势</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>优化论文产出结构：</strong>在保持CNS优势的同时，提升Q1论文总量</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>持续推进国际化：</strong>保持海外引进优势，拓展国际学术合作网络</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             术语表（默认收起）
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-8);">
+            <div class="accordion" id="glossaryAccordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion('glossaryAccordion')">
+                        <div class="accordion-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;">
+                                <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                            </svg>
+                            术语表（Glossary）
+                        </div>
+                        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <dl>
+                                <dt>C9联盟</dt>
+                                <dd>中国九校联盟（C9 League），是中国首个顶尖大学间的高校联盟，成员包括北京大学、清华大学、复旦大学、上海交通大学、浙江大学、南京大学、中国科学技术大学、哈尔滨工业大学、西安交通大学共9所高校。</dd>
+                                
+                                <dt>战略科学家</dt>
+                                <dd>指在科学技术领域具有战略眼光、能够引领学科发展方向、组织重大科研任务的顶尖科学家。本报告中特指中国科学院院士和中国工程院院士。</dd>
+                                
+                                <dt>领军人才</dt>
+                                <dd>指在相关领域取得突出学术成就、具有较大影响力、能够带领团队开展创新研究的高层次人才。本报告中特指教育部长江学者特聘教授和讲座教授。</dd>
+                                
+                                <dt>杰出人才</dt>
+                                <dd>指在基础研究方面取得突出成果、具有发展潜力的优秀学者。本报告中特指国家自然科学基金杰出青年科学基金获得者（杰青）。</dd>
+                                
+                                <dt>青年英才</dt>
+                                <dd>指在科学研究方面展现出优异能力和创新潜力的青年学者，是杰出人才的后备力量。本报告中特指国家自然科学基金优秀青年科学基金获得者（优青）。</dd>
+                                
+                                <dt>CNS</dt>
+                                <dd>Cell（细胞）、Nature（自然）、Science（科学）三大顶级学术期刊的简称，是全球自然科学领域最具影响力的学术期刊。</dd>
+                                
+                                <dt>高被引论文</dt>
+                                <dd>指被引用次数在同学科、同发表年份中位于前1%的论文，反映了研究成果的学术影响力和认可度。本报告中Top 1%即为高被引论文。</dd>
+                                
+                                <dt>高被引率</dt>
+                                <dd>高被引论文占论文总量的比例，反映高校整体论文质量。计算公式：高被引率 = Top 1%论文数 / 论文总量 × 100%。</dd>
+                                
+                                <dt>h-index</dt>
+                                <dd>h指数，是一种评价科学家个人学术产出数量与影响力的指标。h指数越高，代表学者发表的高影响力论文越多。本报告中指机构层面的h-index。</dd>
+                                
+                                <dt>国际合作率</dt>
+                                <dd>国际合作论文占论文总量的比例，反映高校国际化程度。计算公式：国际合作率 = 国际合作论文数 / 论文总量 × 100%。</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             页脚
+             ============================================ -->
+        <footer class="report-footer">
+             <div class="footer-content">
+                <div class="footer-section">
+                    <h4>报告信息</h4>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            报告版本：V2.0
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            报告完成：2026年5月
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            分析周期：2020-2025年
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>数据来源与更新时间</h4>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>北大官网</strong>：教师总数（3,887人）、院士（73人全职/84人含双聘）| 更新：2026年1月
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>教育部公示</strong>：长江学者名单（52人）| 更新：2025年底
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>国家自然科学基金委</strong>：杰青（68人）、优青（89人）| 更新：2025年底
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>OpenAlex API</strong>：论文数据（124,055篇）| 时间范围：2020-2025年
+                        </li>
+                    </ul>
+                    <p style="font-size: 12px; color: var(--p-text-tertiary); margin-top: 12px;">
+                        注：本报告数据来源于各官方公开渠道，高层次人才数据截至2025年底，教师数据截至2026年1月。
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>免责声明</h4>
+                    <p style="margin-bottom: var(--p-space-3);">
+                        本报告数据来源于公开渠道，仅供参考。由于数据收集时间和方法的限制，报告中的数据可能存在一定误差。
+                    </p>
+                    <p style="margin-bottom: var(--p-space-3);">
+                        <strong>时效性：</strong>数据截至2025年底（人才数据）和2026年1月（教师数据），后续变化请以官方最新公布为准。
+                    </p>
+                    <p style="margin-bottom: var(--p-space-3);">
+                        <strong>局限性：</strong>部分人才拥有多重头衔，总量为去重后估算值；论文数据基于OpenAlex统计，可能存在遗漏。
+                    </p>
+                    <p>
+                        <strong>版权：</strong>本报告仅供内部研究使用，未经授权不得对外传播或用于商业目的。
+                    </p>
+                </div>
+            </div>
+            <div class="footer-divider">
+                <span>北京大学人才发展分析报告 V2.0</span>
+                <span>数据截至2025年底/2026年1月 | 仅供内部参考</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ============================================
+         JavaScript
+         ============================================ -->
+    <script>
+        // Accordion Toggle
+        function toggleAccordion(accordionId) {
+            const accordion = document.getElementById(accordionId);
+            const item = accordion.querySelector('.accordion-item');
+            item.classList.toggle('active');
+        }
+
+        // ECharts Theme for Light Background
+        const chartTheme = {
+            backgroundColor: 'transparent',
+            textStyle: {
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+                color: '#4B5563'
+            },
+            title: {
+                textStyle: {
+                    color: '#111827',
+                    fontWeight: 600
+                }
+            },
+            legend: {
+                textStyle: {
+                    color: '#4B5563'
+                }
+            },
+            grid: {
+                borderColor: '#E5E7EB'
+            }
+        };
+
+        // 1. Talent Pyramid Chart
+        const talentPyramid = echarts.init(document.getElementById('talentPyramid'));
+        talentPyramid.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            grid: {
+                left: 100,
+                right: '4%',
+                bottom: '3%',
+                top: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } }
+            },
+            yAxis: {
+                type: 'category',
+                data: ['优青', '杰青', '长江学者', '院士'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false },
+                axisLabel: { color: '#374151', fontSize: 13 }
+            },
+            series: [{
+                type: 'bar',
+                data: [
+                    { value: 89, itemStyle: { color: '#F59E0B' } },
+                    { value: 68, itemStyle: { color: '#3B82F6' } },
+                    { value: 52, itemStyle: { color: '#10B981' } },
+                    { value: 84, itemStyle: { color: '#9C1D25' } }
+                ],
+                barWidth: 30,
+                label: {
+                    show: true,
+                    position: 'right',
+                    formatter: '{c}人',
+                    color: '#374151'
+                }
+            }]
+        });
+
+        // 2. Recruitment Trend Chart
+        const recruitmentTrend = echarts.init(document.getElementById('recruitmentTrend'));
+        recruitmentTrend.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['海外引进', '国内引进', '博士后留校'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } }
+            },
+            series: [
+                {
+                    name: '海外引进',
+                    type: 'bar',
+                    stack: 'total',
+                    data: [85, 92, 78, 95, 102, 88],
+                    itemStyle: { color: '#9C1D25' }
+                },
+                {
+                    name: '国内引进',
+                    type: 'bar',
+                    stack: 'total',
+                    data: [120, 135, 128, 142, 148, 138],
+                    itemStyle: { color: '#3B82F6' }
+                },
+                {
+                    name: '博士后留校',
+                    type: 'bar',
+                    stack: 'total',
+                    data: [80, 85, 92, 88, 92, 92],
+                    itemStyle: { color: '#10B981' }
+                }
+            ]
+        });
+
+        // 3. Channel Distribution Pie Chart
+        const channelDistribution = echarts.init(document.getElementById('channelDistribution'));
+        channelDistribution.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c}人 ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                right: '5%',
+                top: 'center',
+                textStyle: { color: '#4B5563' }
+            },
+            series: [{
+                name: '引进渠道',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: true,
+                    formatter: '{b}\n{d}%',
+                    color: '#374151'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold'
+                    }
+                },
+                data: [
+                    { value: 540, name: '海外引进', itemStyle: { color: '#9C1D25' } },
+                    { value: 811, name: '国内引进', itemStyle: { color: '#3B82F6' } },
+                    { value: 529, name: '博士后留校', itemStyle: { color: '#10B981' } }
+                ]
+            }]
+        });
+
+        // 4. C9 Talent Comparison Bar Chart
+        const c9TalentComparison = echarts.init(document.getElementById('c9TalentComparison'));
+        c9TalentComparison.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            legend: {
+                data: ['院士', '长江学者', '杰青', '优青'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: 80,
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['北京大学', '清华大学', '浙江大学', '中科大', '上交', '复旦', '哈工大', '南大', '西交'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false },
+                axisLabel: { rotate: 30 }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } },
+                axisLabel: { color: '#6B7280' }
+            },
+            series: [
+                {
+                    name: '院士',
+                    type: 'bar',
+                    data: [84, 78, 45, 52, 38, 42, 32, 35, 28],
+                    itemStyle: { color: '#9C1D25' }
+                },
+                {
+                    name: '长江学者',
+                    type: 'bar',
+                    data: [52, 58, 48, 35, 42, 38, 28, 32, 25],
+                    itemStyle: { color: '#3B82F6' }
+                },
+                {
+                    name: '杰青',
+                    type: 'bar',
+                    data: [68, 72, 52, 58, 48, 45, 32, 38, 28],
+                    itemStyle: { color: '#10B981' }
+                },
+                {
+                    name: '优青',
+                    type: 'bar',
+                    data: [89, 95, 68, 52, 62, 56, 38, 45, 35],
+                    itemStyle: { color: '#F59E0B' }
+                }
+            ]
+        });
+
+        // 5. Paper Output Donut Chart (论文产出分层环形图)
+        const paperOutputChart = echarts.init(document.getElementById('paperOutputChart'));
+        paperOutputChart.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    return params.name + '<br/>数量: ' + params.value.toLocaleString() + '篇<br/>占比: ' + params.percent + '%';
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                right: '5%',
+                top: 'center',
+                textStyle: { color: '#4B5563', fontSize: 12 }
+            },
+            series: [{
+                name: '论文分层',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 6,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: true,
+                    formatter: function(params) {
+                        return params.name + '\n' + params.value.toLocaleString() + '篇';
+                    },
+                    fontSize: 11,
+                    color: '#4B5563'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 14,
+                        fontWeight: 'bold'
+                    }
+                },
+                data: [
+                    { value: 474, name: 'CNS', itemStyle: { color: '#9C1D25' } },
+                    { value: 8520, name: 'Top 1%', itemStyle: { color: '#3B82F6' } },
+                    { value: 27102, name: 'Top 10%', itemStyle: { color: '#10B981' } },
+                    { value: 68500, name: 'Q1期刊', itemStyle: { color: '#F59E0B' } },
+                    { value: 19459, name: '其他SCI', itemStyle: { color: '#9CA3AF' } }
+                ]
+            }],
+            graphic: [{
+                type: 'text',
+                left: '36%',
+                top: '45%',
+                style: {
+                    text: '124,055',
+                    textAlign: 'center',
+                    fill: '#1F2937',
+                    fontSize: 20,
+                    fontWeight: 'bold'
+                }
+            }, {
+                type: 'text',
+                left: '37%',
+                top: '52%',
+                style: {
+                    text: '总论文数',
+                    textAlign: 'center',
+                    fill: '#6B7280',
+                    fontSize: 12
+                }
+            }]
+        });
+
+        // 6. Output Efficiency Bar Chart
+        const outputEfficiency = echarts.init(document.getElementById('outputEfficiency'));
+        outputEfficiency.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            legend: {
+                data: ['CNS人均', 'Top 1%人均', '总论文人均'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: 80,
+                right: '4%',
+                bottom: '15%',
+                top: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['北京大学', '清华大学', '浙江大学', '中科大', '上交', '复旦'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } },
+                axisLabel: { color: '#6B7280' }
+            },
+            series: [
+                {
+                    name: 'CNS人均',
+                    type: 'bar',
+                    data: [0.14, 0.12, 0.07, 0.11, 0.08, 0.09],
+                    itemStyle: { color: '#9C1D25' }
+                },
+                {
+                    name: 'Top 1%人均',
+                    type: 'bar',
+                    data: [2.43, 2.90, 2.00, 2.90, 2.13, 1.86],
+                    itemStyle: { color: '#3B82F6' }
+                },
+                {
+                    name: '总论文人均',
+                    type: 'bar',
+                    data: [35.44, 36.43, 37.30, 41.44, 43.35, 30.91],
+                    itemStyle: { color: '#10B981' }
+                }
+            ]
+        });
+
+        // 7. C9 Paper Comparison Grouped Bar
+        const c9PaperComparison = echarts.init(document.getElementById('c9PaperComparison'));
+        c9PaperComparison.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            legend: {
+                data: ['CNS', 'Top 1%', '总论文'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['北京大学', '清华大学', '上交', '浙大', '中科大', '复旦', '南大', '西交', '哈工大'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    name: 'CNS/Top1%',
+                    axisLine: { lineStyle: { color: '#E5E7EB' } },
+                    splitLine: { lineStyle: { color: '#F3F4F6' } }
+                },
+                {
+                    type: 'value',
+                    name: '总论文',
+                    axisLine: { lineStyle: { color: '#E5E7EB' } },
+                    splitLine: { show: false }
+                }
+            ],
+            series: [
+                {
+                    name: 'CNS',
+                    type: 'bar',
+                    data: [474, 396, 266, 246, 217, 243, 136, 79, 37],
+                    itemStyle: { color: '#9C1D25' }
+                },
+                {
+                    name: 'Top 1%',
+                    type: 'bar',
+                    data: [8520, 9850, 6800, 7200, 5800, 5200, 4200, 3200, 2800],
+                    itemStyle: { color: '#3B82F6' }
+                },
+                {
+                    name: '总论文',
+                    type: 'bar',
+                    yAxisIndex: 1,
+                    data: [124055, 123854, 138726, 134294, 82880, 86549, 57020, 83580, 82477],
+                    itemStyle: { color: '#10B981' }
+                }
+            ]
+        });
+
+        // 8. Radar Chart - PKU Position in C9
+        const radarChart = echarts.init(document.getElementById('radarChart'));
+        radarChart.setOption({
+            ...chartTheme,
+            tooltip: {},
+            legend: {
+                data: ['北京大学', '清华大学', 'C9平均'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            radar: {
+                indicator: [
+                    { name: '院士', max: 100 },
+                    { name: '长江学者', max: 70 },
+                    { name: '杰青', max: 80 },
+                    { name: '优青', max: 100 },
+                    { name: 'CNS论文', max: 500 },
+                    { name: '总论文', max: 150000 }
+                ],
+                shape: 'polygon',
+                splitArea: {
+                    areaStyle: {
+                        color: ['#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB', '#9CA3AF']
+                    }
+                },
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#E5E7EB' } }
+            },
+            series: [{
+                type: 'radar',
+                data: [
+                    {
+                        value: [84, 52, 68, 89, 474, 124055],
+                        name: '北京大学',
+                        lineStyle: { color: '#9C1D25', width: 2 },
+                        itemStyle: { color: '#9C1D25' },
+                        areaStyle: { color: 'rgba(156, 29, 37, 0.15)' }
+                    },
+                    {
+                        value: [78, 58, 72, 95, 396, 123854],
+                        name: '清华大学',
+                        lineStyle: { color: '#3B82F6', width: 2 },
+                        itemStyle: { color: '#3B82F6' },
+                        areaStyle: { color: 'rgba(59, 130, 246, 0.1)' }
+                    },
+                    {
+                        value: [48, 38, 46, 57, 233, 100498],
+                        name: 'C9平均',
+                        lineStyle: { color: '#10B981', width: 2, type: 'dashed' },
+                        itemStyle: { color: '#10B981' },
+                        areaStyle: { color: 'rgba(16, 185, 129, 0.05)' }
+                    }
+                ]
+            }]
+        });
+
+        // 9. PKU vs THU Radar Chart
+        const pkuVsThuRadar = echarts.init(document.getElementById('pkuVsThuRadar'));
+        pkuVsThuRadar.setOption({
+            ...chartTheme,
+            tooltip: {},
+            legend: {
+                data: ['北京大学', '清华大学'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            radar: {
+                indicator: [
+                    { name: '教师总数', max: 4500 },
+                    { name: '高层次人才', max: 350 },
+                    { name: '院士（全职）', max: 100 },
+                    { name: '长江学者', max: 70 },
+                    { name: '杰青', max: 85 },
+                    { name: '优青', max: 110 },
+                    { name: '论文总量', max: 150000 },
+                    { name: 'CNS论文', max: 550 },
+                    { name: '高被引率(%)', max: 30 },
+                    { name: '国际合作率(%)', max: 30 }
+                ],
+                shape: 'polygon',
+                splitArea: {
+                    areaStyle: {
+                        color: ['#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB', '#9CA3AF']
+                    }
+                },
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#E5E7EB' } }
+            },
+            series: [{
+                type: 'radar',
+                data: [
+                    {
+                        value: [3887, 293, 73, 52, 68, 89, 124055, 474, 21.85, 25.76],
+                        name: '北京大学',
+                        lineStyle: { color: '#9C1D25', width: 2 },
+                        itemStyle: { color: '#9C1D25' },
+                        areaStyle: { color: 'rgba(156, 29, 37, 0.15)' }
+                    },
+                    {
+                        value: [3600, 303, 76, 58, 72, 95, 123854, 396, 25.89, 21.83],
+                        name: '清华大学',
+                        lineStyle: { color: '#3B82F6', width: 2 },
+                        itemStyle: { color: '#3B82F6' },
+                        areaStyle: { color: 'rgba(59, 130, 246, 0.1)' }
+                    }
+                ]
+            }]
+        });
+
+        // 10. Talent Growth Trend Line Chart
+        const talentGrowthTrend = echarts.init(document.getElementById('talentGrowthTrend'));
+        talentGrowthTrend.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['院士', '长江学者', '杰青', '优青', '合计'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } }
+            },
+            series: [
+                {
+                    name: '院士',
+                    type: 'line',
+                    data: [78, 79, 80, 81, 83, 84],
+                    itemStyle: { color: '#9C1D25' },
+                    lineStyle: { width: 2 },
+                    symbol: 'circle',
+                    symbolSize: 8
+                },
+                {
+                    name: '长江学者',
+                    type: 'line',
+                    data: [45, 47, 48, 50, 51, 52],
+                    itemStyle: { color: '#3B82F6' },
+                    lineStyle: { width: 2 },
+                    symbol: 'circle',
+                    symbolSize: 8
+                },
+                {
+                    name: '杰青',
+                    type: 'line',
+                    data: [58, 60, 62, 64, 66, 68],
+                    itemStyle: { color: '#10B981' },
+                    lineStyle: { width: 2 },
+                    symbol: 'circle',
+                    symbolSize: 8
+                },
+                {
+                    name: '优青',
+                    type: 'line',
+                    data: [72, 75, 78, 82, 86, 89],
+                    itemStyle: { color: '#F59E0B' },
+                    lineStyle: { width: 2 },
+                    symbol: 'circle',
+                    symbolSize: 8
+                },
+                {
+                    name: '合计',
+                    type: 'line',
+                    data: [253, 261, 268, 277, 286, 293],
+                    itemStyle: { color: '#6B7280' },
+                    lineStyle: { width: 3, type: 'dashed' },
+                    symbol: 'circle',
+                    symbolSize: 8
+                }
+            ]
+        });
+
+        // 11. Recruitment by Year Bar Chart
+        const recruitmentByYear = echarts.init(document.getElementById('recruitmentByYear'));
+        recruitmentByYear.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                top: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } }
+            },
+            series: [{
+                type: 'bar',
+                data: [285, 312, 298, 325, 342, 318],
+                itemStyle: { 
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#9C1D25' },
+                        { offset: 1, color: '#C73E47' }
+                    ]),
+                    borderRadius: [4, 4, 0, 0]
+                },
+                barWidth: 40,
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}人',
+                    color: '#374151',
+                    fontSize: 12
+                }
+            }]
+        });
+
+        // 12. Channel Trend Stacked Area Chart
+        const channelTrend = echarts.init(document.getElementById('channelTrend'));
+        channelTrend.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['海外引进', '国内引进', '博士后留校'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } }
+            },
+            series: [
+                {
+                    name: '海外引进',
+                    type: 'line',
+                    stack: 'total',
+                    areaStyle: { color: 'rgba(156, 29, 37, 0.3)' },
+                    data: [85, 92, 78, 95, 102, 88],
+                    itemStyle: { color: '#9C1D25' },
+                    lineStyle: { width: 2 }
+                },
+                {
+                    name: '国内引进',
+                    type: 'line',
+                    stack: 'total',
+                    areaStyle: { color: 'rgba(59, 130, 246, 0.3)' },
+                    data: [120, 135, 128, 142, 148, 138],
+                    itemStyle: { color: '#3B82F6' },
+                    lineStyle: { width: 2 }
+                },
+                {
+                    name: '博士后留校',
+                    type: 'line',
+                    stack: 'total',
+                    areaStyle: { color: 'rgba(16, 185, 129, 0.3)' },
+                    data: [80, 85, 92, 88, 92, 92],
+                    itemStyle: { color: '#10B981' },
+                    lineStyle: { width: 2 }
+                }
+            ]
+        });
+
+        // 13. School Distribution Bar Chart
+        const schoolDistribution = echarts.init(document.getElementById('schoolDistribution'));
+        schoolDistribution.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' }
+            },
+            legend: {
+                data: ['专任教师', '高层次人才'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } }
+            },
+            yAxis: {
+                type: 'category',
+                data: ['物理学院', '临床医学院', '信息科学技术学院', '数学科学学院', '化学与分子工程学院', '基础医学院', '生命科学学院', '工学院', '经济学院', '中文系'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false },
+                axisLabel: { color: '#374151', fontSize: 12 }
+            },
+            series: [
+                {
+                    name: '专任教师',
+                    type: 'bar',
+                    data: [150, 350, 180, 120, 130, 200, 110, 140, 120, 90],
+                    itemStyle: { color: '#E5E7EB' },
+                    barWidth: 12
+                },
+                {
+                    name: '高层次人才',
+                    type: 'bar',
+                    data: [22, 22, 20, 18, 16, 15, 14, 12, 10, 8],
+                    itemStyle: { 
+                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                            { offset: 0, color: '#9C1D25' },
+                            { offset: 1, color: '#C73E47' }
+                        ]),
+                        borderRadius: [0, 4, 4, 0]
+                    },
+                    barWidth: 12,
+                    label: {
+                        show: true,
+                        position: 'right',
+                        formatter: '{c}人',
+                        color: '#374151',
+                        fontSize: 11
+                    }
+                }
+            ]
+        });
+
+        // 14. Category Distribution Pie Chart
+        const categoryDistribution = echarts.init(document.getElementById('categoryDistribution'));
+        categoryDistribution.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c}人 ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                right: '5%',
+                top: 'center',
+                textStyle: { color: '#4B5563' }
+            },
+            series: [{
+                name: '学科大类人才分布',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: true,
+                    formatter: '{b}\n{d}%',
+                    color: '#374151'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold'
+                    }
+                },
+                data: [
+                    { value: 70, name: '理科', itemStyle: { color: '#9C1D25' } },
+                    { value: 32, name: '工科', itemStyle: { color: '#3B82F6' } },
+                    { value: 43, name: '医学', itemStyle: { color: '#10B981' } },
+                    { value: 36, name: '人文社科', itemStyle: { color: '#F59E0B' } }
+                ]
+            }]
+        });
+
+        // Responsive Resize
+        window.addEventListener('resize', function() {
+            talentPyramid.resize();
+            recruitmentTrend.resize();
+            channelDistribution.resize();
+            c9TalentComparison.resize();
+            paperOutputChart.resize();
+            outputEfficiency.resize();
+            c9PaperComparison.resize();
+            radarChart.resize();
+            pkuVsThuRadar.resize();
+            talentGrowthTrend.resize();
+            recruitmentByYear.resize();
+            channelTrend.resize();
+            schoolDistribution.resize();
+            categoryDistribution.resize();
+        });
+    </script>
+</body>
+</html>
