@@ -4,296 +4,2860 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>东南大学近五年招生质量与成果分析（2020-2024）</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
+        /* ============================================
+           Design Tokens - 东南大学定制版
+           ============================================ */
         :root {
-            --seu-primary: #003366;
-            --seu-primary-light: #004C99;
-            --seu-primary-dark: #001A33;
-            --seu-gold: #C4A35A;
-            --seu-gold-light: #D4B76A;
+            /* Primary - 东南大学蓝 */
             --p-primary: #003366;
-            --p-success: #34C759;
-            --p-success-subtle: #E8F9ED;
-            --p-warning: #FF9500;
-            --p-warning-subtle: #FFF4E5;
-            --p-danger: #FF3B30;
-            --p-danger-subtle: #FFEDEF;
-            --p-gray-50: #F5F5F7;
-            --p-gray-100: #E8E8ED;
-            --p-gray-200: #D2D2D7;
-            --p-gray-500: #8E8E93;
-            --p-gray-600: #636366;
-            --p-bg-glass: rgba(255, 255, 255, 0.72);
-            --p-text-primary: #1D1D1F;
-            --p-text-secondary: #636366;
-            --p-text-tertiary: #8E8E93;
-            --p-border-light: #E8E8ED;
-            --p-radius-xl: 20px;
-            --p-shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --p-shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-            --p-shadow-lg: 0 12px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
-            --p-shadow-xl: 0 20px 40px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.06);
+            --p-primary-light: #004C99;
+            --p-primary-dark: #001A33;
+            --p-primary-subtle: #E8F0F8;
+
+            /* Secondary - 东南大学金 */
+            --p-secondary: #C4A35A;
+            --p-secondary-light: #D4B76A;
+            --p-secondary-dark: #A8894A;
+            --p-secondary-subtle: #FDF8ED;
+
+            /* Semantic Colors */
+            --p-success: #16A34A;
+            --p-success-light: #22C55E;
+            --p-success-subtle: #F0FDF4;
+
+            --p-warning: #D97706;
+            --p-warning-light: #F59E0B;
+            --p-warning-subtle: #FFFBEB;
+
+            --p-danger: #DC2626;
+            --p-danger-light: #EF4444;
+            --p-danger-subtle: #FEF2F2;
+
+            --p-info: #2563EB;
+            --p-info-light: #3B82F6;
+            --p-info-subtle: #EFF6FF;
+
+            /* Neutral Palette */
+            --p-gray-50: #F9FAFB;
+            --p-gray-100: #F3F4F6;
+            --p-gray-200: #E5E7EB;
+            --p-gray-300: #D1D5DB;
+            --p-gray-400: #9CA3AF;
+            --p-gray-500: #6B7280;
+            --p-gray-600: #4B5563;
+            --p-gray-700: #374151;
+            --p-gray-800: #1F2937;
+            --p-gray-900: #111827;
+
+            /* Background Colors */
+            --p-bg-primary: #FFFFFF;
+            --p-bg-secondary: #F9FAFB;
+            --p-bg-tertiary: #F3F4F6;
+
+            /* Text Colors */
+            --p-text-primary: #111827;
+            --p-text-secondary: #4B5563;
+            --p-text-tertiary: #9CA3AF;
+
+            /* Border Colors */
+            --p-border-default: #E5E7EB;
+            --p-border-light: #F3F4F6;
+
+            /* Typography */
+            --p-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+
+            /* Font Sizes */
+            --p-text-xs: 11px;
+            --p-text-sm: 13px;
+            --p-text-base: 15px;
+            --p-text-md: 17px;
+            --p-text-lg: 20px;
+            --p-text-xl: 24px;
+            --p-text-2xl: 28px;
+            --p-text-3xl: 34px;
+            --p-text-4xl: 40px;
+
+            /* Font Weights */
+            --p-weight-regular: 400;
+            --p-weight-medium: 500;
+            --p-weight-semibold: 600;
+            --p-weight-bold: 700;
+
+            /* Spacing */
+            --p-space-1: 4px;
+            --p-space-2: 8px;
+            --p-space-3: 12px;
+            --p-space-4: 16px;
+            --p-space-5: 20px;
+            --p-space-6: 24px;
+            --p-space-8: 32px;
+            --p-space-10: 40px;
+            --p-space-12: 48px;
+
+            /* Border Radius */
+            --p-radius-sm: 6px;
+            --p-radius-md: 10px;
+            --p-radius-lg: 14px;
+            --p-radius-xl: 18px;
+            --p-radius-full: 9999px;
+
+            /* Shadows */
+            --p-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --p-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            --p-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --p-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+
+            /* Transitions */
+            --p-transition-fast: 120ms ease;
+            --p-transition-normal: 200ms ease;
+            --p-transition-slow: 300ms ease;
         }
+
+        /* ============================================
+           Reset & Base
+           ============================================ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; color: var(--p-text-primary); background: var(--p-gray-50); line-height: 1.8; -webkit-font-smoothing: antialiased; }
-        .progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--seu-primary), var(--seu-gold)); z-index: 9999; transition: width 0.1s ease; }
-        .back-to-top { position: fixed; bottom: 40px; right: 40px; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 16px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; z-index: 1000; }
-        .back-to-top.visible { opacity: 1; transform: translateY(0); }
-        .back-to-top:hover { background: var(--seu-primary); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,51,102,0.3); }
-        .back-to-top:hover svg { color: white; }
-        .back-to-top svg { color: var(--p-text-secondary); transition: color 0.3s; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .hero { position: relative; min-height: 70vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #001A33 0%, #003366 40%, #004C99 100%); overflow: hidden; }
-        .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(196,163,90,0.15) 0%, transparent 70%); top: -200px; right: -200px; animation: float 8s ease-in-out infinite; }
-        .hero::after { content: ''; position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,76,153,0.2) 0%, transparent 70%); bottom: -100px; left: -100px; animation: float 10s ease-in-out infinite reverse; }
-        @keyframes float { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-20px) scale(1.05)} }
-        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 60px 60px; }
-        .hero-content { position: relative; z-index: 2; max-width: 1000px; padding: 0 40px; text-align: center; }
-        .hero-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 100px; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; margin-bottom: 24px; }
-        .hero-logo { width: 80px; height: 80px; background: linear-gradient(135deg, var(--seu-gold) 0%, var(--seu-gold-light) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 8px 24px rgba(196,163,90,0.3); }
-        .hero-logo-text { font-size: 28px; font-weight: 800; color: var(--seu-primary-dark); letter-spacing: -1px; }
-        .hero h1 { font-size: 44px; font-weight: 800; color: white; line-height: 1.2; margin-bottom: 16px; }
-        .hero h1 .gradient-text { background: linear-gradient(135deg, var(--seu-gold-light), var(--seu-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .hero p { font-size: 17px; color: rgba(255,255,255,0.6); margin-bottom: 40px; }
-        .hero-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; max-width: 800px; margin: 0 auto; }
-        .hero-stat { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px 16px; transition: all 0.3s ease; }
-        .hero-stat:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
-        .hero-stat-value { font-size: 28px; font-weight: 700; color: var(--seu-gold); display: block; margin-bottom: 4px; }
-        .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); }
-        .hero-scroll { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 2; color: rgba(255,255,255,0.4); font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0)} 40%{transform:translateX(-50%) translateY(-8px)} 60%{transform:translateX(-50%) translateY(-4px)} }
-        .container { max-width: 1100px; margin: 0 auto; padding: 60px 32px; }
-        .section { margin-bottom: 60px; }
-        .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
-        .section-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .section-icon.primary { background: linear-gradient(135deg, var(--seu-primary), var(--seu-primary-light)); }
-        .section-icon.gold { background: linear-gradient(135deg, var(--seu-gold), var(--seu-gold-light)); }
-        .section-icon.danger { background: linear-gradient(135deg, #FF3B30, #FF6961); }
-        .section-icon svg { color: white; }
-        .section-title { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 4px; color: var(--seu-primary-dark); }
-        .section-subtitle { font-size: 14px; color: var(--p-text-tertiary); }
-        .glass-card { background: var(--p-bg-glass); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.6); border-radius: 20px; padding: 28px; box-shadow: var(--p-shadow-md); transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94); margin-bottom: 20px; position: relative; overflow: hidden; }
-        .glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); }
-        .glass-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: var(--p-shadow-xl); }
-        .prose { font-size: 15px; color: var(--p-text-secondary); line-height: 1.8; }
-        .prose p { margin-bottom: 20px; }
-        .prose p:last-child { margin-bottom: 0; }
-        .prose strong { color: var(--p-text-primary); font-weight: 600; }
-        .prose blockquote { border-left: 3px solid var(--seu-gold); padding: 12px 20px; margin: 20px 0; background: rgba(196,163,90,0.05); border-radius: 0 12px 12px 0; font-style: italic; color: var(--p-text-primary); }
-        .data-num { color: var(--seu-primary); font-weight: 600; font-variant-numeric: tabular-nums; background: rgba(0,51,102,0.08); padding: 2px 6px; border-radius: 4px; }
-        .data-time { color: var(--seu-gold); font-weight: 500; font-variant-numeric: tabular-nums; background: rgba(196,163,90,0.1); padding: 2px 6px; border-radius: 4px; }
-        .data-table-wrapper { background: var(--p-bg-glass); backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.6); border-radius: 20px; overflow: hidden; box-shadow: var(--p-shadow-sm); margin-bottom: 20px; }
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table thead { background: rgba(0,51,102,0.04); }
-        .data-table th { padding: 14px 18px; text-align: left; font-size: 12px; font-weight: 600; color: var(--seu-primary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--seu-gold); white-space: nowrap; }
-        .data-table td { padding: 14px 18px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .data-table tbody tr { transition: background 0.3s ease; }
-        .data-table tbody tr:hover { background: rgba(0,51,102,0.04); }
-        .data-table tbody tr:hover td:first-child { box-shadow: inset 3px 0 0 var(--seu-primary); }
-        .data-table tbody tr:last-child td { border-bottom: none; }
-        .table-highlight { font-weight: 600; color: var(--seu-primary); }
-        .table-seu-row { background: rgba(0,51,102,0.06); }
-        .insight-card { background: var(--p-bg-glass); backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.6); border-radius: 20px; padding: 24px; box-shadow: var(--p-shadow-sm); border-left: 4px solid var(--p-primary); margin-bottom: 16px; transition: all 0.4s ease; }
-        .insight-card:hover { transform: translateX(4px); box-shadow: var(--p-shadow-lg); }
-        .insight-card.warning { border-left-color: var(--p-warning); }
-        .insight-card.success { border-left-color: var(--p-success); }
-        .insight-card.danger { border-left-color: var(--p-danger); }
-        .insight-card.gold { border-left-color: var(--seu-gold); }
-        .insight-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .insight-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .insight-title { font-size: 17px; font-weight: 600; }
-        .insight-text { font-size: 14px; color: var(--p-text-secondary); line-height: 1.7; }
-        .insight-text strong { color: var(--p-text-primary); }
-        .chart-card { background: var(--p-bg-glass); backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.6); border-radius: 20px; padding: 28px; box-shadow: var(--p-shadow-sm); margin-bottom: 20px; }
-        .chart-title { font-size: 17px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: var(--seu-primary-dark); }
-        .chart-title svg { color: var(--seu-primary); }
-        .chart-container { width: 100%; height: 400px; }
-        .chart-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
-        .tab-container { margin-bottom: 20px; }
-        .tab-header { display: flex; gap: 4px; background: rgba(0,51,102,0.06); border-radius: 12px; padding: 4px; margin-bottom: 16px; overflow-x: auto; }
-        .tab-btn { padding: 10px 18px; border: none; background: transparent; border-radius: 10px; font-size: 13px; font-weight: 500; color: var(--p-text-secondary); cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
-        .tab-btn:hover { color: var(--seu-primary); background: rgba(0,51,102,0.04); }
-        .tab-btn.active { background: white; color: var(--seu-primary); box-shadow: 0 2px 8px rgba(0,51,102,0.1); font-weight: 600; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .footer { text-align: center; padding: 40px 32px; color: var(--p-text-tertiary); font-size: 13px; border-top: 1px solid var(--p-border-light); background: linear-gradient(135deg, #f8f9fa, #e9ecef); }
-        @media (max-width:768px) { .hero h1{font-size:28px} .hero-stats{grid-template-columns:repeat(2,1fr)} .chart-grid{grid-template-columns:1fr} .section-title{font-size:22px} .tab-header{flex-wrap:wrap} }
+
+        body {
+            font-family: var(--p-font-family);
+            background: var(--p-bg-secondary);
+            color: var(--p-text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============================================
+           Page Layout
+           ============================================ */
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--p-space-8);
+        }
+
+        /* ============================================
+           Header
+           ============================================ */
+        .report-header {
+            background: linear-gradient(135deg, var(--p-primary-dark) 0%, var(--p-primary) 40%, var(--p-primary-light) 100%);
+            border-radius: var(--p-radius-xl);
+            padding: var(--p-space-12) var(--p-space-10);
+            margin-bottom: var(--p-space-8);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(196, 163, 90, 0.08);
+            border-radius: 50%;
+        }
+
+        .report-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: var(--p-text-4xl);
+            font-weight: var(--p-weight-bold);
+            margin-bottom: var(--p-space-2);
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: var(--p-text-md);
+            opacity: 0.9;
+            font-weight: var(--p-weight-regular);
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: var(--p-text-sm);
+            opacity: 0.8;
+        }
+
+        .header-meta-item { margin-bottom: var(--p-space-1); }
+
+        .university-logo {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--p-radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .university-logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .hero-gradient-text {
+            background: linear-gradient(135deg, var(--p-secondary-light), var(--p-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============================================
+           Cards
+           ============================================ */
+        .p-card {
+            background: var(--p-bg-primary);
+            border-radius: var(--p-radius-lg);
+            box-shadow: var(--p-shadow-sm);
+            border: 1px solid var(--p-border-default);
+            transition: transform 300ms ease, box-shadow 300ms ease;
+        }
+
+        .p-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--p-shadow-md);
+        }
+
+        .p-card-header {
+            padding: var(--p-space-5) var(--p-space-6);
+            border-bottom: 1px solid var(--p-border-light);
+            font-size: var(--p-text-md);
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-3);
+        }
+
+        .p-card-header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--p-radius-sm);
+            background: var(--p-primary-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--p-primary);
+        }
+
+        .p-card-body { padding: var(--p-space-6); }
+
+        /* ============================================
+           Stats Cards
+           ============================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--p-space-6);
+            margin-bottom: var(--p-space-8);
+        }
+
+        .stat-card {
+            background: var(--p-bg-primary);
+            border-radius: var(--p-radius-lg);
+            padding: var(--p-space-6);
+            box-shadow: var(--p-shadow-sm);
+            border: 1px solid var(--p-border-default);
+            transition: transform 300ms ease, box-shadow 300ms ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--p-shadow-md);
+        }
+
+        .stat-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--p-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--p-space-4);
+        }
+
+        .stat-card-icon svg { width: 24px; height: 24px; }
+
+        .stat-card-icon.primary { background: var(--p-primary-subtle); color: var(--p-primary); }
+        .stat-card-icon.secondary { background: var(--p-secondary-subtle); color: var(--p-secondary); }
+        .stat-card-icon.success { background: var(--p-success-subtle); color: var(--p-success); }
+        .stat-card-icon.warning { background: var(--p-warning-subtle); color: var(--p-warning); }
+
+        .stat-card-label {
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            margin-bottom: var(--p-space-2);
+        }
+
+        .stat-card-value {
+            font-size: var(--p-text-3xl);
+            font-weight: var(--p-weight-bold);
+            color: var(--p-text-primary);
+            line-height: 1.2;
+        }
+
+        .stat-card-change {
+            font-size: var(--p-text-xs);
+            margin-top: var(--p-space-2);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-1);
+        }
+
+        .stat-card-change.positive { color: var(--p-success); }
+        .stat-card-change.negative { color: var(--p-danger); }
+        .stat-card-change.neutral { color: var(--p-text-tertiary); }
+
+        /* ============================================
+           Section Headers
+           ============================================ */
+        .section-header {
+            margin-bottom: var(--p-space-6);
+            padding-bottom: var(--p-space-4);
+            border-bottom: 2px solid var(--p-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-3);
+        }
+
+        .section-number {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--p-radius-sm);
+            background: var(--p-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-bold);
+        }
+
+        .section-title {
+            font-size: var(--p-text-xl);
+            font-weight: var(--p-weight-bold);
+            color: var(--p-text-primary);
+        }
+
+        .section-subtitle {
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            margin-top: var(--p-space-1);
+        }
+
+        /* ============================================
+           Content Grid
+           ============================================ */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--p-space-6);
+            margin-bottom: var(--p-space-8);
+        }
+
+        .content-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .full-width { grid-column: 1 / -1; }
+
+        /* ============================================
+           Chart Containers
+           ============================================ */
+        .chart-container { width: 100%; height: 350px; }
+        .chart-container-lg { height: 450px; }
+
+        /* ============================================
+           Tables
+           ============================================ */
+        .p-table-container { overflow-x: auto; }
+
+        .p-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--p-text-sm);
+        }
+
+        .p-table th {
+            text-align: center;
+            padding: var(--p-space-3) var(--p-space-4);
+            font-weight: var(--p-weight-semibold);
+            font-size: 13px;
+            color: var(--p-text-secondary);
+            background: var(--p-gray-50);
+            border-bottom: 1px solid var(--p-border-default);
+            white-space: nowrap;
+        }
+
+        .p-table td {
+            padding: var(--p-space-3) var(--p-space-4);
+            font-size: 14px;
+            border-bottom: 1px solid var(--p-border-light);
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .p-table tbody tr:hover { background: var(--p-gray-50); }
+
+        .p-table .text-center { text-align: center; }
+        .p-table .text-left { text-align: left; }
+        .p-table .font-semibold { font-weight: var(--p-weight-semibold); }
+
+        .p-table .highlight-row { background: var(--p-primary-subtle); }
+        .p-table .highlight-row td { font-weight: var(--p-weight-semibold); }
+
+        .p-table .number-cell {
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+        }
+
+        .p-table .seu-highlight { color: var(--p-primary); font-weight: 600; }
+        .p-table .danger-text { color: var(--p-danger); }
+        .p-table .success-text { color: var(--p-success); }
+
+        /* ============================================
+           Badges
+           ============================================ */
+        .p-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--p-space-1) var(--p-space-3);
+            border-radius: var(--p-radius-full);
+            font-size: var(--p-text-xs);
+            font-weight: var(--p-weight-medium);
+        }
+
+        .p-badge-primary { background: var(--p-primary-subtle); color: var(--p-primary); }
+        .p-badge-secondary { background: var(--p-secondary-subtle); color: var(--p-secondary-dark); }
+        .p-badge-success { background: var(--p-success-subtle); color: var(--p-success); }
+        .p-badge-info { background: var(--p-info-subtle); color: var(--p-info); }
+        .p-badge-warning { background: var(--p-warning-subtle); color: var(--p-warning); }
+        .p-badge-danger { background: var(--p-danger-subtle); color: var(--p-danger); }
+        .p-badge-neutral { background: var(--p-gray-100); color: var(--p-gray-600); }
+
+        /* ============================================
+           Note Box (口径说明)
+           ============================================ */
+        .note-box {
+            background: var(--p-info-subtle);
+            border: 1px solid var(--p-info-light);
+            border-radius: var(--p-radius-md);
+            padding: var(--p-space-4) var(--p-space-5);
+            margin-bottom: var(--p-space-4);
+            font-size: var(--p-text-sm);
+            color: var(--p-gray-700);
+            display: flex;
+            gap: var(--p-space-3);
+        }
+
+        .note-box svg {
+            width: 18px;
+            height: 18px;
+            color: var(--p-info);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .note-box.warning {
+            background: var(--p-warning-subtle);
+            border-color: var(--p-warning-light);
+        }
+
+        .note-box.warning svg { color: var(--p-warning); }
+
+        /* ============================================
+           Data Source Tag
+           ============================================ */
+        .data-source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px;
+            background: var(--p-gray-50);
+            border: 1px solid var(--p-border-light);
+            border-radius: 6px;
+            font-size: 11px;
+            color: var(--p-text-tertiary);
+            margin-top: 12px;
+        }
+
+        .data-source-tag svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+
+        .data-source-tag .source-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .data-source-tag .source-item strong {
+            color: var(--p-text-secondary);
+            font-weight: 500;
+        }
+
+        .data-source-tag .source-dot {
+            width: 3px;
+            height: 3px;
+            background: var(--p-gray-300);
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           Insight Cards (优势/短板)
+           ============================================ */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--p-space-6);
+            margin-bottom: var(--p-space-6);
+        }
+
+        .insight-card {
+            padding: var(--p-space-5);
+            border-radius: var(--p-radius-md);
+        }
+
+        .insight-card.advantage {
+            background: var(--p-success-subtle);
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+
+        .insight-card.disadvantage {
+            background: var(--p-warning-subtle);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        .insight-card.danger {
+            background: var(--p-danger-subtle);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .insight-card-title {
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-semibold);
+            margin-bottom: var(--p-space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-2);
+        }
+
+        .insight-card-title svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+        .insight-card.advantage .insight-card-title { color: var(--p-success); }
+        .insight-card.disadvantage .insight-card-title { color: var(--p-warning); }
+        .insight-card.danger .insight-card-title { color: var(--p-danger); }
+
+        .insight-card ul {
+            list-style: none;
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+        }
+
+        .insight-card li {
+            padding: var(--p-space-2) 0;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--p-space-2);
+        }
+
+        .insight-card li svg { width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; }
+        .insight-card.advantage li svg { color: var(--p-success); }
+        .insight-card.disadvantage li svg { color: var(--p-warning); }
+        .insight-card.danger li svg { color: var(--p-danger); }
+
+        /* ============================================
+           Conclusion Section
+           ============================================ */
+        .conclusion-card {
+            background: linear-gradient(135deg, var(--p-primary-subtle) 0%, var(--p-bg-primary) 100%);
+            border: 1px solid var(--p-primary-light);
+        }
+
+        .conclusion-card .p-card-body { padding: var(--p-space-8); }
+
+        .conclusion-text {
+            font-size: var(--p-text-base);
+            color: var(--p-text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--p-space-4);
+        }
+
+        .conclusion-text:last-child { margin-bottom: 0; }
+
+        .recommendation-list {
+            list-style: none;
+            margin-top: var(--p-space-4);
+        }
+
+        .recommendation-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--p-space-3);
+            padding: var(--p-space-3) 0;
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+        }
+
+        .recommendation-list li svg {
+            width: 18px;
+            height: 18px;
+            color: var(--p-primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* ============================================
+           Glossary / Accordion
+           ============================================ */
+        .accordion {
+            border: 1px solid var(--p-border-default);
+            border-radius: var(--p-radius-md);
+            overflow: hidden;
+        }
+
+        .accordion-item { border-bottom: 1px solid var(--p-border-light); }
+        .accordion-item:last-child { border-bottom: none; }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--p-space-4) var(--p-space-5);
+            background: var(--p-gray-50);
+            cursor: pointer;
+            transition: background 300ms ease;
+        }
+
+        .accordion-header:hover { background: var(--p-gray-100); }
+
+        .accordion-title {
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-2);
+        }
+
+        .accordion-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--p-text-tertiary);
+            transition: transform 300ms ease;
+        }
+
+        .accordion-item.active .accordion-icon { transform: rotate(180deg); }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 300ms ease;
+        }
+
+        .accordion-item.active .accordion-content { max-height: 800px; }
+
+        .accordion-body {
+            padding: var(--p-space-5);
+            font-size: var(--p-text-sm);
+            color: var(--p-text-secondary);
+            line-height: 1.7;
+        }
+
+        .accordion-body dt {
+            font-weight: var(--p-weight-semibold);
+            color: var(--p-text-primary);
+            margin-bottom: var(--p-space-1);
+        }
+
+        .accordion-body dd {
+            margin-bottom: var(--p-space-4);
+            padding-left: var(--p-space-4);
+        }
+
+        .accordion-body dd:last-child { margin-bottom: 0; }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        .report-footer {
+            background: var(--p-gray-800);
+            color: var(--p-gray-300);
+            border-radius: var(--p-radius-lg);
+            padding: var(--p-space-8);
+            margin-top: var(--p-space-8);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--p-space-8);
+            margin-bottom: var(--p-space-6);
+        }
+
+        .footer-section h4 {
+            color: white;
+            font-size: var(--p-text-base);
+            font-weight: var(--p-weight-semibold);
+            margin-bottom: var(--p-space-4);
+        }
+
+        .footer-section p,
+        .footer-section li {
+            font-size: var(--p-text-sm);
+            line-height: 1.8;
+            color: var(--p-gray-400);
+        }
+
+        .footer-section ul { list-style: none; }
+
+        .footer-section li {
+            display: flex;
+            align-items: center;
+            gap: var(--p-space-2);
+        }
+
+        .footer-section li svg {
+            width: 14px;
+            height: 14px;
+            color: var(--p-secondary);
+        }
+
+        .footer-divider {
+            border-top: 1px solid var(--p-gray-700);
+            padding-top: var(--p-space-6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--p-text-xs);
+            color: var(--p-gray-500);
+        }
+
+        /* ============================================
+           Progress Bar & Back to Top
+           ============================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--p-primary), var(--p-secondary));
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--p-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,51,102,0.3);
+        }
+
+        .back-to-top:hover svg {
+            color: white;
+        }
+
+        .back-to-top svg {
+            color: var(--p-text-secondary);
+            transition: color 0.3s;
+        }
+
+        /* ============================================
+           Responsive
+           ============================================ */
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .content-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; text-align: center; gap: var(--p-space-4); }
+            .header-meta { text-align: center; }
+            .footer-content { grid-template-columns: 1fr; }
+            .insight-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="progress-bar" id="progressBar"></div>
     <div class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
     </div>
 
-    <section class="hero">
-        <div class="hero-grid"></div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                招生质量分析报告 · 2026年5月
+    <div class="page-container">
+        <!-- ============================================
+             Report Header
+             ============================================ -->
+        <header class="report-header">
+            <div class="header-content">
+                <div>
+                    <h1 class="header-title">东南大学近五年招生质量与成果分析</h1>
+                    <p class="header-subtitle">Southeast University Enrollment Quality Analysis (2020-2024)</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: var(--p-space-8);">
+                    <div class="header-meta">
+                        <div class="header-meta-item">分析周期：2020-2025年</div>
+                        <div class="header-meta-item">覆盖省份：30+</div>
+                        <div class="header-meta-item">竞争高校：9所985</div>
+                        <div class="header-meta-item">报告版本：V2.0</div>
+                    </div>
+                    <div class="university-logo">
+                        <span class="university-logo-text">SEU</span>
+                    </div>
+                </div>
             </div>
-            <div class="hero-logo"><span class="hero-logo-text">SEU</span></div>
-            <h1>东南大学<span class="gradient-text">近五年</span>招生质量与成果分析</h1>
-            <p>2020-2024 · 30+省份 · 9所竞争高校 · 6大优势专业</p>
-            <div class="hero-stats">
-                <div class="hero-stat"><span class="hero-stat-value">5</span><div class="hero-stat-label">分析年份跨度</div></div>
-                <div class="hero-stat"><span class="hero-stat-value">30+</span><div class="hero-stat-label">覆盖省份</div></div>
-                <div class="hero-stat"><span class="hero-stat-value">9×6</span><div class="hero-stat-label">高校×省份对比</div></div>
-                <div class="hero-stat"><span class="hero-stat-value">6</span><div class="hero-stat-label">优势专业聚焦</div></div>
+        </header>
+
+        <!-- ============================================
+             核心指标概览
+             ============================================ -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-icon primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <div class="stat-card-label">物理类五年累计提升</div>
+                <div class="stat-card-value">847位</div>
+                <div class="stat-card-change positive">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                        <path d="M18 15l-6-6-6 6"/>
+                    </svg>
+                    江苏主场门槛提升12.5% | 截至2025年
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10M12 20V4M6 20v-6"/>
+                    </svg>
+                </div>
+                <div class="stat-card-label">信息类vs土建类最大分差</div>
+                <div class="stat-card-value">37分</div>
+                <div class="stat-card-change neutral">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    专业分化持续加剧
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon success">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 010 7.75"/>
+                    </svg>
+                </div>
+                <div class="stat-card-label">985竞争定位</div>
+                <div class="stat-card-value">准第一梯队</div>
+                <div class="stat-card-change positive">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                        <path d="M18 15l-6-6-6 6"/>
+                    </svg>
+                    6省×9校对比验证
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon warning">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                    </svg>
+                </div>
+                <div class="stat-card-label">土木专业舆论压力</div>
+                <div class="stat-card-value">结构性</div>
+                <div class="stat-card-change negative">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                    从"热门"到"天坑"舆论转变
+                </div>
             </div>
         </div>
-        <div class="hero-scroll"><span>向下滚动</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
-    </section>
 
-    <div class="container">
-        <!-- 摘要 -->
-        <section class="section reveal">
+        <!-- ============================================
+             第一章：核心发现
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
             <div class="section-header">
-                <div class="section-icon gold"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-                <div><div class="section-title">核心发现</div><div class="section-subtitle">五条关键判断</div></div>
-            </div>
-            <div class="insight-card success"><div class="insight-header"><div class="insight-icon" style="background:var(--p-success-subtle)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="insight-title">江苏主场物理类四年累计提升847位，但2025年回调417位</div></div><div class="insight-text">历史类五年累计提升122位，波动较大。专业组分化明显——06组（信息类）位次2475，08组（医学类）位次5945，差距超3400位。</div></div>
-            <div class="insight-card"><div class="insight-header"><div class="insight-icon" style="background:rgba(0,51,102,0.08)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div class="insight-title">信息类专业是最大拉动力，土建类面临结构性压力</div></div><div class="insight-text">电子信息类五年涨22分，测控仪器类涨28分；建筑类跌13分。安徽数据中"剪刀差"已逆转。</div></div>
-            <div class="insight-card gold"><div class="insight-header"><div class="insight-icon" style="background:rgba(196,163,90,0.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C4A35A" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div class="insight-title">985竞争中处于"准第一梯队"，6省份×9校对比验证</div></div><div class="insight-text">河南650分居中偏上，比哈工大(~665)低15分，比天大(645)高5分。不同省份竞争格局存在差异。</div></div>
-            <div class="insight-card warning"><div class="insight-header"><div class="insight-icon" style="background:var(--p-warning-subtle)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="insight-title">土木工程舆论风暴正在重塑专业选择</div></div><div class="insight-text">从2022年同济断档到2025年山大暂停招生，土木经历从"热门"到"天坑"的舆论转变。陕西土木仅621分，与电子信息类658分差距37分。</div></div>
-            <div class="insight-card"><div class="insight-header"><div class="insight-icon" style="background:rgba(0,51,102,0.08)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div><div class="insight-title">区域影响力"东强西弱"，长三角是铁票仓</div></div><div class="insight-text">江苏、浙江、安徽构成核心票仓；山东、河南、广东是潜力区。西部部分省份位次反而优于东部。</div></div>
-        </section>
-
-        <!-- 第一幕：江苏主场 -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon primary"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="section-title">五年过去了，生源质量是升还是降？</div><div class="section-subtitle">物理类 + 历史类 + 专业组</div></div></div>
-
-            <div class="glass-card"><div class="prose"><blockquote>如果一个考生家长问你——"东南大学这些年，是越来越好考了，还是越来越难考了？"你怎么回答？</blockquote><p>让我们先从最熟悉的主场——江苏——看起。这次我们不只看物理类，还要看历史类和专业组。</p></div></div>
-
-            <div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">江苏物理类：2021-2025年</strong></div><table class="data-table"><thead><tr><th>年份</th><th>最低位次</th><th>较上年</th><th>累计变化</th><th>趋势</th></tr></thead><tbody><tr><td>2021</td><td>6792</td><td>—</td><td>基准</td><td>—</td></tr><tr><td>2022</td><td>6556</td><td class="table-highlight">+236</td><td>+236</td><td>↑</td></tr><tr><td>2023</td><td>6253</td><td class="table-highlight">+303</td><td>+539</td><td>↑</td></tr><tr><td>2024</td><td>5945</td><td class="table-highlight">+308</td><td>+847</td><td>↑</td></tr><tr><td>2025</td><td>6362</td><td style="color:var(--p-danger)">-417</td><td>+430</td><td style="color:var(--p-danger)">↓</td></tr></tbody></table></div>
-
-            <div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">江苏历史类：2021-2025年</strong></div><table class="data-table"><thead><tr><th>年份</th><th>最低分</th><th>最低位次</th><th>较上年位次</th><th>累计变化</th></tr></thead><tbody><tr><td>2021</td><td>608</td><td>950</td><td>—</td><td>基准</td></tr><tr><td>2022</td><td>602</td><td>867</td><td class="table-highlight">+83</td><td>+83</td></tr><tr><td>2023</td><td>629</td><td>959</td><td style="color:var(--p-danger)">-92</td><td>-8</td></tr><tr><td>2024</td><td>629</td><td>798</td><td class="table-highlight">+161</td><td>+152</td></tr><tr><td>2025</td><td>636</td><td>828</td><td style="color:var(--p-danger)">-30</td><td>+122</td></tr></tbody></table></div>
-
-            <div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">2024年江苏专业组数据</strong></div><table class="data-table"><thead><tr><th>科类</th><th>专业组（含中文）</th><th>选科</th><th>最低分</th><th>最低位次</th><th>含专业</th></tr></thead><tbody><tr><td>历史类</td><td>03组（历史类）</td><td>史+不限</td><td>629</td><td>798</td><td>历史类普通批次</td></tr><tr class="table-seu-row"><td>物理类</td><td class="table-highlight">06组（信息类）</td><td>物+化学</td><td class="table-highlight">660</td><td class="table-highlight">2475</td><td>吴健雄班、电子信息类、计算机类</td></tr><tr><td>物理类</td><td>07组（双学士）</td><td>物+不限</td><td>656</td><td>3281</td><td>英语、会计学双学士</td></tr><tr><td>物理类</td><td>08组（医学类）</td><td>物+化学</td><td>646</td><td>5945</td><td>临床医学类</td></tr></tbody></table></div>
-
-            <div class="glass-card"><div class="prose"><p><strong>三个关键观察：</strong></p><p><strong>第一，物理类四年累计提升847位</strong>——在江苏这个竞争最激烈的省份，想考进东南大学，你需要比四年前多前进847个名次。录取门槛抬高了约12.5%。</p><p><strong>第二，历史类波动更大，但2024年是亮点。</strong> 五年累计仅提升122位，远不如物理类的430位。但2024年最低位次798名，是五年最优。</p><p><strong>第三，06和08专业组的位次差距超过3400位。</strong> 选科要求相同（物+化学），但06组（信息类）位次2475，08组（医学类）位次5945。说明考生的选择越来越"精准"。</p></div></div>
-
-            <div class="chart-card"><div class="chart-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>江苏物理类位次趋势</div><div class="chart-container" id="chart1"></div></div>
-
-            <div class="glass-card"><div class="prose"><blockquote>江苏的趋势，是孤例吗？全国其他省份的情况如何？</blockquote></div></div>
-        </section>
-
-        <!-- 第三幕：专业维度（5省份） -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon primary"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/></svg></div><div><div class="section-title">整体向好的背后，是什么在拉动？</div><div class="section-subtitle">5省份专业对比：江苏/河南/广东/四川/陕西</div></div></div>
-
-            <div class="glass-card"><div class="prose"><blockquote>生源质量整体提升了，但"整体"是由"部分"组成的。这次我们横向对比五个省份，看看不同省份的考生在专业选择上有什么异同。</blockquote></div></div>
-
-            <div class="tab-container"><div class="tab-header"><button class="tab-btn active" onclick="switchTab('major',0)">2024年5省份对比</button><button class="tab-btn" onclick="switchTab('major',1)">安徽：五年变迁</button><button class="tab-btn" onclick="switchTab('major',2)">趋势解读</button></div>
-
-                <div class="tab-content active" id="major-0"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">2024年6大优势专业 × 5省份录取最低分</strong></div><table class="data-table"><thead><tr><th>专业方向</th><th>江苏</th><th>河南</th><th>广东</th><th>四川</th><th>陕西</th></tr></thead><tbody><tr><td><strong>电子信息类</strong></td><td class="table-highlight">662</td><td class="table-highlight">661</td><td>652</td><td class="table-highlight">667</td><td class="table-highlight">658</td></tr><tr><td><strong>碳中和/智能制造</strong></td><td>660</td><td class="table-highlight">665</td><td>—</td><td class="table-highlight">665</td><td>653</td></tr><tr><td><strong>建筑类</strong></td><td>663</td><td>612</td><td>—</td><td>647</td><td>—</td></tr><tr><td><strong>土木/智慧建造</strong></td><td>660</td><td>632</td><td>—</td><td>648</td><td>621</td></tr><tr><td><strong>生物医学工程</strong></td><td>660</td><td>649</td><td>652</td><td>658</td><td>—</td></tr></tbody></table></div></div>
-
-                <div class="tab-content" id="major-1"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">安徽省：跨年份位次对比（2022 vs 2024）</strong></div><table class="data-table"><thead><tr><th>年份</th><th>物理类最低位次</th><th>物理类最低分</th><th>历史类最低位次</th><th>历史类最低分</th></tr></thead><tbody><tr><td><span class="data-time">2022年</span></td><td class="table-highlight">5312</td><td>621</td><td>546</td><td>603</td></tr><tr><td><span class="data-time">2023年</span></td><td class="table-highlight">6255</td><td>630</td><td>541</td><td>617</td></tr><tr><td><span class="data-time">2024年</span></td><td class="table-highlight">4656</td><td>651</td><td>635</td><td>639</td></tr><tr><td><span class="data-time">2025年</span></td><td class="table-highlight">1605</td><td>663</td><td>593</td><td>632</td></tr></tbody></table><div style="padding:12px 18px 18px;font-size:13px;color:var(--p-text-tertiary);background:rgba(0,51,102,0.03)">注：跨年份对比使用<strong>位次</strong>而非分数。分数受高考难度影响不可比，位次（排名）更能反映真实的竞争强度。位次数值越小，录取门槛越高。</div></div></div>
-
-                <div class="tab-content" id="major-2"><div class="glass-card"><div class="prose"><p><strong>安徽位次趋势揭示竞争格局：</strong></p><p>• 物理类位次：5312(2022) → 6255(2023) → 4656(2024) → 1605(2025)。2025年位次大幅跃升，录取门槛显著提高。</p><p>• 历史类位次：546(2022) → 541(2023) → 635(2024) → 593(2025)。2024年位次略有波动，但整体稳定。</p><p><strong>五省份横向对比揭示"地域温差"：</strong></p><p>• 电子信息类是"硬通货"，五省份都是最高分或接近最高分</p><p>• 土建类退潮速度不一：江苏660分 vs 陕西621分，差距39分</p><p>• 碳中和/智能制造异军突起：河南665分，甚至超过电子信息类</p></div></div></div>
+                <div class="section-number">1</div>
+                <div>
+                    <h2 class="section-title">核心发现：五条关键判断</h2>
+                    <p class="section-subtitle">Key Findings</p>
+                </div>
             </div>
 
-            <div class="chart-card"><div class="chart-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/></svg>安徽：2020年 vs 2024年专业分数变化</div><div class="chart-container" id="chart2"></div></div>
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-body">
+                    <div class="note-box" style="margin-bottom: var(--p-space-5);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <div>
+                            <strong>报告说明：</strong>本报告基于东南大学招生办、各省教育考试院、掌上高考等公开数据，对2020-2025年招生质量进行系统分析。数据覆盖30+省份，对比9所985竞争高校，聚焦6大优势专业。
+                        </div>
+                    </div>
+
+                    <div class="insight-grid">
+                        <div class="insight-card advantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                判断一：整体趋势向上
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>江苏物理类四年累计提升<strong>847位</strong>，门槛抬高约12.5%</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>历史类五年累计提升<strong>122位</strong>，2024年最优（位次798）</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>但2025年物理类回调417位，"低垂果实"已摘完</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="insight-card advantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 20V10M12 20V4M6 20v-6"/>
+                                </svg>
+                                判断二：信息类是最大功臣
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>电子信息类五年涨<strong>22分</strong>，测控仪器类涨28分</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>06组（信息类）位次2475，远超08组（医学类）5945位</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>碳中和/智能制造异军突起：河南665分超电子信息类</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="insight-card disadvantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                判断三：土建类是最大隐忧
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>建筑类五年跌<strong>13分</strong>，土木陕西仅621分</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>同济断档→北航撤硕士→山大暂停招生，舆论风暴持续</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>湖南大学土木转出98人、转入<strong>0人</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                                </svg>
+                                判断四：985竞争中的位置
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>6省对比：比天大、华南理工高5-10分，比哈工大、北航低5-19分</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>浙江差距最小（与北航仅差1分），山东差距最大（与哈工大差25分）</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>信息类学科是竞争中的最大筹码</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="insight-card" style="grid-column: 1 / -1;">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="3" y1="9" x2="21" y2="9"/>
+                                    <line x1="9" y1="21" x2="9" y2="9"/>
+                                </svg>
+                                判断五：区域影响力"东强西弱"
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span><strong>铁票仓：</strong>江苏、浙江、安徽、上海——位次高、趋势稳、长三角核心</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span><strong>潜力区：</strong>山东、河南、广东、湖北、湖南、四川、福建——有增长空间</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span><strong>有趣现象：</strong>西部部分省份（云南位次1019、广西918）位次反而优于东部沿海</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- 第四幕：竞争格局（6省份×9校） -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon gold"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div><div class="section-title">东南大学在985中处于什么位置？</div><div class="section-subtitle">6省份 × 9所竞争高校</div></div></div>
-
-            <div class="glass-card"><div class="prose"><blockquote>没有比较，就没有判断。这次，我们看六个省份的数据——江苏、浙江、安徽、山东、河南、四川，覆盖东中西部。</blockquote></div></div>
-
-            <div class="tab-container"><div class="tab-header"><button class="tab-btn active" onclick="switchTab('comp',0)">江苏省</button><button class="tab-btn" onclick="switchTab('comp',1)">浙江省</button><button class="tab-btn" onclick="switchTab('comp',2)">河南省</button><button class="tab-btn" onclick="switchTab('comp',3)">四川省</button><button class="tab-btn" onclick="switchTab('comp',4)">安徽省</button><button class="tab-btn" onclick="switchTab('comp',5)">山东省</button></div>
-
-                <div class="tab-content active" id="comp-0"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">江苏省：2024年10所高校对比</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>学校</th><th>最低分</th><th>与东南大学分差</th></tr></thead><tbody><tr><td>第一梯队</td><td>哈尔滨工业大学</td><td>665</td><td>+19</td></tr><tr><td>第一梯队</td><td>北京航空航天大学</td><td>657</td><td>+11</td></tr><tr><td>第一梯队</td><td>同济大学</td><td>656</td><td>+10</td></tr><tr><td>第一梯队</td><td>华中科技大学</td><td>~648</td><td>+2</td></tr><tr><td>第一梯队</td><td>西安交通大学</td><td>650</td><td>+4</td></tr><tr class="table-seu-row"><td><strong>基准</strong></td><td><strong>东南大学</strong></td><td class="table-highlight">646</td><td class="table-highlight">0</td></tr><tr><td>第二梯队</td><td>天津大学</td><td>~644</td><td>-2</td></tr><tr><td>第二梯队</td><td>大连理工大学</td><td>648</td><td>+2</td></tr><tr><td>第二梯队</td><td>华南理工大学</td><td>642</td><td>-4</td></tr><tr><td>第二梯队</td><td>中南大学</td><td>~630</td><td>-16</td></tr></tbody></table></div></div>
-
-                <div class="tab-content" id="comp-1"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">浙江省：2024年10所高校对比</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>学校</th><th>最低分</th><th>与东南大学分差</th></tr></thead><tbody><tr><td>第一梯队</td><td>哈尔滨工业大学</td><td>674</td><td>+10</td></tr><tr><td>第一梯队</td><td>北京航空航天大学</td><td>665</td><td>+1</td></tr><tr><td>第一梯队</td><td>同济大学</td><td>665</td><td>+1</td></tr><tr><td>第一梯队</td><td>西安交通大学</td><td>~665</td><td>+1</td></tr><tr><td>第一梯队</td><td>华中科技大学</td><td>~660</td><td>-4</td></tr><tr class="table-seu-row"><td><strong>基准</strong></td><td><strong>东南大学</strong></td><td class="table-highlight">664</td><td class="table-highlight">0</td></tr><tr><td>第二梯队</td><td>大连理工大学</td><td>660</td><td>-4</td></tr><tr><td>第二梯队</td><td>天津大学</td><td>661</td><td>-3</td></tr><tr><td>第二梯队</td><td>华南理工大学</td><td>659</td><td>-5</td></tr><tr><td>第二梯队</td><td>中南大学</td><td>~645</td><td>-19</td></tr></tbody></table></div></div>
-
-                <div class="tab-content" id="comp-2"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">河南省：2024年10所高校对比</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>学校</th><th>最低分</th><th>与东南大学分差</th></tr></thead><tbody><tr><td>第一梯队</td><td>北京航空航天大学</td><td>669</td><td>+19</td></tr><tr><td>第一梯队</td><td>哈尔滨工业大学</td><td>~665</td><td>+15</td></tr><tr><td>第一梯队</td><td>同济大学</td><td>~660</td><td>+10</td></tr><tr><td>第一梯队</td><td>华中科技大学</td><td>~660</td><td>+10</td></tr><tr><td>第一梯队</td><td>西安交通大学</td><td>~658</td><td>+8</td></tr><tr class="table-seu-row"><td><strong>基准</strong></td><td><strong>东南大学</strong></td><td class="table-highlight">650</td><td class="table-highlight">0</td></tr><tr><td>第二梯队</td><td>天津大学</td><td>645</td><td>-5</td></tr><tr><td>第二梯队</td><td>大连理工大学</td><td>641</td><td>-9</td></tr><tr><td>第二梯队</td><td>华南理工大学</td><td>~640</td><td>-10</td></tr><tr><td>第二梯队</td><td>中南大学</td><td>~630</td><td>-20</td></tr></tbody></table></div></div>
-
-                <div class="tab-content" id="comp-3"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">四川省：2024年10所高校对比</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>学校</th><th>最低分</th><th>与东南大学分差</th></tr></thead><tbody><tr><td>第一梯队</td><td>北京航空航天大学</td><td>673</td><td>+13</td></tr><tr><td>第一梯队</td><td>哈尔滨工业大学</td><td>~670</td><td>+10</td></tr><tr><td>第一梯队</td><td>华中科技大学</td><td>~667</td><td>+7</td></tr><tr><td>第一梯队</td><td>同济大学</td><td>667</td><td>+7</td></tr><tr><td>第一梯队</td><td>西安交通大学</td><td>~667</td><td>+7</td></tr><tr class="table-seu-row"><td><strong>基准</strong></td><td><strong>东南大学</strong></td><td class="table-highlight">660</td><td class="table-highlight">0</td></tr><tr><td>第二梯队</td><td>天津大学</td><td>649</td><td>-11</td></tr><tr><td>第二梯队</td><td>华南理工大学</td><td>~652</td><td>-8</td></tr><tr><td>第二梯队</td><td>大连理工大学</td><td>652</td><td>-8</td></tr><tr><td>第二梯队</td><td>中南大学</td><td>~640</td><td>-20</td></tr></tbody></table></div></div>
-
-                <div class="tab-content" id="comp-4"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">安徽省：2024年10所高校对比</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>学校</th><th>最低分</th><th>与东南大学分差</th></tr></thead><tbody><tr><td>第一梯队</td><td>哈尔滨工业大学</td><td>~665</td><td>+12</td></tr><tr><td>第一梯队</td><td>同济大学</td><td>663</td><td>+10</td></tr><tr><td>第一梯队</td><td>北京航空航天大学</td><td>656</td><td>+3</td></tr><tr class="table-seu-row"><td><strong>基准</strong></td><td><strong>东南大学</strong></td><td class="table-highlight">653</td><td class="table-highlight">0</td></tr><tr><td>第二梯队</td><td>华中科技大学</td><td>~651</td><td>-2</td></tr><tr><td>第二梯队</td><td>西安交通大学</td><td>649</td><td>-4</td></tr><tr><td>第二梯队</td><td>华南理工大学</td><td>648</td><td>-5</td></tr><tr><td>第二梯队</td><td>天津大学</td><td>646</td><td>-7</td></tr><tr><td>第二梯队</td><td>大连理工大学</td><td>638</td><td>-15</td></tr><tr><td>第二梯队</td><td>中南大学</td><td>623</td><td>-30</td></tr></tbody></table></div></div>
-
-                <div class="tab-content" id="comp-5"><div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">山东省：2024年10所高校对比</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>学校</th><th>最低分</th><th>与东南大学分差</th></tr></thead><tbody><tr><td>第一梯队</td><td>哈尔滨工业大学</td><td>670</td><td>+25</td></tr><tr><td>第一梯队</td><td>同济大学</td><td>~653</td><td>+8</td></tr><tr><td>第一梯队</td><td>华中科技大学</td><td>~647</td><td>+2</td></tr><tr><td>第一梯队</td><td>西安交通大学</td><td>~648</td><td>+3</td></tr><tr><td>第一梯队</td><td>北京航空航天大学</td><td>641</td><td>-4</td></tr><tr class="table-seu-row"><td><strong>基准</strong></td><td><strong>东南大学</strong></td><td class="table-highlight">645</td><td class="table-highlight">0</td></tr><tr><td>第二梯队</td><td>天津大学</td><td>~641</td><td>-4</td></tr><tr><td>第二梯队</td><td>大连理工大学</td><td>~597</td><td>-48</td></tr><tr><td>第二梯队</td><td>中南大学</td><td>~615</td><td>-30</td></tr><tr><td>第二梯队</td><td>华南理工大学</td><td>~614</td><td>-31</td></tr></tbody></table></div></div>
+        <!-- ============================================
+             第二章：江苏主场深度分析
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <div>
+                    <h2 class="section-title">江苏主场：五年过去了，生源质量是升还是降？</h2>
+                    <p class="section-subtitle">Jiangsu Province Deep Dive</p>
+                </div>
             </div>
 
-            <div class="glass-card"><div class="prose"><p><strong>六个省份的共同规律：</strong></p><p>• 哈工大几乎在所有省份录取分数最高（得益于航天品牌+三校区布局）</p><p>• 东南大学稳定处于"中间偏上"——比天大、华南理工高5-10分，比哈工大、北航低5-19分</p><p>• 不同省份竞争格局存在差异：在浙江差距最小（与北航仅差1分），在山东差距最大（与哈工大差25分）</p><p>• 信息类学科是竞争中的最大筹码</p></div></div>
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                    </div>
+                    分析背景
+                </div>
+                <div class="p-card-body">
+                    <p style="font-size: var(--p-text-base); color: var(--p-text-secondary); line-height: 1.8;">
+                        如果一个考生家长问你——"东南大学这些年，是越来越好考了，还是越来越难考了？"你怎么回答？让我们先从最熟悉的主场——江苏——看起。这次我们不只看物理类，还要看历史类和专业组。
+                    </p>
+                </div>
+            </div>
 
-            <div class="chart-card"><div class="chart-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>2024年6省份录取分数对比</div><div class="chart-container" id="chart3"></div></div>
+            <!-- 2.1 江苏物理类 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    2.1 江苏物理类：2021-2025年
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>年份</th>
+                                    <th>最低位次</th>
+                                    <th>较上年</th>
+                                    <th>累计变化</th>
+                                    <th>趋势</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">2021</td>
+                                    <td class="number-cell">6,792</td>
+                                    <td>—</td>
+                                    <td>基准</td>
+                                    <td><span class="p-badge p-badge-neutral">基准年</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2022</td>
+                                    <td class="number-cell">6,556</td>
+                                    <td class="success-text">+236</td>
+                                    <td>+236</td>
+                                    <td><span class="p-badge p-badge-success">↑</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2023</td>
+                                    <td class="number-cell">6,253</td>
+                                    <td class="success-text">+303</td>
+                                    <td>+539</td>
+                                    <td><span class="p-badge p-badge-success">↑</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2024</td>
+                                    <td class="number-cell">5,945</td>
+                                    <td class="success-text">+308</td>
+                                    <td>+847</td>
+                                    <td><span class="p-badge p-badge-success">↑</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2025</td>
+                                    <td class="number-cell">6,362</td>
+                                    <td class="danger-text">-417</td>
+                                    <td>+430</td>
+                                    <td><span class="p-badge p-badge-danger">↓</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>江苏省教育考试院 | 东南大学招生办</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.2 江苏历史类 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                        </svg>
+                    </div>
+                    2.2 江苏历史类：2021-2025年
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>年份</th>
+                                    <th>最低分</th>
+                                    <th>最低位次</th>
+                                    <th>较上年位次</th>
+                                    <th>累计变化</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">2021</td>
+                                    <td class="number-cell">608</td>
+                                    <td class="number-cell">950</td>
+                                    <td>—</td>
+                                    <td>基准</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2022</td>
+                                    <td class="number-cell">602</td>
+                                    <td class="number-cell">867</td>
+                                    <td class="success-text">+83</td>
+                                    <td>+83</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2023</td>
+                                    <td class="number-cell">629</td>
+                                    <td class="number-cell">959</td>
+                                    <td class="danger-text">-92</td>
+                                    <td>-8</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2024</td>
+                                    <td class="number-cell">629</td>
+                                    <td class="number-cell">798</td>
+                                    <td class="success-text">+161</td>
+                                    <td>+152</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2025</td>
+                                    <td class="number-cell">636</td>
+                                    <td class="number-cell">828</td>
+                                    <td class="danger-text">-30</td>
+                                    <td>+122</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>江苏省教育考试院 | 东南大学招生办</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.3 2024年专业组数据 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    2.3 2024年江苏专业组数据
+                </div>
+                <div class="p-card-body">
+                    <div class="note-box" style="margin-bottom: var(--p-space-4);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <div>
+                            <strong>专业组说明：</strong>新高考改革后，高校按选科要求将专业分组。06组（信息类）和08组（医学类）选科要求相同（物+化学），但位次差距超3400位，说明考生选择越来越"精准"。
+                        </div>
+                    </div>
+
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>科类</th>
+                                    <th>专业组</th>
+                                    <th>选科</th>
+                                    <th>最低分</th>
+                                    <th>最低位次</th>
+                                    <th>含专业</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>历史类</td>
+                                    <td class="font-semibold">03组</td>
+                                    <td>史+不限</td>
+                                    <td class="number-cell">629</td>
+                                    <td class="number-cell">798</td>
+                                    <td class="text-left">历史类普通批次</td>
+                                </tr>
+                                <tr class="highlight-row">
+                                    <td>物理类</td>
+                                    <td class="font-semibold">06组（信息类）</td>
+                                    <td>物+化学</td>
+                                    <td class="number-cell seu-highlight">660</td>
+                                    <td class="number-cell seu-highlight">2,475</td>
+                                    <td class="text-left">吴健雄班、电子信息类、计算机类</td>
+                                </tr>
+                                <tr>
+                                    <td>物理类</td>
+                                    <td class="font-semibold">07组（双学士）</td>
+                                    <td>物+不限</td>
+                                    <td class="number-cell">656</td>
+                                    <td class="number-cell">3,281</td>
+                                    <td class="text-left">英语、会计学双学士</td>
+                                </tr>
+                                <tr>
+                                    <td>物理类</td>
+                                    <td class="font-semibold">08组（医学类）</td>
+                                    <td>物+化学</td>
+                                    <td class="number-cell">646</td>
+                                    <td class="number-cell">5,945</td>
+                                    <td class="text-left">临床医学类</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>东南大学招生办2024年投档线</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.4 关键观察 -->
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    关键观察
+                </div>
+                <div class="p-card-body">
+                    <div class="content-grid">
+                        <div class="insight-card advantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                物理类四年累计提升847位
+                            </div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); line-height: 1.7;">
+                                在江苏这个竞争最激烈的省份，想考进东南大学，你需要比四年前多前进847个名次。录取门槛抬高了约<strong>12.5%</strong>。
+                            </p>
+                        </div>
+                        <div class="insight-card advantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                2024年历史类是五年最优
+                            </div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); line-height: 1.7;">
+                                五年累计仅提升122位，远不如物理类。但2024年最低位次<strong>798名</strong>，是五年最好成绩。
+                            </p>
+                        </div>
+                        <div class="insight-card disadvantage" style="grid-column: 1 / -1;">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                06组和08组位次差距超3400位
+                            </div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); line-height: 1.7;">
+                                选科要求相同（物+化学），但06组（信息类）位次2475，08组（医学类）位次5945。说明考生的选择越来越"精准"——<strong>冲着专业来，而不是冲着学校来</strong>。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.5 图表 -->
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    2.5 江苏物理类位次趋势
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container" id="chart1"></div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>江苏省教育考试院 | 位次越小排名越靠前</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- 第五幕：土木专题 -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon danger"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div><div class="section-title">信息类热、土木类冷：分化有多严重？</div><div class="section-subtitle">舆论风暴与专业选择</div></div></div>
+        <!-- ============================================
+             第三章：5省份专业对比
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <div>
+                    <h2 class="section-title">整体向好的背后，是什么在拉动？</h2>
+                    <p class="section-subtitle">5省份专业对比：江苏/河南/广东/四川/陕西</p>
+                </div>
+            </div>
 
-            <div class="glass-card"><div class="prose"><blockquote>直面东南大学招生中最尖锐的矛盾：信息类专业和土建类专业之间的"冰火两重天"。</blockquote></div></div>
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        </svg>
+                    </div>
+                    3.1 2024年6大优势专业 × 5省份录取最低分
+                </div>
+                <div class="p-card-body">
+                    <p style="font-size: var(--p-text-base); color: var(--p-text-secondary); margin-bottom: var(--p-space-4); line-height: 1.8;">
+                        生源质量整体提升了，但"整体"是由"部分"组成的。这次我们横向对比五个省份，看看不同省份的考生在专业选择上有什么异同。
+                    </p>
 
-            <div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--p-danger)">"土木天坑"舆论时间线</strong></div><table class="data-table"><thead><tr><th>时间</th><th>事件</th><th>影响</th></tr></thead><tbody><tr><td><span class="data-time">2022年7月</span></td><td><strong>同济大学河南土木专业断档</strong></td><td>引爆舆论</td></tr><tr><td><span class="data-time">2023年</span></td><td><strong>土木成为"新四大天坑"之首</strong></td><td>舆论定性</td></tr><tr><td><span class="data-time">2024年2月</span></td><td>北航撤销土木水利硕士</td><td>高校开始切割</td></tr><tr><td><span class="data-time">2024年11月</span></td><td>"女儿被录到土木"上热搜</td><td>情绪传播高峰</td></tr><tr><td><span class="data-time">2025年</span></td><td>山东大学暂停土木招生</td><td>标志性事件</td></tr></tbody></table></div>
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>专业方向</th>
+                                    <th>江苏</th>
+                                    <th>河南</th>
+                                    <th>广东</th>
+                                    <th>四川</th>
+                                    <th>陕西</th>
+                                    <th>特征</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">电子信息类</td>
+                                    <td class="number-cell">662</td>
+                                    <td class="number-cell">661</td>
+                                    <td class="number-cell">652</td>
+                                    <td class="number-cell">667</td>
+                                    <td class="number-cell">658</td>
+                                    <td><span class="p-badge p-badge-success">硬通货</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">碳中和/智能制造</td>
+                                    <td class="number-cell">660</td>
+                                    <td class="number-cell seu-highlight">665</td>
+                                    <td class="number-cell">—</td>
+                                    <td class="number-cell">665</td>
+                                    <td class="number-cell">653</td>
+                                    <td><span class="p-badge p-badge-info">异军突起</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">建筑类</td>
+                                    <td class="number-cell">663</td>
+                                    <td class="number-cell">612</td>
+                                    <td class="number-cell">—</td>
+                                    <td class="number-cell">647</td>
+                                    <td class="number-cell">—</td>
+                                    <td><span class="p-badge p-badge-warning">退潮中</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">土木/智慧建造</td>
+                                    <td class="number-cell">660</td>
+                                    <td class="number-cell">632</td>
+                                    <td class="number-cell">—</td>
+                                    <td class="number-cell">648</td>
+                                    <td class="number-cell danger-text">621</td>
+                                    <td><span class="p-badge p-badge-danger">压力最大</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">生物医学工程</td>
+                                    <td class="number-cell">660</td>
+                                    <td class="number-cell">649</td>
+                                    <td class="number-cell">652</td>
+                                    <td class="number-cell">658</td>
+                                    <td class="number-cell">—</td>
+                                    <td><span class="p-badge p-badge-neutral">稳定</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>各省教育考试院、掌上高考 | 2024年录取数据</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="insight-card danger"><div class="insight-header"><div class="insight-icon" style="background:var(--p-danger-subtle)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div class="insight-title">学生"用脚投票"：转专业数据</div></div><div class="insight-text"><p>• 湖南大学：2022年土木转出98人，转入<strong>0人</strong></p><p>• 四川大学：2024年转出55人，转入<strong>1人</strong></p><p>• 西安交通大学：2025届土木毕业生仅剩<strong>3人</strong></p></div></div>
+            <!-- 安徽数据 -->
+            <div class="content-grid">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                                <line x1="9" y1="21" x2="9" y2="9"/>
+                            </svg>
+                        </div>
+                        安徽省：跨年份位次对比
+                    </div>
+                    <div class="p-card-body">
+                        <div class="note-box" style="margin-bottom: var(--p-space-4);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <div>
+                                <strong>口径说明：</strong>跨年份对比使用<strong>位次</strong>而非分数。分数受高考难度影响不可比，位次（排名）更能反映真实的竞争强度。位次数值越小，录取门槛越高。
+                            </div>
+                        </div>
 
-            <div class="glass-card"><div class="prose"><p><strong>东南大学面临的特殊困境：</strong>优势学科恰好是"舆论重灾区"。五省份数据中，电子信息类在所有省份都是最高分或接近最高分；而土建类退潮速度不一——江苏660分 vs 陕西621分，差距37分。</p><p><strong>但土建类真的没有未来吗？</strong> 不一定。行业周期不等于学科生命周期。"智慧建造"是新的增长点，如果转型成功，可能会触底反弹。</p></div></div>
+                        <div class="p-table-container">
+                            <table class="p-table">
+                                <thead>
+                                    <tr>
+                                        <th>年份</th>
+                                        <th>物理类位次</th>
+                                        <th>物理类最低分</th>
+                                        <th>历史类位次</th>
+                                        <th>历史类最低分</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold">2022</td>
+                                        <td class="number-cell">5,312</td>
+                                        <td class="number-cell">621</td>
+                                        <td class="number-cell">546</td>
+                                        <td class="number-cell">603</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">2023</td>
+                                        <td class="number-cell">6,255</td>
+                                        <td class="number-cell">630</td>
+                                        <td class="number-cell">541</td>
+                                        <td class="number-cell">617</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">2024</td>
+                                        <td class="number-cell">4,656</td>
+                                        <td class="number-cell">651</td>
+                                        <td class="number-cell">635</td>
+                                        <td class="number-cell">639</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">2025</td>
+                                        <td class="number-cell seu-highlight">1,605</td>
+                                        <td class="number-cell">663</td>
+                                        <td class="number-cell">593</td>
+                                        <td class="number-cell">632</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                        </div>
+                        安徽位次趋势解读
+                    </div>
+                    <div class="p-card-body">
+                        <div class="insight-card advantage" style="margin-bottom: var(--p-space-4);">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                物理类：2025年大幅跃升
+                            </div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); line-height: 1.7;">
+                                位次从4656(2024)跃升至1605(2025)，录取门槛显著提高。五年位次变化呈现"V型反转"。
+                            </p>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                历史类：整体稳定
+                            </div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); line-height: 1.7;">
+                                位次在541-635之间波动，2024年略有回调，但整体保持稳定。
+                            </p>
+                        </div>
+                        <div class="insight-card disadvantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                五省份横向对比揭示"地域温差"
+                            </div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); line-height: 1.7;">
+                                电子信息类是"硬通货"；土建类退潮速度不一：江苏660分 vs 陕西621分，差距39分。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表：5省专业对比 -->
+            <div class="p-card" style="margin-top: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        </svg>
+                    </div>
+                    3.2 安徽：2022年 vs 2025年专业分数变化
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container" id="chart2"></div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>安徽省教育考试院 | 跨年份对比使用位次</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表：5省电子信息类横向对比 -->
+            <div class="p-card" style="margin-top: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 20V10M12 20V4M6 20v-6"/>
+                        </svg>
+                    </div>
+                    3.3 5省电子信息类专业录取分数横向对比
+                </div>
+                <div class="p-card-body">
+                    <div class="chart-container" id="chart6"></div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>各省教育考试院、掌上高考 | 2024年录取数据</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- 第六幕：区域格局 -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon gold"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div><div><div class="section-title">哪些省是"铁票仓"，哪些省在流失？</div><div class="section-subtitle">区域影响力三梯队</div></div></div>
+        <!-- ============================================
+             第四章：985竞争格局
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <div>
+                    <h2 class="section-title">东南大学在985中处于什么位置？</h2>
+                    <p class="section-subtitle">6省份 × 9所竞争高校对比</p>
+                </div>
+            </div>
 
-            <div class="data-table-wrapper"><div style="padding:18px 18px 0"><strong style="font-size:15px;color:var(--seu-primary)">区域三梯队划分</strong></div><table class="data-table"><thead><tr><th>梯队</th><th>省份</th><th>特征</th><th>策略</th></tr></thead><tbody><tr><td><strong style="color:var(--p-success)">铁票仓</strong></td><td>江苏、浙江、安徽、上海</td><td>位次高、趋势稳、长三角核心</td><td>巩固</td></tr><tr><td><strong style="color:var(--p-warning)">潜力区</strong></td><td>山东、河南、广东、湖北、湖南、四川、福建</td><td>位次中等、有增长空间</td><td>重点突破</td></tr><tr><td><strong style="color:var(--p-text-tertiary)">待开发区</strong></td><td>北京、天津、东北三省、西部省份</td><td>位次波动或偏低</td><td>差异化</td></tr></tbody></table></div>
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    4.1 江苏省：10所高校对比
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>梯队</th>
+                                    <th>学校</th>
+                                    <th>最低分</th>
+                                    <th>与东南大学分差</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="p-badge p-badge-primary">第一梯队</span></td>
+                                    <td class="font-semibold">哈尔滨工业大学</td>
+                                    <td class="number-cell">665</td>
+                                    <td class="success-text">+19</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-primary">第一梯队</span></td>
+                                    <td>北京航空航天大学</td>
+                                    <td class="number-cell">657</td>
+                                    <td class="success-text">+11</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-primary">第一梯队</span></td>
+                                    <td>同济大学</td>
+                                    <td class="number-cell">656</td>
+                                    <td class="success-text">+10</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-primary">第一梯队</span></td>
+                                    <td>华中科技大学</td>
+                                    <td class="number-cell">~648</td>
+                                    <td class="success-text">+2</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-primary">第一梯队</span></td>
+                                    <td>西安交通大学</td>
+                                    <td class="number-cell">650</td>
+                                    <td class="success-text">+4</td>
+                                </tr>
+                                <tr class="highlight-row">
+                                    <td><span class="p-badge p-badge-secondary">基准</span></td>
+                                    <td class="font-semibold">东南大学</td>
+                                    <td class="number-cell seu-highlight">646</td>
+                                    <td>—</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-neutral">第二梯队</span></td>
+                                    <td>天津大学</td>
+                                    <td class="number-cell">~644</td>
+                                    <td class="danger-text">-2</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-neutral">第二梯队</span></td>
+                                    <td>大连理工大学</td>
+                                    <td class="number-cell">648</td>
+                                    <td class="success-text">+2</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-neutral">第二梯队</span></td>
+                                    <td>华南理工大学</td>
+                                    <td class="number-cell">642</td>
+                                    <td class="danger-text">-4</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="p-badge p-badge-neutral">第二梯队</span></td>
+                                    <td>中南大学</td>
+                                    <td class="number-cell">~630</td>
+                                    <td class="danger-text">-16</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-source-tag">
+                        <span class="source-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <strong>数据来源</strong>
+                        </span>
+                        <span class="source-dot"></span>
+                        <span>各省教育考试院2024年投档线 | ~表示近似值</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="glass-card"><div class="prose"><p><strong>一个有趣的现象：</strong> 西部部分省份（云南位次1019、广西位次918）的位次反而比东部沿海省份更好。可能与"985"标签在西部地区的敏感度更高有关。</p><blockquote>招生工作不是"撒胡椒面"，而是需要有重点、有策略地分配资源。</blockquote></div></div>
+            <!-- 图表：6省份对比 -->
+            <div class="content-grid">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 20V10M12 20V4M6 20v-6"/>
+                            </svg>
+                        </div>
+                        4.2 2024年6省份录取分数对比
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="chart3"></div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                            </svg>
+                        </div>
+                        4.3 东南大学985定位雷达图
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="chart4"></div>
+                        <div class="data-source-tag">
+                            <span class="source-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <strong>数据来源</strong>
+                            </span>
+                            <span class="source-dot"></span>
+                            <span>基于各省教育考试院公开数据整理 | C9平均/985平均为计算值</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 共同规律 -->
+            <div class="p-card" style="margin-top: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </div>
+                    4.4 六省份共同规律
+                </div>
+                <div class="p-card-body">
+                    <div class="insight-grid">
+                        <div class="insight-card advantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                竞争优势
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>比天大、华南理工高<strong>5-10分</strong></span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>信息类学科是最大筹码</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>浙江差距最小（与北航仅差1分）</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="insight-card disadvantage">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                竞争压力
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>比哈工大、北航低<strong>5-19分</strong></span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>山东差距最大（与哈工大差25分）</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>对第二梯队优势不算大</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- 第七幕：结论 -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon primary"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><div class="section-title">回到最初的问题</div><div class="section-subtitle">五条核心判断</div></div></div>
+        <!-- ============================================
+             第五章：土木专题
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <div>
+                    <h2 class="section-title">信息类热、土木类冷：分化有多严重？</h2>
+                    <p class="section-subtitle">舆论风暴与专业选择</p>
+                </div>
+            </div>
 
-            <div class="glass-card" style="background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-left:4px solid var(--seu-primary)"><div class="prose" style="font-size:17px;color:var(--p-text-primary)"><p><strong>东南大学过去五年的招生成果，总体是积极的——生源质量稳步提升，全国影响力持续扩大，信息类学科成为强劲的增长引擎。但结构性挑战也在浮现——土建类专业的热度下降、专业分化加剧、部分区域的竞争力有待加强。</strong></p></div></div>
+            <div class="p-card" style="margin-bottom: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                        </svg>
+                    </div>
+                    5.1 "土木天坑"舆论时间线
+                </div>
+                <div class="p-card-body">
+                    <div class="p-table-container">
+                        <table class="p-table">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th>事件</th>
+                                    <th>影响</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">2022年7月</td>
+                                    <td class="text-left"><strong>同济大学河南土木专业断档</strong></td>
+                                    <td><span class="p-badge p-badge-danger">引爆舆论</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2023年</td>
+                                    <td class="text-left"><strong>土木成为"新四大天坑"之首</strong></td>
+                                    <td><span class="p-badge p-badge-danger">舆论定性</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2024年2月</td>
+                                    <td class="text-left">北航撤销土木水利硕士</td>
+                                    <td><span class="p-badge p-badge-warning">高校切割</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2024年11月</td>
+                                    <td class="text-left">"女儿被录到土木"上热搜</td>
+                                    <td><span class="p-badge p-badge-warning">情绪高峰</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">2025年</td>
+                                    <td class="text-left"><strong>山东大学暂停土木招生</strong></td>
+                                    <td><span class="p-badge p-badge-danger">标志性事件</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <div class="insight-card success"><div class="insight-header"><div class="insight-icon" style="background:var(--p-success-subtle)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div class="insight-title">整体趋势向上，但上升斜率可能在放缓</div></div><div class="insight-text">物理类四年累计提升847位，但2025年出现417位回调。"低垂的果实"已经摘完。</div></div>
+            <div class="content-grid">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <line x1="20" y1="8" x2="20" y2="14"/>
+                                <line x1="23" y1="11" x2="17" y2="11"/>
+                            </svg>
+                        </div>
+                        5.2 学生"用脚投票"：转专业数据
+                    </div>
+                    <div class="p-card-body">
+                        <div class="p-table-container">
+                            <table class="p-table">
+                                <thead>
+                                    <tr>
+                                        <th>学校</th>
+                                        <th>转出</th>
+                                        <th>转入</th>
+                                        <th>净流出</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-semibold">湖南大学</td>
+                                        <td class="number-cell danger-text">98人</td>
+                                        <td class="number-cell">0人</td>
+                                        <td class="number-cell danger-text">-98</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">四川大学</td>
+                                        <td class="number-cell danger-text">55人</td>
+                                        <td class="number-cell">1人</td>
+                                        <td class="number-cell danger-text">-54</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-semibold">西安交通大学</td>
+                                        <td class="number-cell">—</td>
+                                        <td class="number-cell">—</td>
+                                        <td class="number-cell danger-text">仅剩3人</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="insight-card"><div class="insight-header"><div class="insight-icon" style="background:rgba(0,51,102,0.08)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div class="insight-title">信息类学科是最大"功臣"，也是未来的"靠山"</div></div><div class="insight-text">电子信息类、集成电路等专业的强势表现，是五年招生成果的最大贡献者。</div></div>
-
-            <div class="insight-card warning"><div class="insight-header"><div class="insight-icon" style="background:var(--p-warning-subtle)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9500" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="insight-title">土建类专业是最大"隐忧"，需要战略级应对</div></div><div class="insight-text">简单的"守"是守不住的，需要在学科转型、招生策略、宣传口径等方面做出系统性调整。</div></div>
-
-            <div class="insight-card gold"><div class="insight-header"><div class="insight-icon" style="background:rgba(196,163,90,0.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C4A35A" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div class="insight-title">985竞争中处于"上升通道"，但位置并不稳固</div></div><div class="insight-text">6省份对比显示：与第一梯队差距在缩小，但对第二梯队优势也不算大。</div></div>
-
-            <div class="insight-card"><div class="insight-header"><div class="insight-icon" style="background:rgba(0,51,102,0.08)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div><div class="insight-title">区域发展不均衡是机遇也是挑战</div></div><div class="insight-text">长三角"铁票仓"稳固，但考生大省的潜力如果转化为实力，将显著提升全国影响力。</div></div>
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                            </svg>
+                        </div>
+                        5.3 东南大学面临的特殊困境
+                    </div>
+                    <div class="p-card-body">
+                        <div class="insight-card danger">
+                            <div class="insight-card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                优势学科恰好是"舆论重灾区"
+                            </div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>电子信息类在所有省份都是最高分或接近最高分</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>土建类退潮速度不一：江苏660分 vs 陕西621分，差距<strong>37分</strong></span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span><strong>但土建类真的没有未来吗？</strong>行业周期不等于学科生命周期。"智慧建造"是新的增长点</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- 数据说明 -->
-        <section class="section reveal">
-            <div class="section-header"><div class="section-icon primary"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div><div><div class="section-title">数据说明</div><div class="section-subtitle">口径、来源与边界</div></div></div>
+        <!-- ============================================
+             第六章：区域格局
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-12);">
+            <div class="section-header">
+                <div class="section-number">6</div>
+                <div>
+                    <h2 class="section-title">哪些省是"铁票仓"，哪些省在流失？</h2>
+                    <p class="section-subtitle">区域影响力三梯队</p>
+                </div>
+            </div>
 
-            <div class="glass-card"><div class="prose">
-                <p><strong>指标口径</strong>："录取位次"指各省高考录取最低位次（物理类/理科），位次越小排名越靠前。"最低分"指东南大学在该省份的最低录取分数，不含特殊类型招生。历史类为新高考改革后的分类。</p>
-                <p><strong>数据来源</strong>：东南大学招生办公室历年录取数据、各省教育考试院官方投档线、掌上高考、大学生必备网等权威渠道。</p>
-                <p><strong>数据时效</strong>：数据截至2025年。专业数据以安徽/江苏为代表，竞争对比以6省份为代表。</p>
-                <p><strong>分析边界</strong>：本报告主要分析物理类/理科和历史类录取数据，未涵盖艺术类等类别。部分竞争高校数据标注为近似值（~），精确数据建议以学校官网为准。</p>
-                <p><strong>2020年专业数据</strong>：因2020年江苏省实行480分制（其他省份750分），专业数据未纳入跨年对比。安徽数据可直接对比。</p>
-            </div></div>
+            <div class="content-grid">
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                                <line x1="9" y1="21" x2="9" y2="9"/>
+                            </svg>
+                        </div>
+                        6.1 区域三梯队划分
+                    </div>
+                    <div class="p-card-body">
+                        <div class="p-table-container">
+                            <table class="p-table">
+                                <thead>
+                                    <tr>
+                                        <th>梯队</th>
+                                        <th>省份</th>
+                                        <th>特征</th>
+                                        <th>策略</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="p-badge p-badge-success">铁票仓</span></td>
+                                        <td class="text-left">江苏、浙江、安徽、上海</td>
+                                        <td class="text-left">位次高、趋势稳、长三角核心</td>
+                                        <td>巩固</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="p-badge p-badge-warning">潜力区</span></td>
+                                        <td class="text-left">山东、河南、广东、湖北、湖南、四川、福建</td>
+                                        <td class="text-left">位次中等、有增长空间</td>
+                                        <td>重点突破</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="p-badge p-badge-neutral">待开发区</span></td>
+                                        <td class="text-left">北京、天津、东北三省、西部省份</td>
+                                        <td class="text-left">位次波动或偏低</td>
+                                        <td>差异化</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-card-header">
+                        <div class="p-card-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.21 15.89A10 10 0 118 2.83"/>
+                                <path d="M22 12A10 10 0 0012 2v10z"/>
+                            </svg>
+                        </div>
+                        6.2 区域分布可视化
+                    </div>
+                    <div class="p-card-body">
+                        <div class="chart-container" id="chart5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-card" style="margin-top: var(--p-space-6);">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                        </svg>
+                    </div>
+                    6.3 有趣现象
+                </div>
+                <div class="p-card-body">
+                    <div class="note-box warning">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <div>
+                            <strong>西部反超现象：</strong>西部部分省份（云南位次1019、广西位次918）的位次反而比东部沿海省份更好。可能与"985"标签在西部地区的敏感度更高有关。招生工作不是"撒胡椒面"，而是需要有重点、有策略地分配资源。
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <footer class="footer"><p>东南大学近五年招生质量与成果分析（2020-2024）</p><p style="margin-top:8px">招生质量分析团队 | 2026年5月</p></footer>
+        <!-- ============================================
+             第七章：综合评价与建议
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-8);">
+            <div class="section-header">
+                <div class="section-number">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="section-title">回到最初的问题</h2>
+                    <p class="section-subtitle">Comprehensive Evaluation and Recommendations</p>
+                </div>
+            </div>
+
+            <div class="p-card conclusion-card">
+                <div class="p-card-body">
+                    <p class="conclusion-text">
+                        回到最初的问题——"东南大学这些年，是越来越好考了，还是越来越难考了？"答案是：<strong>整体越来越好考（门槛提升12.5%），但专业分化严重（信息类热、土木类冷），且上升斜率可能在放缓（2025年回调417位）。</strong>
+                    </p>
+
+                    <p class="conclusion-text" style="margin-bottom: 0;">
+                        <strong>四条行动建议：</strong>
+                    </p>
+                    <ul class="recommendation-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>信息类学科持续发力：</strong>电子信息、集成电路、碳中和是最大增长点，继续强化招生宣传</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>土建类战略转型：</strong>简单的"守"是守不住的，需要在学科转型、招生策略、宣传口径等方面做出系统性调整</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>考生大省重点突破：</strong>山东、河南、广东的潜力如果转化为实力，将显著提升全国影响力</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            <span><strong>关注2025回调信号：</strong>江苏物理类回调417位需要深入分析原因，是周期性波动还是趋势性转折</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             术语表（默认收起）
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-8);">
+            <div class="accordion" id="glossaryAccordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion('glossaryAccordion')">
+                        <div class="accordion-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;">
+                                <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                            </svg>
+                            术语表（Glossary）
+                        </div>
+                        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <dl>
+                                <dt>录取位次</dt>
+                                <dd>考生在全省同科类考生中的排名。位次数值越小，表示录取门槛越高。例如：位次1000意味着你是全省前1000名。</dd>
+
+                                <dt>专业组</dt>
+                                <dd>新高考改革后，高校按选科要求将专业分组。同一学校不同专业组的录取分数可能差异很大。例如：东南大学06组（信息类）和08组（医学类）位次差距超3400位。</dd>
+
+                                <dt>985工程</dt>
+                                <dd>1998年5月提出的中国高等教育重点建设工程，目标是建设世界一流大学。全国共39所985高校，是最顶尖大学的代名词。</dd>
+
+                                <dt>位次vs分数</dt>
+                                <dd>分数受高考难度影响，不同年份不可直接比较。位次（排名）更能反映真实的竞争强度。本报告跨年份对比均使用位次。</dd>
+
+                                <dt>铁票仓</dt>
+                                <dd>指招生来源稳定、录取门槛较高的核心省份。东南大学的铁票仓包括江苏、浙江、安徽、上海等长三角地区。</dd>
+
+                                <dt>专业组位次差距</dt>
+                                <dd>同一高校不同专业组的最低录取位次之差。差距越大，说明考生对专业的选择越精准，"冲专业"而非"冲学校"的趋势越明显。</dd>
+
+                                <dt>智慧建造</dt>
+                                <dd>传统土木工程与人工智能、物联网、大数据等新技术融合的新方向，被认为是土木行业转型升级的关键路径。</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             数据说明
+             ============================================ -->
+        <section style="margin-bottom: var(--p-space-8);">
+            <div class="p-card">
+                <div class="p-card-header">
+                    <div class="p-card-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4M12 8h.01"/>
+                        </svg>
+                    </div>
+                    数据说明
+                </div>
+                <div class="p-card-body">
+                    <div class="content-grid">
+                        <div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); margin-bottom: var(--p-space-3);">
+                                <strong>指标口径：</strong>"录取位次"指各省高考录取最低位次（物理类/理科），位次越小排名越靠前。"最低分"指东南大学在该省份的最低录取分数，不含特殊类型招生。
+                            </p>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); margin-bottom: var(--p-space-3);">
+                                <strong>数据来源：</strong>东南大学招生办公室历年录取数据、各省教育考试院官方投档线、掌上高考、大学生必备网等权威渠道。
+                            </p>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary);">
+                                <strong>数据时效：</strong>数据截至2025年。专业数据以安徽/江苏为代表，竞争对比以6省份为代表。
+                            </p>
+                        </div>
+                        <div>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); margin-bottom: var(--p-space-3);">
+                                <strong>分析边界：</strong>本报告主要分析物理类/理科和历史类录取数据，未涵盖艺术类等类别。部分竞争高校数据标注为近似值（~），精确数据建议以学校官网为准。
+                            </p>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary); margin-bottom: var(--p-space-3);">
+                                <strong>2020年专业数据：</strong>因2020年江苏省实行480分制（其他省份750分），专业数据未纳入跨年对比。安徽数据可直接对比。
+                            </p>
+                            <p style="font-size: var(--p-text-sm); color: var(--p-text-secondary);">
+                                <strong>免责声明：</strong>本报告数据来源于公开渠道，仅供参考。由于数据收集时间和方法的限制，报告中的数据可能存在一定误差。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             页脚
+             ============================================ -->
+        <footer class="report-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>报告信息</h4>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            报告版本：V2.0
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            报告完成：2026年5月
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            分析周期：2020-2025年
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                            </svg>
+                            招生质量分析团队
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>数据来源与更新时间</h4>
+                    <ul>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>东南大学招生办</strong>：历年录取数据
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>各省教育考试院</strong>：官方投档线
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>掌上高考</strong>：录取数据汇总
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <strong>大学生必备网</strong>：补充数据源
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>免责声明</h4>
+                    <p style="margin-bottom: var(--p-space-3);">
+                        本报告数据来源于公开渠道，仅供参考。由于数据收集时间和方法的限制，报告中的数据可能存在一定误差。
+                    </p>
+                    <p style="margin-bottom: var(--p-space-3);">
+                        <strong>时效性：</strong>数据截至2025年，后续变化请以官方最新公布为准。
+                    </p>
+                    <p>
+                        <strong>版权：</strong>本报告仅供内部研究使用，未经授权不得对外传播或用于商业目的。
+                    </p>
+                </div>
+            </div>
+            <div class="footer-divider">
+                <span>东南大学招生质量分析报告 V2.0 | 招生质量分析团队</span>
+                <span>数据截至2025年 | 仅供内部参考</span>
+            </div>
+        </footer>
     </div>
 
+    <!-- ============================================
+         JavaScript
+         ============================================ -->
     <script>
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
-        revealElements.forEach(el=>revealObserver.observe(el));
-        const progressBar=document.getElementById('progressBar'),backToTop=document.getElementById('backToTop');
-        window.addEventListener('scroll',()=>{const s=window.scrollY,d=document.documentElement.scrollHeight-window.innerHeight;progressBar.style.width=(s/d)*100+'%';backToTop.classList.toggle('visible',s>window.innerHeight)});
-        function switchTab(g,i){const c=event.target.closest('.tab-container');c.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));c.querySelectorAll('.tab-content').forEach((t,j)=>t.classList.toggle('active',j===i))}
-        const chart1=echarts.init(document.getElementById('chart1'));
-        chart1.setOption({tooltip:{trigger:'axis',backgroundColor:'rgba(255,255,255,0.96)',borderColor:'#E8E8ED',textStyle:{color:'#1D1D1F'}},legend:{data:['物理类','历史类'],bottom:0,textStyle:{fontSize:11}},grid:{top:30,right:80,bottom:50,left:60},xAxis:{type:'category',data:['2021','2022','2023','2024','2025'],axisLine:{lineStyle:{color:'#E8E8ED'}},axisLabel:{color:'#8E8E93'},axisTick:{show:false}},yAxis:[{type:'value',name:'物理类位次',inverse:true,axisLine:{show:false},splitLine:{lineStyle:{color:'#F5F5F7'}},axisLabel:{color:'#8E8E93'}},{type:'value',name:'历史类位次',inverse:true,axisLine:{show:false},splitLine:{show:false},axisLabel:{color:'#8E8E93'}}],series:[{name:'物理类',type:'line',smooth:true,data:[6792,6556,6253,5945,6362],lineStyle:{width:3,color:'#003366'},itemStyle:{color:'#003366'},areaStyle:{color:{type:'linear',x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:'rgba(0,51,102,0.15)'},{offset:1,color:'rgba(0,51,102,0)'}]}},markPoint:{data:[{type:'min',name:'最高位次',symbolSize:50,label:{fontSize:11},itemStyle:{color:'#34C759'}},{type:'max',name:'最低位次',symbolSize:50,label:{fontSize:11},itemStyle:{color:'#FF3B30'}}]}},{name:'历史类',type:'line',smooth:true,yAxisIndex:1,data:[1100,867,959,798,828],lineStyle:{width:3,color:'#C4A35A',type:'dashed'},itemStyle:{color:'#C4A35A'},markPoint:{data:[{type:'min',symbolSize:50,label:{fontSize:11},itemStyle:{color:'#C4A35A'}},{type:'max',symbolSize:50,label:{fontSize:11},itemStyle:{color:'#C4A35A'}}]}}]});
-        const chart2=echarts.init(document.getElementById('chart2'));
-        chart2.setOption({tooltip:{trigger:'axis',backgroundColor:'rgba(255,255,255,0.96)',borderColor:'#E8E8ED',textStyle:{color:'#1D1D1F'}},legend:{data:['物理类位次','历史类位次'],bottom:0},grid:{top:30,right:80,bottom:50,left:60},xAxis:{type:'category',data:['2022','2023','2024','2025'],axisLine:{lineStyle:{color:'#E8E8ED'}},axisLabel:{color:'#8E8E93'},axisTick:{show:false}},yAxis:[{type:'value',name:'物理类位次',inverse:true,axisLine:{show:false},splitLine:{lineStyle:{color:'#F5F5F7'}},axisLabel:{color:'#8E8E93'}},{type:'value',name:'历史类位次',inverse:true,axisLine:{show:false},splitLine:{show:false},axisLabel:{color:'#8E8E93'}}],series:[{name:'物理类位次',type:'bar',data:[5312,6255,4656,1605],itemStyle:{color:'#003366'},barWidth:40,markLine:{data:[{type:'average',label:{formatter:'平均: {c}',fontSize:11}}]}},{name:'历史类位次',type:'bar',data:[546,541,635,593],yAxisIndex:1,itemStyle:{color:'#C4A35A'},barWidth:40,markLine:{data:[{type:'average',label:{formatter:'平均: {c}',fontSize:11}}]}}]});
-        const chart3=echarts.init(document.getElementById('chart3'));
-        chart3.setOption({tooltip:{trigger:'axis',backgroundColor:'rgba(255,255,255,0.96)',borderColor:'#E8E8ED',textStyle:{color:'#1D1D1F'}},legend:{data:['东南大学','北航','同济','华科','哈工大','天大'],bottom:0,textStyle:{fontSize:11}},grid:{top:20,right:24,bottom:60,left:60},xAxis:{type:'category',data:['江苏','浙江','安徽','山东','河南','四川'],axisLine:{lineStyle:{color:'#E8E8ED'}},axisLabel:{color:'#8E8E93'},axisTick:{show:false}},yAxis:{type:'value',name:'最低分',min:620,axisLine:{show:false},splitLine:{lineStyle:{color:'#F5F5F7'}},axisLabel:{color:'#8E8E93'}},series:[{name:'东南大学',type:'line',data:[646,664,653,645,650,660],lineStyle:{width:4,color:'#FF3B30'},itemStyle:{color:'#FF3B30'}},{name:'北航',type:'line',data:[657,665,656,641,669,673],lineStyle:{width:2,color:'#003366'},itemStyle:{color:'#003366'}},{name:'同济',type:'line',data:[656,665,663,653,660,667],lineStyle:{width:2,color:'#004C99'},itemStyle:{color:'#004C99'}},{name:'华科',type:'line',data:[648,660,651,647,660,667],lineStyle:{width:2,color:'#C4A35A'},itemStyle:{color:'#C4A35A'}},{name:'哈工大',type:'line',data:[665,674,665,670,665,670],lineStyle:{width:2,color:'#34C759'},itemStyle:{color:'#34C759'}},{name:'天大',type:'line',data:[644,661,646,641,645,649],lineStyle:{width:2,color:'#8E8E93'},itemStyle:{color:'#8E8E93'}}]});
-        window.addEventListener('resize',()=>{chart1.resize();chart2.resize();chart3.resize()});
+        // Accordion Toggle
+        function toggleAccordion(accordionId) {
+            const accordion = document.getElementById(accordionId);
+            const item = accordion.querySelector('.accordion-item');
+            item.classList.toggle('active');
+        }
+
+        // ECharts Theme for Light Background
+        const chartTheme = {
+            backgroundColor: 'transparent',
+            textStyle: {
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+                color: '#4B5563'
+            },
+            title: {
+                textStyle: {
+                    color: '#111827',
+                    fontWeight: 600
+                }
+            },
+            legend: {
+                textStyle: {
+                    color: '#4B5563'
+                }
+            },
+            grid: {
+                borderColor: '#E5E7EB'
+            }
+        };
+
+        // 1. 江苏物理类位次趋势
+        const chart1 = echarts.init(document.getElementById('chart1'));
+        chart1.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor: 'rgba(255,255,255,0.96)',
+                borderColor: '#E5E7EB',
+                textStyle: { color: '#1F2937' }
+            },
+            legend: {
+                data: ['物理类位次', '历史类位次'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2021', '2022', '2023', '2024', '2025'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '物理类位次',
+                    inverse: true,
+                    axisLine: { show: false },
+                    splitLine: { lineStyle: { color: '#F3F4F6' } },
+                    axisLabel: { color: '#6B7280' }
+                },
+                {
+                    type: 'value',
+                    name: '历史类位次',
+                    inverse: true,
+                    axisLine: { show: false },
+                    splitLine: { show: false },
+                    axisLabel: { color: '#6B7280' }
+                }
+            ],
+            series: [
+                {
+                    name: '物理类位次',
+                    type: 'line',
+                    smooth: true,
+                    data: [6792, 6556, 6253, 5945, 6362],
+                    lineStyle: { width: 3, color: '#003366' },
+                    itemStyle: { color: '#003366' },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(0, 51, 102, 0.2)' },
+                            { offset: 1, color: 'rgba(0, 51, 102, 0)' }
+                        ])
+                    },
+                    symbol: 'circle',
+                    symbolSize: 8,
+                    markPoint: {
+                        data: [
+                            { type: 'min', name: '最高位次', symbolSize: 50, label: { fontSize: 11 }, itemStyle: { color: '#16A34A' } },
+                            { type: 'max', name: '最低位次', symbolSize: 50, label: { fontSize: 11 }, itemStyle: { color: '#DC2626' } }
+                        ]
+                    }
+                },
+                {
+                    name: '历史类位次',
+                    type: 'line',
+                    smooth: true,
+                    yAxisIndex: 1,
+                    data: [950, 867, 959, 798, 828],
+                    lineStyle: { width: 3, color: '#C4A35A', type: 'dashed' },
+                    itemStyle: { color: '#C4A35A' },
+                    symbol: 'circle',
+                    symbolSize: 8,
+                    markPoint: {
+                        data: [
+                            { type: 'min', symbolSize: 50, label: { fontSize: 11 }, itemStyle: { color: '#C4A35A' } },
+                            { type: 'max', symbolSize: 50, label: { fontSize: 11 }, itemStyle: { color: '#C4A35A' } }
+                        ]
+                    }
+                }
+            ]
+        });
+
+        // 2. 安徽专业分数变化
+        const chart2 = echarts.init(document.getElementById('chart2'));
+        chart2.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                backgroundColor: 'rgba(255,255,255,0.96)',
+                borderColor: '#E5E7EB',
+                textStyle: { color: '#1F2937' }
+            },
+            legend: {
+                data: ['2022年', '2025年'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['电子信息类', '碳中和/智能制造', '建筑类', '土木/智慧建造', '生物医学工程'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false },
+                axisLabel: { color: '#374151', fontSize: 12 }
+            },
+            yAxis: {
+                type: 'value',
+                name: '录取分数',
+                min: 600,
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } },
+                axisLabel: { color: '#6B7280' }
+            },
+            series: [
+                {
+                    name: '2022年',
+                    type: 'bar',
+                    data: [621, 618, 615, 612, 620],
+                    itemStyle: { color: '#D1D5DB', borderRadius: [4, 4, 0, 0] },
+                    barWidth: 30
+                },
+                {
+                    name: '2025年',
+                    type: 'bar',
+                    data: [663, 665, 647, 648, 658],
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#003366' },
+                            { offset: 1, color: '#004C99' }
+                        ]),
+                        borderRadius: [4, 4, 0, 0]
+                    },
+                    barWidth: 30,
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}',
+                        color: '#374151',
+                        fontSize: 11
+                    }
+                }
+            ]
+        });
+
+        // 3. 6省份录取分数对比
+        const chart3 = echarts.init(document.getElementById('chart3'));
+        chart3.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor: 'rgba(255,255,255,0.96)',
+                borderColor: '#E5E7EB',
+                textStyle: { color: '#1F2937' }
+            },
+            legend: {
+                data: ['东南大学', '北航', '同济', '华科', '哈工大', '天大'],
+                bottom: 0,
+                textStyle: { fontSize: 11, color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '18%',
+                top: '5%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['江苏', '浙江', '安徽', '山东', '河南', '四川'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false }
+            },
+            yAxis: {
+                type: 'value',
+                name: '最低分',
+                min: 620,
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } },
+                axisLabel: { color: '#6B7280' }
+            },
+            series: [
+                {
+                    name: '东南大学',
+                    type: 'line',
+                    data: [646, 664, 653, 645, 650, 660],
+                    lineStyle: { width: 4, color: '#DC2626' },
+                    itemStyle: { color: '#DC2626' },
+                    symbol: 'circle',
+                    symbolSize: 10
+                },
+                {
+                    name: '北航',
+                    type: 'line',
+                    data: [657, 665, 656, 641, 669, 673],
+                    lineStyle: { width: 2, color: '#003366' },
+                    itemStyle: { color: '#003366' }
+                },
+                {
+                    name: '同济',
+                    type: 'line',
+                    data: [656, 665, 663, 653, 660, 667],
+                    lineStyle: { width: 2, color: '#004C99' },
+                    itemStyle: { color: '#004C99' }
+                },
+                {
+                    name: '华科',
+                    type: 'line',
+                    data: [648, 660, 651, 647, 660, 667],
+                    lineStyle: { width: 2, color: '#C4A35A' },
+                    itemStyle: { color: '#C4A35A' }
+                },
+                {
+                    name: '哈工大',
+                    type: 'line',
+                    data: [665, 674, 665, 670, 665, 670],
+                    lineStyle: { width: 2, color: '#16A34A' },
+                    itemStyle: { color: '#16A34A' }
+                },
+                {
+                    name: '天大',
+                    type: 'line',
+                    data: [644, 661, 646, 641, 645, 649],
+                    lineStyle: { width: 2, color: '#9CA3AF' },
+                    itemStyle: { color: '#9CA3AF' }
+                }
+            ]
+        });
+
+        // 4. 东南大学985定位雷达图
+        const chart4 = echarts.init(document.getElementById('chart4'));
+        chart4.setOption({
+            ...chartTheme,
+            tooltip: {},
+            legend: {
+                data: ['东南大学', 'C9平均', '985平均'],
+                bottom: 0,
+                textStyle: { color: '#4B5563' }
+            },
+            radar: {
+                indicator: [
+                    { name: '信息类分数', max: 680 },
+                    { name: '生源位次', max: 8000 },
+                    { name: '专业覆盖', max: 10 },
+                    { name: '区域覆盖', max: 10 },
+                    { name: '竞争强度', max: 10 }
+                ],
+                shape: 'polygon',
+                splitArea: {
+                    areaStyle: {
+                        color: ['#F9FAFB', '#F3F4F6', '#E5E7EB', '#D1D5DB', '#9CA3AF']
+                    }
+                },
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#E5E7EB' } }
+            },
+            series: [{
+                type: 'radar',
+                data: [
+                    {
+                        value: [662, 5945, 8, 8, 7],
+                        name: '东南大学',
+                        lineStyle: { color: '#003366', width: 2 },
+                        itemStyle: { color: '#003366' },
+                        areaStyle: { color: 'rgba(0, 51, 102, 0.15)' }
+                    },
+                    {
+                        value: [668, 4500, 9, 9, 8],
+                        name: 'C9平均',
+                        lineStyle: { color: '#C4A35A', width: 2, type: 'dashed' },
+                        itemStyle: { color: '#C4A35A' },
+                        areaStyle: { color: 'rgba(196, 163, 90, 0.1)' }
+                    },
+                    {
+                        value: [650, 6500, 7, 7, 6],
+                        name: '985平均',
+                        lineStyle: { color: '#9CA3AF', width: 2, type: 'dotted' },
+                        itemStyle: { color: '#9CA3AF' },
+                        areaStyle: { color: 'rgba(156, 163, 175, 0.05)' }
+                    }
+                ]
+            }]
+        });
+
+        // 5. 区域分布饼图
+        const chart5 = echarts.init(document.getElementById('chart5'));
+        chart5.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c}个省份 ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                right: '5%',
+                top: 'center',
+                textStyle: { color: '#4B5563' }
+            },
+            series: [{
+                name: '区域分布',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: true,
+                    formatter: '{b}\n{d}%',
+                    color: '#374151'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 16,
+                        fontWeight: 'bold'
+                    }
+                },
+                data: [
+                    { value: 4, name: '铁票仓', itemStyle: { color: '#16A34A' } },
+                    { value: 7, name: '潜力区', itemStyle: { color: '#D97706' } },
+                    { value: 6, name: '待开发区', itemStyle: { color: '#9CA3AF' } }
+                ]
+            }]
+        });
+
+        // Responsive Resize
+        window.addEventListener('resize', function() {
+            chart1.resize();
+            chart2.resize();
+            chart3.resize();
+            chart4.resize();
+            chart5.resize();
+            chart6.resize();
+        });
+
+        // Progress Bar & Back to Top
+        const progressBar = document.getElementById('progressBar');
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = (scrollTop / docHeight) * 100 + '%';
+            backToTop.classList.toggle('visible', scrollTop > window.innerHeight);
+        });
+
+        // Number Counting Animation
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = value.toLocaleString() + (obj.dataset.suffix || '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Animate stat cards on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const statValues = document.querySelectorAll('.stat-card-value');
+            statValues.forEach(function(el) {
+                const text = el.textContent;
+                // Only animate pure numbers
+                const numMatch = text.match(/^[\d,]+/);
+                if (numMatch) {
+                    const num = parseInt(numMatch[0].replace(/,/g, ''));
+                    const suffix = text.replace(numMatch[0], '');
+                    el.dataset.suffix = suffix;
+                    el.textContent = '0' + suffix;
+                    setTimeout(function() {
+                        animateValue(el, 0, num, 1200);
+                    }, 300);
+                }
+            });
+        });
+
+        // 6. 5省电子信息类横向对比
+        const chart6 = echarts.init(document.getElementById('chart6'));
+        chart6.setOption({
+            ...chartTheme,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                backgroundColor: 'rgba(255,255,255,0.96)',
+                borderColor: '#E5E7EB',
+                textStyle: { color: '#1F2937' }
+            },
+            legend: {
+                data: ['电子信息类', '碳中和/智能制造', '土木/智慧建造', '生物医学工程'],
+                bottom: 0,
+                textStyle: { fontSize: 11, color: '#4B5563' }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '18%',
+                top: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['江苏', '河南', '广东', '四川', '陕西'],
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                axisTick: { show: false },
+                axisLabel: { color: '#374151' }
+            },
+            yAxis: {
+                type: 'value',
+                name: '录取分数',
+                min: 610,
+                axisLine: { lineStyle: { color: '#E5E7EB' } },
+                splitLine: { lineStyle: { color: '#F3F4F6' } },
+                axisLabel: { color: '#6B7280' }
+            },
+            series: [
+                {
+                    name: '电子信息类',
+                    type: 'bar',
+                    data: [662, 661, 652, 667, 658],
+                    itemStyle: { color: '#003366', borderRadius: [4, 4, 0, 0] },
+                    barWidth: 16
+                },
+                {
+                    name: '碳中和/智能制造',
+                    type: 'bar',
+                    data: [660, 665, null, 665, 653],
+                    itemStyle: { color: '#004C99', borderRadius: [4, 4, 0, 0] },
+                    barWidth: 16
+                },
+                {
+                    name: '土木/智慧建造',
+                    type: 'bar',
+                    data: [660, 632, null, 648, 621],
+                    itemStyle: { color: '#C4A35A', borderRadius: [4, 4, 0, 0] },
+                    barWidth: 16
+                },
+                {
+                    name: '生物医学工程',
+                    type: 'bar',
+                    data: [660, 649, 652, 658, null],
+                    itemStyle: { color: '#16A34A', borderRadius: [4, 4, 0, 0] },
+                    barWidth: 16
+                }
+            ]
+        });
     </script>
 </body>
 </html>

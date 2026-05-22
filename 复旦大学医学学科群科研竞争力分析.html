@@ -96,10 +96,33 @@
 
         /* 头部 */
         .header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, #3B39A0 0%, #5856D6 40%, #7C7AE8 100%);
+            border-bottom: none;
             padding: 64px 40px;
             text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
         }
 
         .header-badge {
@@ -107,19 +130,21 @@
             align-items: center;
             gap: 8px;
             padding: 6px 16px;
-            background: var(--fudan-primary-light);
-            border: 1px solid var(--fudan-primary-border);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 9999px;
             font-size: 13px;
             font-weight: 500;
-            color: var(--fudan-primary);
+            color: white;
             margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
         }
 
         .header-badge-dot {
             width: 6px;
             height: 6px;
-            background: var(--fudan-primary);
+            background: white;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -132,29 +157,35 @@
         .header h1 {
             font-size: 48px;
             font-weight: 700;
-            color: var(--text-primary);
+            color: white;
             letter-spacing: -1.5px;
             line-height: 1.1;
             margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
         }
 
         .header-subtitle {
             font-size: 20px;
             font-weight: 400;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.9);
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.5;
+            position: relative;
+            z-index: 1;
         }
 
         .header-meta {
             margin-top: 24px;
             font-size: 13px;
-            color: var(--text-tertiary);
+            color: rgba(255,255,255,0.7);
             display: flex;
             justify-content: center;
             gap: 24px;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
 
         .header-meta span {
@@ -492,20 +523,6 @@
             margin: 0 auto;
         }
 
-        /* 页脚 */
-        .footer {
-            text-align: center;
-            padding: 48px 40px;
-            border-top: 1px solid var(--border);
-            background: var(--bg-primary);
-        }
-
-        .footer-text {
-            font-size: 13px;
-            color: var(--text-tertiary);
-            line-height: 1.6;
-        }
-
         /* 回到顶部 */
         .back-to-top {
             position: fixed;
@@ -582,7 +599,46 @@
             background: #FED7AA;
         }
 
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #5856D6;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #5856D6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .note-box {
+            background: #F5F3FF;
+            border: 1px solid #DDD6FE;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #374151;
+            display: flex;
+            gap: 12px;
+        }
+        .note-box svg { width: 18px; height: 18px; color: #5856D6; flex-shrink: 0; margin-top: 2px; }
+
         /* 响应式 */
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .header h1 { font-size: 36px; }
@@ -638,6 +694,11 @@
                 </svg>
                 对标高校：协和 · 北大 · 上交 · 华科 · 浙大
             </span>
+        </div>
+        <div style="margin-top: 24px; position: relative; z-index: 1;">
+            <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.15); border-radius: 18px; display: inline-flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                <span style="font-size: 24px; font-weight: 800; color: white;">FUDAN</span>
+            </div>
         </div>
     </header>
 
@@ -782,13 +843,23 @@
         <!-- 第一章：复旦医学概况 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第一章：复旦医学<span class="highlight">概况</span></h2>
-                <p class="section-subtitle">六校医学学科画像：复旦处于什么位置？</p>
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">复旦医学<span class="highlight">概况</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">六校医学学科画像：复旦处于什么位置？</p>
+                    </div>
+                </div>
                 
                 <h3>五维雷达图对比</h3>
                 <p>从论文产出、CNS发文、学术影响力、国际化程度、高被引论文五个维度，全面审视复旦医学的竞争力定位。</p>
                 
                 <div class="chart-container" id="chart-radar"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： 核心发现</h4>
@@ -871,13 +942,23 @@
         <!-- 第二章：论文产出对比 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第二章：论文产出<span class="highlight">对比</span></h2>
-                <p class="section-subtitle">规模与质量的双重审视</p>
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">论文产出<span class="highlight">对比</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">规模与质量的双重审视</p>
+                    </div>
+                </div>
                 
                 <h3>2020-2025年论文产出规模</h3>
                 <p>论文数量是科研活跃度的基础指标，但数量多不代表质量高。以下为各校的产出规模对比：</p>
                 
                 <div class="chart-container" id="chart-papers-total"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： 规模洞察</h4>
@@ -888,6 +969,11 @@
                 <p>论文质量比数量更重要。2年平均被引次数和高被引论文率是衡量论文质量的核心指标。</p>
                 
                 <div class="chart-container" id="chart-quality"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： 质量洞察</h4>
@@ -899,18 +985,33 @@
         <!-- 第三章：CNS发文对比 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第三章：CNS发文<span class="highlight">对比</span></h2>
-                <p class="section-subtitle">Nature/Science/Cell——顶级期刊的角逐</p>
+                <div class="section-header">
+                    <div class="section-number">3</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">CNS发文<span class="highlight">对比</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">Nature/Science/Cell——顶级期刊的角逐</p>
+                    </div>
+                </div>
                 
                 <h3>CNS发文总量与结构</h3>
                 <p>CNS（Cell、Nature、Science）是全球学术界公认的最高水平期刊。能在CNS发文，是顶尖科研能力的体现。</p>
                 
                 <div class="chart-container" id="chart-cns-total"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <h3>CNS发文结构分析</h3>
                 <p>分析各校在Nature、Science、Cell三大期刊的发文分布，揭示科研特色。</p>
                 
                 <div class="chart-container" id="chart-cns-structure"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： CNS洞察</h4>
@@ -985,13 +1086,23 @@
         <!-- 第四章：学科声誉对比 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第四章：学科声誉<span class="highlight">对比</span></h2>
-                <p class="section-subtitle">h-index与篇均被引——学术影响力的硬指标</p>
+                <div class="section-header">
+                    <div class="section-number">4</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">学科声誉<span class="highlight">对比</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">h-index与篇均被引——学术影响力的硬指标</p>
+                    </div>
+                </div>
                 
                 <h3>h-index对比</h3>
                 <p>h-index是衡量学者或机构学术影响力的重要指标，h=841表示有841篇论文每篇至少被引用841次。</p>
                 
                 <div class="chart-container" id="chart-hindex"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： h-index洞察</h4>
@@ -1002,6 +1113,11 @@
                 <p>篇均被引次数是衡量论文平均质量的核心指标，比总量更能反映科研质量。</p>
                 
                 <div class="chart-container" id="chart-citedness"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <table class="data-table">
                     <thead>
@@ -1064,13 +1180,23 @@
         <!-- 第五章：国际合作分析 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第五章：国际合作<span class="highlight">分析</span></h2>
-                <p class="section-subtitle">全球化程度——科研无国界</p>
+                <div class="section-header">
+                    <div class="section-number">5</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">国际合作<span class="highlight">分析</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">全球化程度——科研无国界</p>
+                    </div>
+                </div>
                 
                 <h3>国际合作论文比例</h3>
                 <p>国际合作率反映高校的全球化程度和国际学术网络的广度。</p>
                 
                 <div class="chart-container" id="chart-international"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： 国际合作洞察</h4>
@@ -1138,13 +1264,23 @@
         <!-- 第六章：高被引论文分析 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第六章：高被引论文<span class="highlight">分析</span></h2>
-                <p class="section-subtitle">Top论文占比——顶尖学术产出</p>
+                <div class="section-header">
+                    <div class="section-number">6</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">高被引论文<span class="highlight">分析</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">Top论文占比——顶尖学术产出</p>
+                    </div>
+                </div>
                 
                 <h3>高被引论文数量与占比</h3>
                 <p>高被引论文（Top 10%）是衡量顶尖学术产出的重要指标，代表论文在全球范围内的影响力。</p>
                 
                 <div class="chart-container" id="chart-high-cited"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <div class="insight-box">
                     <h4>洞察： 高被引论文洞察</h4>
@@ -1212,13 +1348,23 @@
         <!-- 第七章：短板识别与对标 -->
         <section class="section">
             <div class="section-card fade-in">
-                <h2>第七章：短板识别<span class="highlight">与对标</span></h2>
-                <p class="section-subtitle">识别薄弱领域，明确提升方向</p>
+                <div class="section-header">
+                    <div class="section-number">7</div>
+                    <div>
+                        <h2 style="margin-bottom: 4px;">短板识别<span class="highlight">与对标</span></h2>
+                        <p class="section-subtitle" style="margin-bottom: 0;">识别薄弱领域，明确提升方向</p>
+                    </div>
+                </div>
                 
                 <h3>复旦vs六校平均水平</h3>
                 <p>通过与六校平均水平的对比，识别复旦医学的相对优势和短板。</p>
                 
                 <div class="chart-container" id="chart-gap"></div>
+                <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px; font-size: 11px; color: #9CA3AF; margin-top: 12px;">
+                    <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" style="vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <strong style="color: #6B7280;">数据来源</strong></span>
+                    <span style="width: 3px; height: 3px; background: #D1D5DB; border-radius: 50%;"></span>
+                    <span>OpenAlex API | 2020-2025年数据</span>
+                </div>
                 
                 <details class="details-card">
                     <summary class="details-summary">
@@ -1384,20 +1530,37 @@
     </div>
 
     <!-- 页脚 -->
-    <footer class="footer">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <p class="footer-text" style="margin-bottom: 16px;">
-                <strong>报告信息</strong><br>
-                报告版本：V1.0 | 报告完成时间：2026-05-13<br>
-                数据来源：OpenAlex API | 数据时间范围：2020-2025<br>
-                数据截止时间：2025年Q1 | 分析工具：数据分析智能体
-            </p>
-            <p class="footer-text" style="font-size: 12px; color: var(--text-tertiary); border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px;">
-                <strong>免责声明</strong><br>
-                本报告基于公开数据源（OpenAlex API）进行分析，数据截止时间为2025年Q1。报告中的分析结论仅供参考，不构成任何决策建议。由于数据源更新延迟及统计口径差异，部分数据可能存在偏差，具体以各高校官方发布数据为准。本报告版权归分析团队所有，未经授权不得用于商业用途。
-            </p>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 40px;">
+    <footer style="background: #1F2937; color: #D1D5DB; border-radius: 14px; padding: 32px; margin-top: 48px;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 24px;">
+            <div>
+                <h4 style="color: white; font-size: 15px; font-weight: 600; margin-bottom: 16px;">报告信息</h4>
+                <ul style="list-style: none; font-size: 13px; line-height: 2; color: #9CA3AF;">
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="vertical-align: middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 报告版本：V2.0</li>
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="vertical-align: middle;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 报告完成：2026年5月</li>
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="vertical-align: middle;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 数据截止：2025年Q1</li>
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="vertical-align: middle;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 医学科研分析团队</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: white; font-size: 15px; font-weight: 600; margin-bottom: 16px;">数据来源</h4>
+                <ul style="list-style: none; font-size: 13px; line-height: 2; color: #9CA3AF;">
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" style="vertical-align: middle;"><polyline points="20 6 9 17 4 12"/></svg> <strong>OpenAlex API</strong>：学术论文数据</li>
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" style="vertical-align: middle;"><polyline points="20 6 9 17 4 12"/></svg> <strong>ClinicalTrials.gov</strong>：临床试验数据</li>
+                    <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" style="vertical-align: middle;"><polyline points="20 6 9 17 4 12"/></svg> <strong>教育部</strong>：学科评估数据</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: white; font-size: 15px; font-weight: 600; margin-bottom: 16px;">免责声明</h4>
+                <p style="font-size: 13px; line-height: 1.8; color: #9CA3AF;">本报告数据来源于公开渠道，仅供参考。数据截至2025年Q1，后续变化请以官方最新公布为准。</p>
+            </div>
+        </div>
+        <div style="border-top: 1px solid #374151; padding-top: 24px; display: flex; justify-content: space-between; font-size: 11px; color: #6B7280;">
+            <span>复旦大学医学学科群科研竞争力分析 V2.0 | 医学科研分析团队</span>
+            <span>数据截至2025年Q1 | 仅供内部参考</span>
         </div>
     </footer>
+    </div>
 
     <!-- 回到顶部按钮 -->
     <div class="back-to-top" id="backToTop">
@@ -1943,6 +2106,31 @@
                 ]
             });
         }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = value.toLocaleString() + (obj.dataset.suffix || '');
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.stat-value').forEach(function(el) {
+                const text = el.textContent;
+                const numMatch = text.match(/^[\d,]+/);
+                if (numMatch) {
+                    const num = parseInt(numMatch[0].replace(/,/g, ''));
+                    const suffix = text.replace(numMatch[0], '');
+                    el.dataset.suffix = suffix;
+                    el.textContent = '0' + suffix;
+                    setTimeout(function() { animateValue(el, 0, num, 1200); }, 300);
+                }
+            });
+        });
     </script>
 </body>
 </html>
